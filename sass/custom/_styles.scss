@@ -1,2 +1,12 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
+
+// move it to _blog.scss
+
+div.entry-content {
+/* ol { margin-left: 2em } 
+ * */
+    ul { 
+        list-style: circle;
+    }
+}
