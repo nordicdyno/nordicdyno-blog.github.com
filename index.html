@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>My Octopress Blog</title>
-  <meta name="author" content="Your Name">
+  <title>YA IT's blog</title>
+  <meta name="author" content="nordicdyno@gmail.com">
 
   
-  <meta name="description" content=" Blog Archives Recent Posts ">
+  <meta name="description" content="Текст выросший из моего доклада Unicode-ликбез на Санкт-Петербугском воркшопе SaintPerl 2011. ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -24,20 +24,32 @@
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="YA IT's blog" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-29219072-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">My Octopress Blog</a></h1>
+  <h1><a href="/">YA IT's blog</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>еще один веблог про IT</h2>
   
 </hgroup>
 
@@ -55,6 +67,7 @@
 </form>
   
 <ul class="main-navigation">
+<!--  <li><a href="/about">About</a></li> -->
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
 </ul>
@@ -65,6 +78,287 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/17/unicode-basics/">Unicode. Ликбез</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-17T18:30:00+04:00" pubdate data-updated="true">Feb 17<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/02/17/unicode-basics/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Текст выросший из моего доклада <a href="http://event.perlrussia.org/saintperl3/talk/158">Unicode-ликбез</a> на Санкт-Петербугском воркшопе <a href="http://event.perlrussia.org/saintperl3/index.html">SaintPerl 2011</a>.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/02/17/unicode-basics/">➲&nbsp;запись целиком</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/15/tail-recursion/">Обычная vs хвостовая рекурсия в Perl</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-15T18:52:00+04:00" pubdate data-updated="true">Feb 15<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/02/15/tail-recursion/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Написал сравнительный тест для обычной рекурсии и хвостовой,
+по мотивам  <a href="http://vimeo.com/35694483">&#8220;Functional Javascript&#8221;</a> (vimeo link)</p>
+
+<p>Результаты на MacBook Pro 15 2011, Perl 5.14.2</p>
+
+<p>вычисление суммы чисел ряда (первая цифра – количество итераций):</p>
+
+<pre><code>tail sum(10000)   (0 sec, 0 kb)
+rec  sum(10000)   (0 sec, 5496 kb)
+tail sum(100000)  (0 sec, 0 kb)
+rec  sum(100000)  (0 sec, 45628 kb)
+tail sum(1000000) (1 sec, 0 kb)
+rec  sum(1000000) (1 sec, 476164 kb)
+</code></pre>
+
+<p>вычисление факториала (использовал bignum):</p>
+
+<pre><code>tail 10000!  (5 sec, 636 kb)
+rec  10000!  (9 sec, 9612 kb)
+tail 25000!  (31 sec, 228 kb)
+rec  25000!  (63 sec, 15016 kb)
+</code></pre>
+
+<p>в 5.10-м профит чуть больше.</p>
+
+<p>Боже, храни goto! )</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/02/15/tail-recursion/">➲&nbsp;запись целиком</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/29/diligent-perl/">Diligent Perl</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-29T14:25:00+04:00" pubdate data-updated="true">Dec 29<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='embed tweet'><blockquote class="twitter-tweet" lang="ru"><p>Hah. <a href="https://twitter.com/search/%2523Perl">#Perl</a> not vulnerable to <a href="https://twitter.com/search/%2523hashDoS">#hashDoS</a> because we fixed it the first time around, eight years ago. Other languages not so diligent.</p>&mdash; Simon Cozens (@simoncozens) <a href="https://twitter.com/simoncozens/status/152314409652457472" data-datetime="2011-12-29T09:05:59+00:00">декабря 29, 2011</a></blockquote>
+<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/23/perl-guts/">Perl Guts</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-23T18:41:00+04:00" pubdate data-updated="true">Dec 23<span>rd</span>, 2011</time>
+        
+         | <a href="/blog/2011/12/23/perl-guts/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Я понемногу погружаюсь в кишочки Perl: XS, Perl API, Sv* в деталях. Кроме всего прочего, сейчас читаю Extending And Embeding Perl. Книжка эпохи 5.6, но считаю, что полезная. Решил выписать то, что узнал нового для себя, или вспомнил чего-то из старого.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/12/23/perl-guts/">➲&nbsp;запись целиком</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/22/po-sliedam-yapc-asia-2011/">По следам YAPC::ASIA 2011</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-22T13:26:00+04:00" pubdate data-updated="true">Oct 22<span>nd</span>, 2011</time>
+        
+         | <a href="/blog/2011/10/22/po-sliedam-yapc-asia-2011/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Не так давно в Токио прошла самая большая Perl-конференция этого года.
+Так как я потратил определенное время на изучение ее материалов, то решил поделиться информацией.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/10/22/po-sliedam-yapc-asia-2011/">➲&nbsp;запись целиком</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/08/23/yapc-europe-2011-review/">Обзор YAPC::Europe 2011</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-23T17:31:00+04:00" pubdate data-updated="true">Aug 23<span>rd</span>, 2011</time>
+        
+         | <a href="/blog/2011/08/23/yapc-europe-2011-review/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>На прошлой неделе я посетил Perl-конференцию <a href="http://yapceurope.lv/ye2011/">YAPC::Europe 2011 “Modern Perl”</a>, которая проходила в Риге.
+Помимо того, что мне удалось сфотографироваться с Ларри Уоллом и получить от него и Дэмиана Конвея автографы, потусить с гиками со всего мира и разжиться сувенирными футболками, я исправно посещал презентации в течении тех трех дней, что шла конференция, и даже немножечко пытался конспектировать то что слышал. )
+Ниже список тех выступлений, на которых удалось побывать, с моими кратким комментариями.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/08/23/yapc-europe-2011-review/">➲&nbsp;запись целиком</a>
+    </footer>
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -74,8 +368,33 @@
 <aside class="sidebar">
   
     <section>
+  <h1>О блоге</h1>
+  <p>Мои заметки об IT, о профессии и всем сопутствующем,
+  собранные в одном блоге.</p>
+</section>
+<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/02/17/unicode-basics/">Unicode. Ликбез</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/02/15/tail-recursion/">Обычная vs хвостовая рекурсия в Perl</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/12/29/diligent-perl/">Diligent Perl</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/12/23/perl-guts/">Perl guts</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/10/22/po-sliedam-yapc-asia-2011/">По следам YAPC::ASIA 2011</a>
+      </li>
     
   </ul>
 </section>
@@ -91,16 +410,46 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Your Name -
+  Copyright &copy; 2012 - nordicdyno@gmail.com -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
 </footer>
   
 
+<script type="text/javascript">
+      var disqus_shortname = 'yaitsblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
 
 
 

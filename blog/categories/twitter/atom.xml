@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: twitter | YA IT's blog]]></title>
+  <link href="http://nordicdyno.github.com/blog/categories/twitter/atom.xml" rel="self"/>
+  <link href="http://nordicdyno.github.com/"/>
+  <updated>2012-02-16T19:36:32+04:00</updated>
+  <id>http://nordicdyno.github.com/</id>
+  <author>
+    <name><![CDATA[nordicdyno@gmail.com]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Diligent Perl]]></title>
+    <link href="http://nordicdyno.github.com/blog/2011/12/29/diligent-perl/"/>
+    <updated>2011-12-29T14:25:00+04:00</updated>
+    <id>http://nordicdyno.github.com/blog/2011/12/29/diligent-perl</id>
+    <content type="html"><![CDATA[<p><div class='embed tweet'><blockquote class="twitter-tweet" lang="ru"><p>Hah. <a href="https://twitter.com/search/%2523Perl">#Perl</a> not vulnerable to <a href="https://twitter.com/search/%2523hashDoS">#hashDoS</a> because we fixed it the first time around, eight years ago. Other languages not so diligent.</p>&mdash; Simon Cozens (@simoncozens) <a href="https://twitter.com/simoncozens/status/152314409652457472" data-datetime="2011-12-29T09:05:59+00:00">декабря 29, 2011</a></blockquote>
+<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script></div></p>
+]]></content>
+  </entry>
+  
+</feed>

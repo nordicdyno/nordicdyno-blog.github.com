@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Javascript | YA IT's blog]]></title>
+  <link href="http://nordicdyno.github.com/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://nordicdyno.github.com/"/>
+  <updated>2012-02-16T19:36:32+04:00</updated>
+  <id>http://nordicdyno.github.com/</id>
+  <author>
+    <name><![CDATA[nordicdyno@gmail.com]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Обычная vs хвостовая рекурсия в Perl]]></title>
+    <link href="http://nordicdyno.github.com/blog/2012/02/15/tail-recursion/"/>
+    <updated>2012-02-15T18:52:00+04:00</updated>
+    <id>http://nordicdyno.github.com/blog/2012/02/15/tail-recursion</id>
+    <content type="html"><![CDATA[<p>Написал сравнительный тест для обычной рекурсии и хвостовой,
+по мотивам  <a href="http://vimeo.com/35694483">"Functional Javascript"</a> (vimeo link)</p>
+
+<p>Результаты на MacBook Pro 15 2011, Perl 5.14.2</p>
+
+<p>вычисление суммы чисел ряда (первая цифра – количество итераций):</p>
+
+<pre><code>tail sum(10000)   (0 sec, 0 kb)
+rec  sum(10000)   (0 sec, 5496 kb)
+tail sum(100000)  (0 sec, 0 kb)
+rec  sum(100000)  (0 sec, 45628 kb)
+tail sum(1000000) (1 sec, 0 kb)
+rec  sum(1000000) (1 sec, 476164 kb)
+</code></pre>
+
+<p>вычисление факториала (использовал bignum):</p>
+
+<pre><code>tail 10000!  (5 sec, 636 kb)
+rec  10000!  (9 sec, 9612 kb)
+tail 25000!  (31 sec, 228 kb)
+rec  25000!  (63 sec, 15016 kb)
+</code></pre>
+
+<p>в 5.10-м профит чуть больше.</p>
+
+<p>Боже, храни goto! )</p>
+
+<!-- more -->
+
+
+<p>код суммирования (факториал по аналогии + use bignum):</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>sum.pl  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="vg">$|</span><span class="o">++</span><span class="p">;</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="k">for</span> <span class="k">my</span> <span class="nv">$n</span> <span class="p">(</span><span class="mi">10_000</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">,</span> <span class="mi">1_000_000</span><span class="p">)</span> <span class="p">{</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="k">my</span> <span class="nv">$tail_t</span> <span class="o">=</span> <span class="nb">time</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$tail_m</span> <span class="o">=</span> <span class="n">get_rss</span><span class="p">();</span>
+</span><span class='line'><span class="k">print</span> <span class="s">&quot;tail sum($n) = &quot;</span><span class="p">;</span> <span class="n">tail_sum</span><span class="p">(</span><span class="nv">$n</span><span class="p">);</span>
+</span><span class='line'><span class="nb">printf</span> <span class="s">&quot; (%s sec, %s kb)\n&quot;</span><span class="p">,</span> <span class="nb">time</span> <span class="o">-</span> <span class="nv">$tail_t</span><span class="p">,</span> <span class="n">get_rss</span><span class="p">()</span> <span class="o">-</span> <span class="nv">$tail_m</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">my</span> <span class="nv">$rec_t</span>  <span class="o">=</span> <span class="nb">time</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$rec_m</span> <span class="o">=</span> <span class="n">get_rss</span><span class="p">();</span>
+</span><span class='line'><span class="k">print</span> <span class="s">&quot;rec  sum($n) &quot;</span><span class="p">;</span> <span class="n">rec_sum</span><span class="p">(</span><span class="nv">$n</span><span class="p">);</span>
+</span><span class='line'><span class="nb">printf</span> <span class="s">&quot; (%s sec, %s kb)\n&quot;</span><span class="p">,</span> <span class="nb">time</span> <span class="o">-</span> <span class="nv">$rec_t</span><span class="p">,</span> <span class="n">get_rss</span><span class="p">()</span> <span class="o">-</span> <span class="nv">$rec_m</span><span class="p">;</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">}</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="k">sub </span><span class="nf">rec_sum</span> <span class="p">{</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="k">if</span> <span class="p">(</span><span class="nv">$_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nv">$_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">rec_sum</span><span class="p">(</span><span class="nv">$_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">}</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="k">sub </span><span class="nf">tail_sum</span> <span class="p">{</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="k">my</span> <span class="nv">$n</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$sum_cb</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$sum_cb</span> <span class="o">=</span> <span class="k">sub </span><span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nv">$_</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nv">$_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="nv">$_</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>        <span class="nv">$_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>        <span class="nb">goto</span> <span class="nv">$sum_cb</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="k">return</span> <span class="nv">$sum_cb</span><span class="o">-&amp;</span><span class="ow">gt</span><span class="p">;(</span><span class="nv">$n</span><span class="p">,</span> <span class="k">my</span> <span class="nv">$acc</span> <span class="o">=</span> <span class="mi">1</span><span class="p">);</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">}</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="k">sub </span><span class="nf">get_rss</span> <span class="p">{</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="o">+</span><span class="p">{</span> <span class="nb">map</span> <span class="p">{</span> <span class="nb">split</span> <span class="s">&#39; &#39;</span> <span class="p">}</span> <span class="sb">`ps -o pid,rss`</span> <span class="p">}</span><span class="o">-&amp;</span><span class="ow">gt</span><span class="p">;{</span><span class="vg">$$</span><span class="p">}</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

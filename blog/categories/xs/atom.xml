@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: xs | YA IT's blog]]></title>
+  <link href="http://nordicdyno.github.com/blog/categories/xs/atom.xml" rel="self"/>
+  <link href="http://nordicdyno.github.com/"/>
+  <updated>2012-02-16T19:36:32+04:00</updated>
+  <id>http://nordicdyno.github.com/</id>
+  <author>
+    <name><![CDATA[nordicdyno@gmail.com]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Perl guts]]></title>
+    <link href="http://nordicdyno.github.com/blog/2011/12/23/perl-guts/"/>
+    <updated>2011-12-23T18:41:00+04:00</updated>
+    <id>http://nordicdyno.github.com/blog/2011/12/23/perl-guts</id>
+    <content type="html"><![CDATA[<p>Я понемногу погружаюсь в кишочки Perl: XS, Perl API, Sv* в деталях. Кроме всего прочего, сейчас читаю Extending And Embeding Perl. Книжка эпохи 5.6, но считаю, что полезная. Решил выписать то, что узнал нового для себя, или вспомнил чего-то из старого.</p>
+
+<!-- more -->
+
+
+<ul>
+<li>функции инлайнятся оптимизатором, если они с пустым прототипом и возращают константу: sub foo () { 123; }</li>
+<li>можно попросить Perl выделить под хэш нужное количество памяти заранее (чтобы избежать перестроений и уменьшить коллизии): keys %hash = 1000</li>
+<li>резолвинг неймспейсов A::B::C чего-то стоит (надо пробежаться по нескольким хешам), обращение к лексическим переменным быстрее</li>
+<li>лексические переменные привязаны к CODE-блокам (padlist), и при рекурсии копируются на каждый уровень вложенности</li>
+<li>у CODE-блоков есть счетчик уровня рекурсии</li>
+<li>треды в Perl дорогие и лучше их не юзать, с тредами имеют шанс некорректно работать многие XS-модули
+– cобранный без тредов и multiplicity Perl имеет бонус в производительности</li>
+<li>Inline::C на самом деле существует для быстрого прототипирования, а не для продакшена: <a href="">https://metacpan.org/module/Inline::C-Cookbook</a></li>
+<li>в 5.14 довольно многое поменялось в API</li>
+<li>раньше у глобов была "магия", но сейчас ее, похоже, выпилили</li>
+<li>"магия" в Perl – это умение дергать функции при манипуляции с sv-шками (из vtable из 5 функций)</li>
+</ul>
+
+
+<p>Посмотреть какая магия есть "унутре", в табличке после слов "The current kinds of Magic Virtual Tables are" здесь: <a href="">http://perldoc.perl.org/perlguts.html#Magic-Virtual-Tables</a></p>
+
+<p>Есть магия с vtable с 3 дополнительными функциями, одна из которых для клонирования.</p>
+
+<p>Можно прикрутить свою "магию". Пример можно посмотреть в коде форка Javascript::V8 <a href="">https://github.com/ezhi/javascript-v8</a></p>
+
+<p>подборка ресурсов:</p>
+
+<ul>
+<li><a href="">http://www.profvince.com/xs.pdf</a></li>
+<li><a href="">http://perldoc.perl.org/perlapi.html</a></li>
+<li><a href="">http://www.e1.ru/tech/documentation/perl/perlcall.html</a></li>
+<li><a href="">http://cpansearch.perl.org/src/RURBAN/illguts-0.38/index.html</a></li>
+<li><a href="">https://github.com/mirrors/perl/branches</a></li>
+<li>книга "Extending and Embedding Perl"</li>
+</ul>
+
+
+<p>Замечание по поводу книги. Она может пригодится только для понимания каких-то базовых вещей. И может не представлять интереса для продвинутого XS-разработчика (см. <a href="http://redplait.blogspot.com/2010/11/extending-and-embedding-perl.html">критический обзор</a>) Я оцениваю ее содержимое с точки зрения того, что в ней есть, а не того чего нет.</p>
+
+<p>Для того чтобы, научиться писать на XS, нужно:</p>
+
+<ul>
+<li>знание C/C++</li>
+<li>знание структур данных в Perl (SV)</li>
+<li>документация Perl по xs и guts</li>
+<li>metacpan с примерами реального XS-кода в популярных модулях</li>
+<li>исходные коды Perl (не стесняться заглядывать и grep-ать там файлики – многое может стать понятнее)</li>
+<li>какая-то реальная задача для которой нужен XS (обертка над C-библиотекой, например).</li>
+</ul>
+
+
+<p>Кстати, мне сейчас очень не достает последнего пункта, чтобы по настоящему овладеть магией внутренностей Perl. Возможно это вопрос времени, т.к. я их уже не так боюсь как раньше. )</p>
+]]></content>
+  </entry>
+  
+</feed>

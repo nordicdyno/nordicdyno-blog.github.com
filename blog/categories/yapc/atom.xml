@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[YA IT's blog]]></title>
-  <link href="http://nordicdyno.github.com/atom.xml" rel="self"/>
+  <title><![CDATA[Category: YAPC | YA IT's blog]]></title>
+  <link href="http://nordicdyno.github.com/blog/categories/yapc/atom.xml" rel="self"/>
   <link href="http://nordicdyno.github.com/"/>
   <updated>2012-02-16T19:36:32+04:00</updated>
   <id>http://nordicdyno.github.com/</id>
@@ -67,7 +67,7 @@
 
 <h3>Решение №1</h3>
 
-<figure class='code'><figcaption><span>variant 1  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>variant 1  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -88,17 +88,15 @@
 </span><span class='line'><span class="nv">$str</span> <span class="o">=~</span> <span class="sr">s/\pM//og</span><span class="p">;</span> <span class="c1"># remove &quot;marks&quot;</span>
 </span><span class='line'><span class="n">say</span> <span class="s">&quot;after: $str&quot;</span><span class="p">;</span>
 </span><span class='line'><span class="n">say</span> <span class="s">&quot;is_match: &quot;</span><span class="p">,</span> <span class="nv">$str</span> <span class="o">=~</span><span class="sr"> /$look/i</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-
-<p>Довольно много новой информации и новых слов: &#8220;нормализация&#8221;, &#8220;диакритические знаки&#8221;.
+<p>Довольно много новой информации и новых слов: "нормализация", "диакритические знаки".
 Я был доволен и опубликовал свое решение на stackoverflow.
 Но, когда, спустя некоторое время, я вернулся к своему посту (чтобы порадоваться растущему рейтингу), там меня озадачил такой комментарий:</p>
 
-<blockquote><p>This is the wrong way to do it. You need to use a UCA match at level 1</p><footer><strong>tchrist</strong> <cite><a href='http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#comment8983109_7429964'>stackoverflow.com/questions/&hellip;</a></cite></footer></blockquote>
+<p><blockquote><p>This is the wrong way to do it. You need to use a UCA match at level 1</p><footer><strong>tchrist</strong> <cite><a href='http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#comment8983109_7429964'>stackoverflow.com/questions/&hellip;</a></cite></footer></blockquote></p>
 
-
-<p>Итак, я узнал много новых слов при решении, но все равно сделал что-то неправильно! Хмм&#8230;</p>
+<p>Итак, я узнал много новых слов при решении, но все равно сделал что-то неправильно! Хмм...</p>
 
 <p>Я не имел никакого представления, что за зверь «<em>UCA match at level 1</em>» и в чем моя ошибка, но твердо решил, что должен с этим разобраться. Особенно, после того, как посмотрел в профиле кто такой <strong>tchrist</strong>. Это оказался, известный в Perl-коммьюнити разработчик Tom Christiansen, соавтор книг о Perl, один из разработчиков языка и (как оказалось позже) Unicode-эксперт.</p>
 
@@ -106,7 +104,7 @@
 
 <h3>Решение №2</h3>
 
-<figure class='code'><figcaption><span>variant 2  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>variant 2  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -117,18 +115,23 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
 </pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="k">use</span> <span class="mf">5.014</span><span class="p">;</span>
 </span><span class='line'><span class="k">use</span> <span class="n">utf8</span><span class="p">;</span>
 </span><span class='line'><span class="k">use</span> <span class="nn">Unicode::</span><span class="n">Collate</span><span class="p">;</span>
 </span><span class='line'><span class="k">my</span> <span class="nv">$str</span>  <span class="o">=</span> <span class="s">&quot;Îñţérñåţîöñåļîžåţîöñ&quot;</span><span class="p">;</span>
 </span><span class='line'><span class="k">my</span> <span class="nv">$look</span> <span class="o">=</span> <span class="s">&quot;Nation&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="k">my</span> <span class="nv">$Collator</span> <span class="o">=</span> <span class="nn">Unicode::</span><span class="n">Collate</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>
-</span><span class='line'>    <span class="n">normalization</span> <span class="o">=&gt;</span> <span class="nb">undef</span><span class="p">,</span> <span class="n">level</span> <span class="o">=&gt;</span> <span class="mi">1</span>
-</span><span class='line'><span class="p">);</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$Collator</span> <span class="o">=</span> <span class="nn">Unicode::</span><span class="n">Collate</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="n">normalization</span> <span class="o">=&amp;</span><span class="ow">gt</span><span class="p">;</span> <span class="nb">undef</span><span class="p">,</span> <span class="n">level</span> <span class="o">=&amp;</span><span class="ow">gt</span><span class="p">;</span> <span class="mi">1</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">);</span>
 </span><span class='line'><span class="k">my</span> <span class="nv">@match</span> <span class="o">=</span> <span class="nv">$Collator</span><span class="o">-&gt;</span><span class="n">match</span><span class="p">(</span><span class="nv">$str</span><span class="p">,</span> <span class="nv">$look</span><span class="p">);</span>
 </span><span class='line'><span class="n">say</span> <span class="err">“</span><span class="n">matches:</span> <span class="err">”</span> <span class="o">.</span> <span class="nb">join</span><span class="p">(</span><span class="err">“</span><span class="p">,</span> <span class="err">“</span><span class="p">,</span> <span class="nv">@match</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Кстати, вот еще одна цитата <strong>tchrist</strong>, найденная на stackoverflow:</p>
 
@@ -174,7 +177,7 @@
 
 <p>В Unicode можно указывать на направленность текста (но поддержка вертикальных текстов пока только в планах).</p>
 
-<p>Стандарт имеет массу документов, разные версии (1.0 – October 1991, &#8230; 5.0 – July 2006, 6.0 – October 2010), собственную терминологию, в том числе множество TLA или ТБС (Three-letter acronyms или Трех Буквенных Сокращений).</p>
+<p>Стандарт имеет массу документов, разные версии (1.0 – October 1991, ... 5.0 – July 2006, 6.0 – October 2010), собственную терминологию, в том числе множество TLA или ТБС (Three-letter acronyms или Трех Буквенных Сокращений).</p>
 
 <p>Некоторые TLA (ТБС) описываются ниже.</p>
 
@@ -248,7 +251,7 @@ windows: alt + “+” + code
 
 <p>UTF-16 используется в Win 2000, Vista, .NET, MacOS X Cocoa, Python (до недавних версий)</p>
 
-<p>Еще немного о неотображаемых code point-ах (суррогатах). Те, что в BMP-диапазоне, называются  &#8220;low surrogates&#8221;, те, что выше – &#8220;high surrogates&#8221;. И они используются только в UTF-16! (основное отличие UTF-16 от UCS-2)
+<p>Еще немного о неотображаемых code point-ах (суррогатах). Те, что в BMP-диапазоне, называются  "low surrogates", те, что выше – "high surrogates". И они используются только в UTF-16! (основное отличие UTF-16 от UCS-2)
 Пары суррогатных code point соответствуют реально существующим codepoint-ам, выходящим за base plane. По отдельности они не имеют смысла.</p>
 
 <p><a href="">http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters</a></p>
@@ -268,10 +271,10 @@ windows: alt + “+” + code
 
 <p>Хитро мапит кодепоинты в байты, ипользует часть битов для спец-целей (из первого байта можно узнать длину последовательности). Отсюда следует, что <em>коды символов не совпадают с UCS</em>.</p>
 
-<blockquote><p>Самая &#8220;православная&#8221; кодировка. ☺</p></blockquote>
+<blockquote><p>Самая "православная" кодировка. ☺</p></blockquote>
 
 <ul>
-<li><a href="">http://en.wikipedia.org/wiki/UTF-EBCDIC</a> – редкая кодировка UTF-8 &#8220;для мейнфреймов&#8221;</li>
+<li><a href="">http://en.wikipedia.org/wiki/UTF-EBCDIC</a> – редкая кодировка UTF-8 "для мейнфреймов"</li>
 </ul>
 
 
@@ -331,7 +334,7 @@ windows: alt + “+” + code
 
 <p>Дальше нужно воспользоваться дополнительными материалами, поисковиком, любимым инструментарием и глубже изучить тему самостоятельно!</p>
 
-<p>Может возникнуть вопрос &#8220;Зачем учить?&#8221;. Простой ответ заключается втом, что для квалифицированного программиста в настоящее время знание хотя бы основ Unicode и того как в используемом языке, ОС реализована поддержка его стандарта – обязательное условие.</p>
+<p>Может возникнуть вопрос "Зачем учить?". Простой ответ заключается втом, что для квалифицированного программиста в настоящее время знание хотя бы основ Unicode и того как в используемом языке, ОС реализована поддержка его стандарта – обязательное условие.</p>
 
 <p>Известная статья Джоела, на эту же тему:
 <a href ="http://local.joelonsoftware.com/wiki/Абсолютный_Минимум,_который_Каждый_Разработчик_Программного_Обеспечения_Обязательно_Должен_Знать_о_Unicode_и_Наборах_Символов">Абсолютный минимум, который каждый разработчик программного обеспечения обязательно должен знать о Unicode и наборах символов</a>, которая была написана в 2001 г., то есть более 10 лет(!) назад.</p>
@@ -342,12 +345,11 @@ windows: alt + “+” + code
 
 <p>И еще одна причина. Когда человек чего-то не знает или недопонимает, он это может считать магическим и волшебным (примеры: молния, Unicode, сборщик мусора виртуальной машины). Цитата, иллюстрирующая пример такого отношения из рассылки Moscow.pm:</p>
 
-<blockquote><p>«Все-таки UTF8 в перле - это немного черная магия»</p></blockquote>
-
+<p><blockquote><p>«Все-таки UTF8 в перле - это немного черная магия»</p></blockquote></p>
 
 <p>Чтобы это не казалось магией – необходимо знание!</p>
 
-<p>Если вопроса &#8220;Зачем учить&#8221; не возникает, то я попробую ответить на вопрос: &#8220;Как учить?&#8221;.</p>
+<p>Если вопроса "Зачем учить" не возникает, то я попробую ответить на вопрос: "Как учить?".</p>
 
 <p>Хорошая новость в том, что есть множество ресурсов с тоннами информации по Unicode. Презентации, статьи – все есть в сети.
 Не очень хорошая новость – информации очень и очень много. Что же делать чтобы в ней не утонуть?</p>
@@ -362,9 +364,9 @@ windows: alt + “+” + code
 
 <ul>
 <li><a href="http://stackoverflow.com/questions/6162484/why-does-modern-perl-avoid-utf-8-by-default/6163129#6163129">супер комментарий-рассказ tchrist о практиках работы с Unicode</a></li>
-<li><a href="http://dheeb.files.wordpress.com/2011/07/gbu.pdf">&#8220;Unicode Support Shootout: The Good, the Bad, &amp; the (mostly) Ugly&#8221;</a></li>
-<li><a href="http://doc.japh.se/tchrist_oscon_perl_unicode_essentials/3h-Perl_Unicode_Essentials.html">&#8220;Perl Unicode Essentials&#8221;</a></li>
-<li><a href="http://doc.japh.se/tchrist_oscon_perl_unicode_essentials/45m-Unicode_in_Perl_Regexes.html">&#8220;Unicode in Perl Regexes&#8221;</a></li>
+<li><a href="http://dheeb.files.wordpress.com/2011/07/gbu.pdf">"Unicode Support Shootout: The Good, the Bad, &amp; the (mostly) Ugly"</a></li>
+<li><a href="http://doc.japh.se/tchrist_oscon_perl_unicode_essentials/3h-Perl_Unicode_Essentials.html">"Perl Unicode Essentials"</a></li>
+<li><a href="http://doc.japh.se/tchrist_oscon_perl_unicode_essentials/45m-Unicode_in_Perl_Regexes.html">"Unicode in Perl Regexes"</a></li>
 </ul>
 
 
@@ -440,11 +442,11 @@ windows: alt + “+” + code
 <li><a href="http://blog.jochentopf.com/2011-03-17-javascript-and-unicode.html">Javascript and Unicode</a></li>
 <li><a href="http://www.perl.com/pub/2011/08/whats-wrong-with-sort-and-how-to-fix-it.html">Как сортировать Unicode-строки в Perl (en)</a></li>
 <li><a href="http://www.effectiveperlprogramming.com/blog/1416">Применение нормализации при использовании split в Perl (en)</a>
-<a href="http://fatalweb.com/questions/178785/javascript-strings-outside-of-the-bmp">&#8220;JavaScript strings outside of the BMP&#8221;</a></li>
+<a href="http://fatalweb.com/questions/178785/javascript-strings-outside-of-the-bmp">"JavaScript strings outside of the BMP"</a></li>
 </ul>
 
 
-<h3>материалы конференций &#8212;</h3>
+<h3>материалы конференций ---</h3>
 
 <ul>
 <li>доклад Монса на YAPC::Russia May Perl 2008: <a href="http://rutube.ru/tracks/793436.html?v=252bdfab9677b48a96c5c47c8dc42c27">часть 1</a>,
@@ -458,8 +460,8 @@ windows: alt + “+” + code
 <h3>Разное</h3>
 
 <ul>
-<li><a href="http://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt">&#8220;UTF-8 history&#8221; from Rob &#8216;Commander&#8217; Pike</a></li>
-<li><a href="http://www.nntp.perl.org/group/perl.perl5.porters/2010/01/msg156111.html">&#8220;Use ICU for Unicode in Perl?&#8221;</a></li>
+<li><a href="http://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt">"UTF-8 history" from Rob 'Commander' Pike</a></li>
+<li><a href="http://www.nntp.perl.org/group/perl.perl5.porters/2010/01/msg156111.html">"Use ICU for Unicode in Perl?"</a></li>
 <li><a href="">http://www.unicode.org/announcements/quotations.html</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Three-letter_acronym">Three-letter_acronym</a></li>
 <li><a href="http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789">Мой вопрос на StackOverflow</a></li>
@@ -481,205 +483,6 @@ windows: alt + “+” + code
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Обычная vs хвостовая рекурсия в Perl]]></title>
-    <link href="http://nordicdyno.github.com/blog/2012/02/15/tail-recursion/"/>
-    <updated>2012-02-15T18:52:00+04:00</updated>
-    <id>http://nordicdyno.github.com/blog/2012/02/15/tail-recursion</id>
-    <content type="html"><![CDATA[<p>Написал сравнительный тест для обычной рекурсии и хвостовой,
-по мотивам  <a href="http://vimeo.com/35694483">&#8220;Functional Javascript&#8221;</a> (vimeo link)</p>
-
-<p>Результаты на MacBook Pro 15 2011, Perl 5.14.2</p>
-
-<p>вычисление суммы чисел ряда (первая цифра – количество итераций):</p>
-
-<pre><code>tail sum(10000)   (0 sec, 0 kb)
-rec  sum(10000)   (0 sec, 5496 kb)
-tail sum(100000)  (0 sec, 0 kb)
-rec  sum(100000)  (0 sec, 45628 kb)
-tail sum(1000000) (1 sec, 0 kb)
-rec  sum(1000000) (1 sec, 476164 kb)
-</code></pre>
-
-<p>вычисление факториала (использовал bignum):</p>
-
-<pre><code>tail 10000!  (5 sec, 636 kb)
-rec  10000!  (9 sec, 9612 kb)
-tail 25000!  (31 sec, 228 kb)
-rec  25000!  (63 sec, 15016 kb)
-</code></pre>
-
-<p>в 5.10-м профит чуть больше.</p>
-
-<p>Боже, храни goto! )</p>
-
-<!-- more -->
-
-
-<p>код суммирования (факториал по аналогии + use bignum):</p>
-
-<figure class='code'><figcaption><span>sum.pl  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="vg">$|</span><span class="o">++</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="k">my</span> <span class="nv">$n</span> <span class="p">(</span><span class="mi">10_000</span><span class="p">,</span> <span class="mi">100_000</span><span class="p">,</span> <span class="mi">1_000_000</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">my</span> <span class="nv">$tail_t</span> <span class="o">=</span> <span class="nb">time</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">my</span> <span class="nv">$tail_m</span> <span class="o">=</span> <span class="n">get_rss</span><span class="p">();</span>
-</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;tail sum($n) = &quot;</span><span class="p">;</span> <span class="n">tail_sum</span><span class="p">(</span><span class="nv">$n</span><span class="p">);</span>
-</span><span class='line'>    <span class="nb">printf</span> <span class="s">&quot; (%s sec, %s kb)\n&quot;</span><span class="p">,</span> <span class="nb">time</span> <span class="o">-</span> <span class="nv">$tail_t</span><span class="p">,</span> <span class="n">get_rss</span><span class="p">()</span> <span class="o">-</span> <span class="nv">$tail_m</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">my</span> <span class="nv">$rec_t</span>  <span class="o">=</span> <span class="nb">time</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">my</span> <span class="nv">$rec_m</span> <span class="o">=</span> <span class="n">get_rss</span><span class="p">();</span>
-</span><span class='line'>    <span class="k">print</span> <span class="s">&quot;rec  sum($n) &quot;</span><span class="p">;</span> <span class="n">rec_sum</span><span class="p">(</span><span class="nv">$n</span><span class="p">);</span>
-</span><span class='line'>    <span class="nb">printf</span> <span class="s">&quot; (%s sec, %s kb)\n&quot;</span><span class="p">,</span> <span class="nb">time</span> <span class="o">-</span> <span class="nv">$rec_t</span><span class="p">,</span> <span class="n">get_rss</span><span class="p">()</span> <span class="o">-</span> <span class="nv">$rec_m</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">sub </span><span class="nf">rec_sum</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nv">$_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">rec_sum</span><span class="p">(</span><span class="nv">$_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">sub </span><span class="nf">tail_sum</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">my</span> <span class="nv">$n</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">my</span> <span class="nv">$sum_cb</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">$sum_cb</span> <span class="o">=</span> <span class="k">sub </span><span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nv">$_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">return</span> <span class="nv">$_</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nv">$_</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="nv">$_</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>            <span class="nv">$_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">,</span>
-</span><span class='line'>            <span class="nb">goto</span> <span class="nv">$sum_cb</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nv">$sum_cb</span><span class="o">-&gt;</span><span class="p">(</span><span class="nv">$n</span><span class="p">,</span> <span class="k">my</span> <span class="nv">$acc</span> <span class="o">=</span> <span class="mi">1</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">sub </span><span class="nf">get_rss</span> <span class="p">{</span>
-</span><span class='line'>    <span class="o">+</span><span class="p">{</span> <span class="nb">map</span> <span class="p">{</span> <span class="nb">split</span> <span class="s">&#39; &#39;</span> <span class="p">}</span> <span class="sb">`ps -o pid,rss`</span> <span class="p">}</span><span class="o">-&gt;</span><span class="p">{</span><span class="vg">$$</span><span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Diligent Perl]]></title>
-    <link href="http://nordicdyno.github.com/blog/2011/12/29/diligent-perl/"/>
-    <updated>2011-12-29T14:25:00+04:00</updated>
-    <id>http://nordicdyno.github.com/blog/2011/12/29/diligent-perl</id>
-    <content type="html"><![CDATA[<div class='embed tweet'><blockquote class="twitter-tweet" lang="ru"><p>Hah. <a href="https://twitter.com/search/%2523Perl">#Perl</a> not vulnerable to <a href="https://twitter.com/search/%2523hashDoS">#hashDoS</a> because we fixed it the first time around, eight years ago. Other languages not so diligent.</p>&mdash; Simon Cozens (@simoncozens) <a href="https://twitter.com/simoncozens/status/152314409652457472" data-datetime="2011-12-29T09:05:59+00:00">декабря 29, 2011</a></blockquote>
-<script src="http://nordicdyno.github.com//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Perl guts]]></title>
-    <link href="http://nordicdyno.github.com/blog/2011/12/23/perl-guts/"/>
-    <updated>2011-12-23T18:41:00+04:00</updated>
-    <id>http://nordicdyno.github.com/blog/2011/12/23/perl-guts</id>
-    <content type="html"><![CDATA[<p>Я понемногу погружаюсь в кишочки Perl: XS, Perl API, Sv* в деталях. Кроме всего прочего, сейчас читаю Extending And Embeding Perl. Книжка эпохи 5.6, но считаю, что полезная. Решил выписать то, что узнал нового для себя, или вспомнил чего-то из старого.</p>
-
-<!-- more -->
-
-
-<ul>
-<li>функции инлайнятся оптимизатором, если они с пустым прототипом и возращают константу: sub foo () { 123; }</li>
-<li>можно попросить Perl выделить под хэш нужное количество памяти заранее (чтобы избежать перестроений и уменьшить коллизии): keys %hash = 1000</li>
-<li>резолвинг неймспейсов A::B::C чего-то стоит (надо пробежаться по нескольким хешам), обращение к лексическим переменным быстрее</li>
-<li>лексические переменные привязаны к CODE-блокам (padlist), и при рекурсии копируются на каждый уровень вложенности</li>
-<li>у CODE-блоков есть счетчик уровня рекурсии</li>
-<li>треды в Perl дорогие и лучше их не юзать, с тредами имеют шанс некорректно работать многие XS-модули
-– cобранный без тредов и multiplicity Perl имеет бонус в производительности</li>
-<li>Inline::C на самом деле существует для быстрого прототипирования, а не для продакшена: <a href="">https://metacpan.org/module/Inline::C-Cookbook</a></li>
-<li>в 5.14 довольно многое поменялось в API</li>
-<li>раньше у глобов была &#8220;магия&#8221;, но сейчас ее, похоже, выпилили</li>
-<li>&#8220;магия&#8221; в Perl – это умение дергать функции при манипуляции с sv-шками (из vtable из 5 функций)</li>
-</ul>
-
-
-<p>Посмотреть какая магия есть &#8220;унутре&#8221;, в табличке после слов &#8220;The current kinds of Magic Virtual Tables are&#8221; здесь: <a href="">http://perldoc.perl.org/perlguts.html#Magic-Virtual-Tables</a></p>
-
-<p>Есть магия с vtable с 3 дополнительными функциями, одна из которых для клонирования.</p>
-
-<p>Можно прикрутить свою &#8220;магию&#8221;. Пример можно посмотреть в коде форка Javascript::V8 <a href="">https://github.com/ezhi/javascript-v8</a></p>
-
-<p>подборка ресурсов:</p>
-
-<ul>
-<li><a href="">http://www.profvince.com/xs.pdf</a></li>
-<li><a href="">http://perldoc.perl.org/perlapi.html</a></li>
-<li><a href="">http://www.e1.ru/tech/documentation/perl/perlcall.html</a></li>
-<li><a href="">http://cpansearch.perl.org/src/RURBAN/illguts-0.38/index.html</a></li>
-<li><a href="">https://github.com/mirrors/perl/branches</a></li>
-<li>книга &#8220;Extending and Embedding Perl&#8221;</li>
-</ul>
-
-
-<p>Замечание по поводу книги. Она может пригодится только для понимания каких-то базовых вещей. И может не представлять интереса для продвинутого XS-разработчика (см. <a href="http://redplait.blogspot.com/2010/11/extending-and-embedding-perl.html">критический обзор</a>) Я оцениваю ее содержимое с точки зрения того, что в ней есть, а не того чего нет.</p>
-
-<p>Для того чтобы, научиться писать на XS, нужно:</p>
-
-<ul>
-<li>знание C/C++</li>
-<li>знание структур данных в Perl (SV)</li>
-<li>документация Perl по xs и guts</li>
-<li>metacpan с примерами реального XS-кода в популярных модулях</li>
-<li>исходные коды Perl (не стесняться заглядывать и grep-ать там файлики – многое может стать понятнее)</li>
-<li>какая-то реальная задача для которой нужен XS (обертка над C-библиотекой, например).</li>
-</ul>
-
-
-<p>Кстати, мне сейчас очень не достает последнего пункта, чтобы по настоящему овладеть магией внутренностей Perl. Возможно это вопрос времени, т.к. я их уже не так боюсь как раньше. )</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[По следам YAPC::ASIA 2011]]></title>
     <link href="http://nordicdyno.github.com/blog/2011/10/22/po-sliedam-yapc-asia-2011/"/>
     <updated>2011-10-22T13:26:00+04:00</updated>
@@ -690,7 +493,7 @@ rec  25000!  (63 sec, 15016 kb)
 <!-- more -->
 
 
-<p>Итак, сам сайт конференции <a href="">http://yapcasia.org/2011/</a>, для чтения иероглифов я пользовался Бромиумом (Хромом от Я), он довольно хорошо справляется с переводом страниц Японский->Английский (часть презентаций в html и там перевод тоже работает). Есть недостаток, что этот механизм не очень надежный (то ли меня банят, то ли <a href="">http://translate.google.ru/</a> &#8220;лагает&#8221; часто). Pdf-презентации, тоже не очень сложно перевести, если зарегистрироваться на slideshare их можно будет скачать, а потом все легко: pdf -> text или google docs -> google translate -> profit! )</p>
+<p>Итак, сам сайт конференции <a href="">http://yapcasia.org/2011/</a>, для чтения иероглифов я пользовался Бромиумом (Хромом от Я), он довольно хорошо справляется с переводом страниц Японский->Английский (часть презентаций в html и там перевод тоже работает). Есть недостаток, что этот механизм не очень надежный (то ли меня банят, то ли <a href="">http://translate.google.ru/</a> "лагает" часто). Pdf-презентации, тоже не очень сложно перевести, если зарегистрироваться на slideshare их можно будет скачать, а потом все легко: pdf -> text или google docs -> google translate -> profit! )</p>
 
 <p>Здесь обзор конференции на английском:
 <a href="">http://blogs.perl.org/users/lestrrat/2011/10/a-glimpse-of-yapcasia-tokyo-2011.html</a>
@@ -703,7 +506,7 @@ rec  25000!  (63 sec, 15016 kb)
 
 <p>Далее список докладов, материалы к которым я успел посмотреть, с моими краткими комментариями. В начале постарался расположить наиболее интересные доклады.</p>
 
-<h4>&#8220;Perl 5.16 and beyond&#8221; - Jesse Vincent</h4>
+<h4>"Perl 5.16 and beyond" - Jesse Vincent</h4>
 
 <p>Рекомендую посмотреть. Мне отдельно понравилось то, как происходит ротация релиз-инженеров в команде perl5 porters.</p>
 
@@ -799,7 +602,7 @@ rec  25000!  (63 sec, 15016 kb)
 </ul>
 
 
-<h4>&#8220;Perl script debugging with gdb&#8221;</h4>
+<h4>"Perl script debugging with gdb"</h4>
 
 <p>к сожалению пока только видео, но тема интересная</p>
 
@@ -921,9 +724,9 @@ rec  25000!  (63 sec, 15016 kb)
 
 <h2>1-й день</h2>
 
-<h3>Larry Wall&#8217;s keynote</h3>
+<h3>Larry Wall's keynote</h3>
 
-<p>Ларри выступил в своей привычной  роли идеолога и философа Perl-коммьюнити, взяв темой своих рассуждений (размышлений)  &#8220;Modern perl&#8221;. Мне было очень интересно.)</p>
+<p>Ларри выступил в своей привычной  роли идеолога и философа Perl-коммьюнити, взяв темой своих рассуждений (размышлений)  "Modern perl". Мне было очень интересно.)</p>
 
 <ul>
 <li><a href="">http://yapceurope.lv/ye2011/talk/3531</a></li>
@@ -1007,7 +810,7 @@ rec  25000!  (63 sec, 15016 kb)
 
 <h3>Steffen Schwigon (renormalist) - Benchmark::Perl::Formance for the masses</h3>
 
-<p>Немец пообещал веб-сервис для бенчмаркинга на основе tapper (&#8220;через 2 недели&#8221;)</p>
+<p>Немец пообещал веб-сервис для бенчмаркинга на основе tapper ("через 2 недели")</p>
 
 <ul>
 <li><a href="">http://yapceurope.lv/ye2011/talk/3467</a></li>
@@ -1035,7 +838,7 @@ rec  25000!  (63 sec, 15016 kb)
 
 <h3>Reini Urban (rurban) - use types</h3>
 
-<p>Мантейнер perl и cygwin о возможных нововведениях в perl 5.16. О реализации оптимизаций по скорости и памяти на основе указания программистом типов переменных в коде (опционально). Также о планах добавления возможности выбора программистом механизма хэширования и поддержки алгоритма &#8220;Perfect hash&#8221; (O(1) BDZ algorithm)</p>
+<p>Мантейнер perl и cygwin о возможных нововведениях в perl 5.16. О реализации оптимизаций по скорости и памяти на основе указания программистом типов переменных в коде (опционально). Также о планах добавления возможности выбора программистом механизма хэширования и поддержки алгоритма "Perfect hash" (O(1) BDZ algorithm)</p>
 
 <ul>
 <li><a href="">http://yapceurope.lv/ye2011/talk/3288</a></li>
@@ -1093,7 +896,7 @@ rec  25000!  (63 sec, 15016 kb)
 
 <h3>Introduction to the Dancer web application framework</h3>
 
-<p>Yet Another презентация о фреймворке Dancer. Я ничего нового не узнал, но вообще хороший старт для интересующихся, но еще не &#8220;пощупавших&#8221;.</p>
+<p>Yet Another презентация о фреймворке Dancer. Я ничего нового не узнал, но вообще хороший старт для интересующихся, но еще не "пощупавших".</p>
 
 <ul>
 <li><a href="">http://yapceurope.lv/ye2011/talk/3543</a></li>
@@ -1163,7 +966,7 @@ rec  25000!  (63 sec, 15016 kb)
 <h3>мой хит-парад докладов</h3>
 
 <ol>
-<li>Larry Wall&#8217;s keynote</li>
+<li>Larry Wall's keynote</li>
 <li>Yusuke Kawasaki (kawanet) - Hack For Japan</li>
 <li>The Perl Foundation: Year in Review</li>
 <li>Damian Conway (damian) - (Re)Developing in Perl 6</li>

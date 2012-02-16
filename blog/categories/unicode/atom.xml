@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Unicode | YA IT's blog]]></title>
+  <link href="http://nordicdyno.github.com/blog/categories/unicode/atom.xml" rel="self"/>
+  <link href="http://nordicdyno.github.com/"/>
+  <updated>2012-02-16T19:36:32+04:00</updated>
+  <id>http://nordicdyno.github.com/</id>
+  <author>
+    <name><![CDATA[nordicdyno@gmail.com]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Unicode. Ликбез]]></title>
+    <link href="http://nordicdyno.github.com/blog/2012/02/17/unicode-basics/"/>
+    <updated>2012-02-17T18:30:00+04:00</updated>
+    <id>http://nordicdyno.github.com/blog/2012/02/17/unicode-basics</id>
+    <content type="html"><![CDATA[<p>Текст выросший из моего доклада <a href="http://event.perlrussia.org/saintperl3/talk/158">Unicode-ликбез</a> на Санкт-Петербугском воркшопе <a href="http://event.perlrussia.org/saintperl3/index.html">SaintPerl 2011</a>.</p>
+
+<!-- more -->
+
+
+<h2>Вступление</h2>
+
+<p>Хочу предупредить, что этот рассказ не об интернационализации или локализации, хотя это и очень близкие темы. Еще я не буду рассказывать об истории кодировок (почти). Или о том, как надо правильно работать с Unicode в Perl или каком-либо другом языке.
+Я хочу рассказать о том, что просто необходимо разработчику знать о Unicode и почему.</p>
+
+<h2>Объяснение названия</h2>
+
+<blockquote><p><strong>Ликбез</strong> (ликвидация безграмотности) – в переносном смысле — обучение неподготовленной аудитории базовым понятиям какой-либо науки, процесса или явления.</p></blockquote>
+
+<p>В нашем случае аудитория вполне подготовленная. И, казалось бы, что такого можно рассказать о Unicode разработчикам?
+Все наверняка слышали про кодировки (мы не из ASCII-мира), и разве Unicode – это не просто еще одна расширенная универсальная кодировка, призванная заменить все предыдущие?</p>
+
+<p>Честно говоря, я примерно так и воспринимал Unicode. Потому что это просто - так думать!  Но такое упрощенное понимание неверно и может приводить к неожиданным ошибкам в коде и непониманию происходящего при обработке текстов, вне зависимости от используемых инструментов: редактор ли это текстов или язык программирования.</p>
+
+<p>Во многих случаях упрощение – это неизбежность, т.к. невозможно (и не нужно) знать все. Но для программиста незнание или непонимание Unicode – серьезный изъян в профессиональных навыках.</p>
+
+<p>К необходимости знания и понимания Unicode я пришел, основываясь на собственном опыте и ликбез относится ко мне не в последнюю очередь.</p>
+
+<p>Я разделил свой доклад на три части.</p>
+
+<h2>Часть 1 «Задачка»</h2>
+
+<p>В том, что Unicode - это не просто кодировка, я убедился, когда попробовал решить простую на первый взгляд задачку:</p>
+
+<p>найти в слове</p>
+
+<pre><code>Îñţérñåţîöñåļîžåţîöñ 
+</code></pre>
+
+<p>подстроку</p>
+
+<pre><code>Nation
+</code></pre>
+
+<p>Выглядит довольно просто.
+Да, в исходном слове (реально не существующем, кстати) есть какие-то крышечки, но наверняка их можно убрать и найти нужную подстроку регулярным выражением – ведь регекспы в Perl могут все? Но как это сделать, что и где искать в документации?</p>
+
+<p>Для начала я задал вопрос на stackoverflow:
+<a href="">http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789</a>, после чего приступил к самостоятельному исследованию.</p>
+
+<p>Первый шаг был узнать, что хвостики и крышечки – это могут быть как диакритические знаки, так и знаки ударения (accent) и что-то еще. Затем, то что в регулярном выражении в Perl их можно искать/удалять с помощью \p{Marks}, предварительно выделив эти знаки (marks) из строки с помощью NFD-нормализации.</p>
+
+<h3>Решение №1</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>variant 1  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="k">use</span> <span class="n">utf8</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="nn">Unicode::</span><span class="n">Normalize</span><span class="p">;</span>
+</span><span class='line'><span class="nb">binmode</span> <span class="bp">STDOUT</span><span class="p">,</span> <span class="s">&#39;:encoding(UTF-8)&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$str</span>  <span class="o">=</span> <span class="s">&quot;Îñţérñåţîöñåļîžåţîöñ&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$look</span> <span class="o">=</span> <span class="s">&quot;Nation&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="n">say</span> <span class="s">&quot;before: $str\n&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$str</span> <span class="o">=</span> <span class="n">NFD</span><span class="p">(</span><span class="nv">$str</span><span class="p">);</span>
+</span><span class='line'><span class="nv">$str</span> <span class="o">=~</span> <span class="sr">s/\pM//og</span><span class="p">;</span> <span class="c1"># remove &quot;marks&quot;</span>
+</span><span class='line'><span class="n">say</span> <span class="s">&quot;after: $str&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="n">say</span> <span class="s">&quot;is_match: &quot;</span><span class="p">,</span> <span class="nv">$str</span> <span class="o">=~</span><span class="sr"> /$look/i</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Довольно много новой информации и новых слов: "нормализация", "диакритические знаки".
+Я был доволен и опубликовал свое решение на stackoverflow.
+Но, когда, спустя некоторое время, я вернулся к своему посту (чтобы порадоваться растущему рейтингу), там меня озадачил такой комментарий:</p>
+
+<p><blockquote><p>This is the wrong way to do it. You need to use a UCA match at level 1</p><footer><strong>tchrist</strong> <cite><a href='http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#comment8983109_7429964'>stackoverflow.com/questions/&hellip;</a></cite></footer></blockquote></p>
+
+<p>Итак, я узнал много новых слов при решении, но все равно сделал что-то неправильно! Хмм...</p>
+
+<p>Я не имел никакого представления, что за зверь «<em>UCA match at level 1</em>» и в чем моя ошибка, но твердо решил, что должен с этим разобраться. Особенно, после того, как посмотрел в профиле кто такой <strong>tchrist</strong>. Это оказался, известный в Perl-коммьюнити разработчик Tom Christiansen, соавтор книг о Perl, один из разработчиков языка и (как оказалось позже) Unicode-эксперт.</p>
+
+<p>В результате, когда я разобрался что к чему и исправил код, он стал выглядеть скучнее:</p>
+
+<h3>Решение №2</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>variant 2  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="k">use</span> <span class="mf">5.014</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="n">utf8</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="nn">Unicode::</span><span class="n">Collate</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$str</span>  <span class="o">=</span> <span class="s">&quot;Îñţérñåţîöñåļîžåţîöñ&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$look</span> <span class="o">=</span> <span class="s">&quot;Nation&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$Collator</span> <span class="o">=</span> <span class="nn">Unicode::</span><span class="n">Collate</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="n">normalization</span> <span class="o">=&amp;</span><span class="ow">gt</span><span class="p">;</span> <span class="nb">undef</span><span class="p">,</span> <span class="n">level</span> <span class="o">=&amp;</span><span class="ow">gt</span><span class="p">;</span> <span class="mi">1</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">);</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">@match</span> <span class="o">=</span> <span class="nv">$Collator</span><span class="o">-&gt;</span><span class="n">match</span><span class="p">(</span><span class="nv">$str</span><span class="p">,</span> <span class="nv">$look</span><span class="p">);</span>
+</span><span class='line'><span class="n">say</span> <span class="err">“</span><span class="n">matches:</span> <span class="err">”</span> <span class="o">.</span> <span class="nb">join</span><span class="p">(</span><span class="err">“</span><span class="p">,</span> <span class="err">“</span><span class="p">,</span> <span class="nv">@match</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Кстати, вот еще одна цитата <strong>tchrist</strong>, найденная на stackoverflow:</p>
+
+<blockquote><p>«Code that assumes you can remove diacritics to get at base ASCII letters is evil, still, broken, brain-damaged, wrong, and justification for capital punishment»</p></blockquote>
+
+<h3>Рефлексия</h3>
+
+<p>В чем же была моя основная ошибка (или в чем заключалось невежество)?
+Основной ошибкой была попытка, не понимая сути, решить, как оказалось, нетривиальную задачу с помощью простого рецепта.</p>
+
+<p>Рецепты – это неплохо. Это такая хорошая штука, которая позволят здорово экономить время. Например, готовка супа по рецепту отлично работает. И для многих случаев, с которыми приходится сталкиваться в программировании, рецепты тоже работают. Но это хорошо работает только для простых задач, а не для сложных!
+Например, для химических экспериментов необходимо понимание происходящих процессов и основ химии. Иначе может быть <em>бум</em>! (Придумайте еще примеры :)
+И для правильной обработки Unicode, также, просто необходимо знание основ.</p>
+
+<h2>Часть 2 «Ликбез»</h2>
+
+<p>Итак мы видим, что Unicode – это большая и сложная тема. И если мы хотим в ней разобраться, то с чего начать?</p>
+
+<p>Первое, с чего я рекомендую начать изучение – это терминология.
+Важно начать именно с нее, так как знание терминологии помогает избежать путаницы и сохранить ясность мысли в процессе обучения.
+В сети очень много материалов о Unicode, и хотя в целом информация полезная и хорошая, но авторы очень часто небрежно используют термины (например, не делая различия между UCS-2 и UTF-16), в результате чего новичку (и не только!) очень легко запутаться или получить неверное представление.</p>
+
+<p>Начем с того, что Unicode – это не кодировка или таблица символов. Это стандарт! В который входит, помимо таблиц символов и правил их кодирования, еще много-много чего.</p>
+
+<p>Стандарт Unicode это:</p>
+
+<ul>
+<li>таблицы символов</li>
+<li>несколько механизмов кодирования</li>
+<li>формы нормализации текста</li>
+<li>правила casemapping и casefolding</li>
+<li>гибкие правила collation</li>
+<li>правила переносов для слов и разбиения строк</li>
+<li>специальные правила для регулярных выражений</li>
+<li>тысячи именованых свойств (properties)</li>
+<li>численные эквивалентности (U+216B XII)</li>
+<li>направление текста</li>
+<li><em>многое другое</em></li>
+</ul>
+
+
+<p>Важный момент: Unicode не отвечает за то, как отрисовываются символы, т.е. за их рендеринг (это делают шрифты и конечное ПО).</p>
+
+<p>В Unicode можно указывать на направленность текста (но поддержка вертикальных текстов пока только в планах).</p>
+
+<p>Стандарт имеет массу документов, разные версии (1.0 – October 1991, ... 5.0 – July 2006, 6.0 – October 2010), собственную терминологию, в том числе множество TLA или ТБС (Three-letter acronyms или Трех Буквенных Сокращений).</p>
+
+<p>Некоторые TLA (ТБС) описываются ниже.</p>
+
+<h3>UCS, таблицы символов</h3>
+
+<p><strong>UCS (ucs-2, ucs-4)</strong> – универсальный набор символов (universal character set) задаёт однозначное соответствие символов кодам — элементам кодового пространства, представляющим неотрицательные целые числа.
+Определен в стандарте ISO/IEC 10646 (включен в стандарт Unicode)</p>
+
+<p>UCS стандартизирует набор абстрактных символов, на данный момент примерно 100 тысяч (потенциально до 1,114,112 code points), каждый из которых имеет уникальное имя и числовое значение - кодовую точку (code point).
+Cейчас это часть стандарта Unicode. Стандарт включает наборы USC-2 (устаревший) и UCS-4.</p>
+
+<p><strong>Кодовое пространство</strong> (codespace) – в Unicode разбито на 17 плоскостей по 2<sup>16</sup> (65536) code points (кодовых точек), набор всех code points: 0hex to 10FFFFhex</p>
+
+<p><strong>Нулевая плоскость</strong> (BMP/Basic Multilingual Plane) – в ней расположены символы наиболее употребительных письменностей. Т.е. это code points в диапазоне 0x0 - 0xFFFF (не все используются, верхняя часть диапазона зарезервирована)</p>
+
+<blockquote><p>Часто встречается путаница в терминах, из-за того, что во многих системах реализованых в доюникодную эпоху (Symbyan, NT, CD_ROM, Python 2.x, Java &lt; 7, JavaScript), используется  устаревший UCS-2 для кодирования символов.
+И поэтому закодированный в UCS-2 текст часто называют юникодом, хотя правильнее было бы называть UCS-2 подмножеством Unicode.
+(программы работающие с UCS-2 не умеют полноценно обрабатывать Unicode, так как ничего не знают о стандарте)</p>
+
+<p>Самый известный пример – современные реализации языка JavaScript, где строки хранятся в UCS-2 (символы там всегда шириной 2 байта и это оговорено стандартом языка). Причем сами JS-движки обычно внутри себя используют UTF-16.</p></blockquote>
+
+<p>Именно UCS используется при численной записи Unicode символов, которую многие видели.</p>
+
+<pre><code>u (U+0075 ʟᴀᴛɪɴ sᴍᴀʟʟ ʟᴇᴛᴛᴇʀ ᴜ) + ¨(U+0308 ᴄᴏᴍʙɪɴɪɴɢ ᴅɪᴀᴇʀᴇsɪs) =&gt; ü
+</code></pre>
+
+<p>эти же коды используются в современных ОС для ввода с клавиатуры</p>
+
+<pre><code>mac: unicode hex input (language &amp; text), option + code
+windows: alt + “+” + code
+</code></pre>
+
+<p>см. также:</p>
+
+<ul>
+<li><a href="">http://en.wikipedia.org/wiki/Unicode_input</a></li>
+<li><a href="">http://tlt.its.psu.edu/suggestions/international/accents/codemac.html</a></li>
+</ul>
+
+
+<p>В вебе есть базы данных символов юникод, где можно посмотреть, что кроме числового UCS-представления у этих символов существует множество свойств и способов кодирования, определенных стандартом.</p>
+
+<p><strong>UCS4</strong> - основа всех современных unicode-кодировок.</p>
+
+<p><strong>Character General Category</strong> – каждый code point относится к одной из основных категорий: буква, знак (см диакр. знаки), число(number), пунктуационный знак, символ, разделитель (см. <a href="">http://www.unicode.org/versions/Unicode6.0.0/ch02.pdf</a>)</p>
+
+<h3>UTF, кодировка символов</h3>
+
+<p><strong>UTF</strong> (Unicode transformation format) – семейство кодировок, которое определяет машинное представление последовательности кодов UCS.
+Существует 3 кодировки: UTF-8, UTF-16, UTF-32 и 6 способов закодировать <strong>code point</strong>-ы: UTF-8 (UTF-EBCDIC), UTF-16BE, UTF-16LE, UTF-32BE, UTF-32LE</p>
+
+<p><strong>BE</strong> и <strong>LE</strong> расшифровываются как big-endian (BE), дословно «тупоконечный» – порядок байт от старшего к младшему, и little-endian (LE), дословно «остроконечный» – порядок байт от младшего к старшему.</p>
+
+<p>Если нет <strong>BOM</strong> (о нем ниже), то стандартом предписывается Big Endian. (Выбор BE и LE определяется архитектурой компьютера, для большинства машин (x86-совместимых) – это LE)</p>
+
+<blockquote><p>Все эти кодировки, кроме UTF-32 - переменной ширины!</p></blockquote>
+
+<p><em>Еще раз: UCS - таблица(-ы) code point-ов в стандарте, UTF - способ кодирования их в поток байт, которые можно сохранить в памяти/на накопителе или передать по сети.</em></p>
+
+<p><strong>BOM</strong> (byte order mark) – позволет понять при чтении, какая последовательность байт используется (LE или BE).</p>
+
+<p>BOM важен для UTF-16 и UTF-32. Для UTF-8 обычно не нужен, но есть в стандарте. Подразумевается, что встретив незнакомый BOM, UTF-16,32 программы cмогут понять, что в файле utf-8.</p>
+
+<blockquote><p>BOM не нужен для правильной обработки UTF-8, но иметь в виду его необходимо, т.к. те же MS-программы, живущие в мире нескольких Unicode-кодировок (UTF-16 и UTF-8 как минимум), соблюдают это соглашение и сохраняют файлы в UTF-8 с BOM (Notepad и др.)</p></blockquote>
+
+<p><strong>UTF-16</strong> – особенность кодировки в том, что символы не из 0-й plane задаются составными кодами 16+16=32 бита, которые называются <strong>суррогатными парами</strong></p>
+
+<p>Для суррогатных пар зарезервированны значения, не задействованные в основном codespace</p>
+
+<blockquote><p>Софт работающий с ucs2/utf-16 зачастую имеет ошибки в обработке суррогатов, так как  редко встречаются и софт редко тестируется на совместимость с ними</p></blockquote>
+
+<p>UTF-16 используется в Win 2000, Vista, .NET, MacOS X Cocoa, Python (до недавних версий)</p>
+
+<p>Еще немного о неотображаемых code point-ах (суррогатах). Те, что в BMP-диапазоне, называются  "low surrogates", те, что выше – "high surrogates". И они используются только в UTF-16! (основное отличие UTF-16 от UCS-2)
+Пары суррогатных code point соответствуют реально существующим codepoint-ам, выходящим за base plane. По отдельности они не имеют смысла.</p>
+
+<p><a href="">http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters</a></p>
+
+<blockquote><p>Не надо путать составные символы и суррогатные пары</p></blockquote>
+
+<p><strong>UTF32</strong> – кодировка фиксированной ширины, всегда 4 байта.</p>
+
+<p><a href="">http://en.wikipedia.org/wiki/UTF-32/UCS-4</a></p>
+
+<p>удобна в плане простоты, но редко используется из-за необходимости выделения 4 байт для каждого символа</p>
+
+<p><strong>UTF-8</strong> – распространена в unix/web. Переменной ширины, кодовый символ может быть от 1 до 6 байт длиной, но не встречается больше 4 (2 оставлены про запас и врядли понадобятся в обозримом будущем).</p>
+
+<p>Была изобретена 2 сентября 1992 года Кеном Томпсоном и Робом Пайком.
+Совместима с ASCII, если не выходить за границу 128 символов.</p>
+
+<p>Хитро мапит кодепоинты в байты, ипользует часть битов для спец-целей (из первого байта можно узнать длину последовательности). Отсюда следует, что <em>коды символов не совпадают с UCS</em>.</p>
+
+<blockquote><p>Самая "православная" кодировка. ☺</p></blockquote>
+
+<ul>
+<li><a href="">http://en.wikipedia.org/wiki/UTF-EBCDIC</a> – редкая кодировка UTF-8 "для мейнфреймов"</li>
+</ul>
+
+
+<p>Perl может внутри хранить строки как в UTF-8 так и в UTF-EBCDIC</p>
+
+<p><strong>Композиция символов</strong> – cимволы  задающиеся несколькими кодами (составные символы)
+Для некоторых символов есть как композитные так и монолитные формы записи</p>
+
+<pre><code>Ё (U+0401) и Й (U+0419), 
+Е +  ̈ (U+0415 U+0308)
+И +  ̆ (U+0418 U+0306)
+</code></pre>
+
+<h3>Еще термины, которые полезно знать и различать при изучении Unicode.</h3>
+
+<p><strong>Character</strong> – минимальный компонент письменного языка, имеющий семантическое значение. Ссылается на абстрактное значение (знак) или на символ</p>
+
+<p><strong>Символ (symbol)</strong> (из греч. σύμβολον) — знак, изображение какой-нибудь вещи или животного для означения качества предмета; условный знак каких-либо понятий, идей, явлений.</p>
+
+<p><strong>Графема (grapheme)</strong> (от греч. γράφω — пишу и -ема) — единица письменной речи (в алфавите — буква, в неалфавитных системах письма — слоговой знак, иероглиф, идеограмма и др.).
+Графема однозначно отличима от любой другой единицы этой же письменности.</p>
+
+<p><strong>Глиф (glypth)</strong> (греч. γλύφειν — резное письмо) — элемент письма, конкретное графическое представление графемы, иногда нескольких связанных графем (составной глиф), или только части графемы (например, диакритический знак).<br/>
+И если графема - это единица текста, то глиф - единица графики.</p>
+
+<p><strong>Буква (Letter)</strong> – отдельный символ какого-либо алфавита, графема. Чаще всего буква соответствует звуку в устной речи, но это необязательно.
+У буквы может существовать несколько равнозначных вариантов написания, не меняющих её произношения и смысла.</p>
+
+<p><strong>Диакритические знаки (diacritical mark)</strong> - различные надстрочные, подстрочные, реже внутристрочные знаки</p>
+
+<p><strong>Идеограмма</strong> - письменный знак, обозначающий (в отличие от букв) не звуки какого-либо языка, а целое слово или корень.</p>
+
+<h3>Что еще описывается стандартом Unicode</h3>
+
+<p><strong>Нормализация</strong>. Поскольку одни и те же символы можно представить различными кодами, что иногда затрудняет обработку, существуют процессы нормализации, предназначенные для приведения текста к определённому стандартному виду.</p>
+
+<ul>
+<li><a href="">http://www.unicode.org/faq/normalization.html</a></li>
+</ul>
+
+
+<p><strong>Case folding</strong> – приведение символа или строки к заданному регистру (у символов может быть от одного до трех возможных регистров).</p>
+
+<p><strong>UCA</strong> (Unicode Collation Algorithm) – алгоритм сравнения двух строк, с учетом особенностей Unicode.</p>
+
+<p><strong>ICU</strong> (International Components for Unicode) – не входит в стандарт, но полезно знать. ICU – набор C-библиотек для разработки программ с поддержкой Unicode.</p>
+
+<blockquote><p>для Python есть pyICU, в Perl5 своя реализация Unicode, поддерживаемая perl5 porters</p></blockquote>
+
+<p>Вообще-то это не все термины и понятия, но уже не мало?</p>
+
+<p>здесь можно сделать небольшую передышку ☕</p>
+
+<h2>Часть 3. «Домашняя работа»</h2>
+
+<p>Итак, мы теперь знаем, что Unicode это не просто расширенная таблица символов, не плаваем в терминах и понимаем, что Unicode – это совсем не просто. Что дальше?</p>
+
+<p>Дальше нужно воспользоваться дополнительными материалами, поисковиком, любимым инструментарием и глубже изучить тему самостоятельно!</p>
+
+<p>Может возникнуть вопрос "Зачем учить?". Простой ответ заключается втом, что для квалифицированного программиста в настоящее время знание хотя бы основ Unicode и того как в используемом языке, ОС реализована поддержка его стандарта – обязательное условие.</p>
+
+<p>Известная статья Джоела, на эту же тему:
+<a href ="http://local.joelonsoftware.com/wiki/Абсолютный_Минимум,_который_Каждый_Разработчик_Программного_Обеспечения_Обязательно_Должен_Знать_о_Unicode_и_Наборах_Символов">Абсолютный минимум, который каждый разработчик программного обеспечения обязательно должен знать о Unicode и наборах символов</a>, которая была написана в 2001 г., то есть более 10 лет(!) назад.</p>
+
+<p>Незнание или, что еще хуже, поверхностное знание, может и не помешать написать <em>вроде как</em> правильно работающий код, но чревато тем, что он окажется неправильным в самый неожиданный и неподходящий момент.</p>
+
+<p>Никто не гарантирует, что вы не столкнетесь с неправильной реализацией Unicode в сторонних библиотеках, и в таком случае хорошее знание темы может очень помочь в понимании того, что происходит.</p>
+
+<p>И еще одна причина. Когда человек чего-то не знает или недопонимает, он это может считать магическим и волшебным (примеры: молния, Unicode, сборщик мусора виртуальной машины). Цитата, иллюстрирующая пример такого отношения из рассылки Moscow.pm:</p>
+
+<p><blockquote><p>«Все-таки UTF8 в перле - это немного черная магия»</p></blockquote></p>
+
+<p>Чтобы это не казалось магией – необходимо знание!</p>
+
+<p>Если вопроса "Зачем учить" не возникает, то я попробую ответить на вопрос: "Как учить?".</p>
+
+<p>Хорошая новость в том, что есть множество ресурсов с тоннами информации по Unicode. Презентации, статьи – все есть в сети.
+Не очень хорошая новость – информации очень и очень много. Что же делать чтобы в ней не утонуть?</p>
+
+<p>Мой совет – обратиться к авторитетным источникам! (cтандарт слишком большой и читать его скучно)</p>
+
+<p>Во первых, прочитайте статью Джоэла (ссылка выше). Установите Unicode-шрифты (доступны в репозитории и по ссылкам в конце).</p>
+
+<p>Прочитайте обзорную статью в Википедии  [http://ru.wikipedia.org/wiki/Юникод][http://ru.wikipedia.org/wiki/Юникод]</p>
+
+<p>Обратитесь к публикациям Tom Christiansen. Обязательно ознакомьтесь с его презентациями с OSCON 2011, если вы еще не успели это сделать.</p>
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/6162484/why-does-modern-perl-avoid-utf-8-by-default/6163129#6163129">супер комментарий-рассказ tchrist о практиках работы с Unicode</a></li>
+<li><a href="http://dheeb.files.wordpress.com/2011/07/gbu.pdf">"Unicode Support Shootout: The Good, the Bad, &amp; the (mostly) Ugly"</a></li>
+<li><a href="http://doc.japh.se/tchrist_oscon_perl_unicode_essentials/3h-Perl_Unicode_Essentials.html">"Perl Unicode Essentials"</a></li>
+<li><a href="http://doc.japh.se/tchrist_oscon_perl_unicode_essentials/45m-Unicode_in_Perl_Regexes.html">"Unicode in Perl Regexes"</a></li>
+</ul>
+
+
+<p>Оригиналы находятся на странице автора http://training.perl.com/OSCON2011/index.html
+но она, к сожалению, чаще не работает, чем работает ☠ ☠ ☠)</p>
+
+<p>Если вы Perl-разработчик, то прочитайте <a href="http://perldoc.perl.org/search.html?q=perluni">документацию</a></p>
+
+<p>Обратите внимание на ссылки внизу.</p>
+
+<h2>Ресурсы</h2>
+
+<ul>
+<li><a href="http://googleblog.blogspot.com/2010/01/unicode-nearing-50-of-web.html">Unicode nearing 50% of the web (2010)</a>
+-<a href="http://googleblog.blogspot.com/2012/02/unicode-over-60-percent-of-web.html">Unicode over 60 percent of the web (2012)</a></li>
+<li><a href="http://sigstp.blogspot.com/search/label/encoding">Avoiding encoding headache (in Perl)</a></li>
+<li><a href="http://shapecatcher.com/">shapecatcher.com – распознавание Unicode символов по рисунку </a></li>
+<li>шрифты: http://users.teilar.gr/~g1951d/</li>
+<li>Онлайн база Unicode:
+
+<ul>
+<li><a href="">http://www.fileformat.info/info/unicode/index.htm</a></li>
+<li><a href="">http://www.fileformat.info/info/unicode/char/fc/index.htm</a></li>
+<li><a href="">http://www.fileformat.info/info/unicode/char/search.htm?q=%D0%B8&amp;preview=entity</a></li>
+<li><a href="">http://www.fileformat.info/info/unicode/char/1f4a9/index.htm</a></li>
+</ul>
+</li>
+<li><a href="">http://www.unicode.org/charts/charindex.html</a></li>
+</ul>
+
+
+<h3>документация и технические подробности</h3>
+
+<ul>
+<li><a href="http://perldoc.perl.org/search.html?q=perluni">Документация Perl по Unicode</a></li>
+<li>Casefolding: <a href="">http://perldoc.perl.org/5.14.0/Unicode/UCD.html</a></li>
+<li>UNICODE COLLATION ALGORITHM <a href="">http://www.unicode.org/reports/tr10/</a></li>
+<li>набор функций Glib для обработки Unicode <a href="">http://docstore.mik.ua/manuals/ru/glib_api/glib-Unicode-Manipulation.html</a></li>
+</ul>
+
+
+<h3>Wikipedia и официальная справка</h3>
+
+<ul>
+<li><a href="">http://ru.wikipedia.org/wiki/Юникод</a></li>
+<li><a href="">http://en.wikipedia.org/wiki/UTF-8</a></li>
+<li><a href="">http://en.wikipedia.org/wiki/UTF-EBCDIC</a></li>
+<li><a href="">http://en.wikipedia.org/wiki/UTF-16</a></li>
+<li><a href="">http://en.wikipedia.org/wiki/UTF-32/UCS-4</a></li>
+<li><a href="">http://en.wikipedia.org/wiki/Byte_order_mark</a></li>
+<li><a href="">http://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings</a></li>
+<li><a href="">http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters</a></li>
+<li><a href="">http://en.wikipedia.org/wiki/Canonical_equivalence</a></li>
+<li><a href="">http://www.w3.org/International/wiki/Case_folding</a></li>
+<li><a href="">http://www.unicode.org</a></li>
+<li><a href="http://www.unicode.org/glossary/">Официальный глоссарий www.unicode.org/glossary/</a></li>
+<li><a href="http://www.unicode.org/faq/utf_bom.html">FAQ по BOM</a></li>
+<li>про нормализацию:
+
+<ul>
+<li><a href="">http://en.wikipedia.org/wiki/Unicode_normalization</a></li>
+<li><a href="">http://habrahabr.ru/blogs/webdev/45489/</a></li>
+<li><a href="http://ru.wikipedia.org/wiki/Юникод#.D0.A4.D0.BE.D1.80.D0.BC.D1.8B_.D0.BD.D0.BE.D1.80.D0.BC.D0.B0.D0.BB.D0.B8.D0.B7.D0.B0.D1.86.D0.B8.D0.B8">http://ru.wikipedia.org/wiki/Юникод</a></li>
+</ul>
+</li>
+</ul>
+
+
+<h3>статьи</h3>
+
+<ul>
+<li><a href="http://www.transl-gunsmoker.ru/2008/11/unicode.html">Регистр в Unicode - это непросто</a></li>
+<li><a href="http://blog.jochentopf.com/2011-03-17-javascript-and-unicode.html">Javascript and Unicode</a></li>
+<li><a href="http://www.perl.com/pub/2011/08/whats-wrong-with-sort-and-how-to-fix-it.html">Как сортировать Unicode-строки в Perl (en)</a></li>
+<li><a href="http://www.effectiveperlprogramming.com/blog/1416">Применение нормализации при использовании split в Perl (en)</a>
+<a href="http://fatalweb.com/questions/178785/javascript-strings-outside-of-the-bmp">"JavaScript strings outside of the BMP"</a></li>
+</ul>
+
+
+<h3>материалы конференций ---</h3>
+
+<ul>
+<li>доклад Монса на YAPC::Russia May Perl 2008: <a href="http://rutube.ru/tracks/793436.html?v=252bdfab9677b48a96c5c47c8dc42c27">часть 1</a>,
+<a href="http://rutube.ru/tracks/793450.html?v=0a9de4c7350b0f84ae2f9c325dcb6237">часть 2</a>,
+<a href="http://rutube.ru/tracks/793452.html?v=0e76a93c96a45074d0d5d430a13bf1cd">часть 3</a></li>
+<li>рассказ Олега Алистратова на PerlMova - 2010 <a href="">http://www.slideshare.net/alistratov/perl-unicode</a></li>
+<li><a href="http://www.farmdev.com/talks/unicode/">Unicode In Python, Completely Demystified</a></li>
+</ul>
+
+
+<h3>Разное</h3>
+
+<ul>
+<li><a href="http://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt">"UTF-8 history" from Rob 'Commander' Pike</a></li>
+<li><a href="http://www.nntp.perl.org/group/perl.perl5.porters/2010/01/msg156111.html">"Use ICU for Unicode in Perl?"</a></li>
+<li><a href="">http://www.unicode.org/announcements/quotations.html</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Three-letter_acronym">Three-letter_acronym</a></li>
+<li><a href="http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789">Мой вопрос на StackOverflow</a></li>
+<li>JSON-редактор <a href="">http://jsonviewer.stack.hu/</a></li>
+</ul>
+
+
+<p>Сайт с большой подборкой информации о локализации и интернационализации: <a href="">http://www.i18nguy.com</a></p>
+
+<ul>
+<li>статья про суррогаты: <a href="">http://www.i18nguy.com/surrogates.html</a></li>
+<li>юмор: <a href="">http://www.i18nguy.com/humor/unicode-humor.html</a></li>
+</ul>
+
+
+<p>тест правильной работы c UTF-8 в JSON-парзере:
+ <a href="">https://metacpan.org/source/MLEHMANN/JSON-XS-2.32/t/01_utf8.t</a></p>
+]]></content>
+  </entry>
+  
+</feed>
