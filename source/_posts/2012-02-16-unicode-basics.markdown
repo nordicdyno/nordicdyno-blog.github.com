@@ -44,7 +44,7 @@ categories: [Perl, Unicode, YAPC]
 Да, в исходном слове (реально не существующем, кстати) есть какие-то крышечки, но наверняка их можно убрать и найти нужную подстроку регулярным выражением – ведь регекспы в Perl могут все? Но как это сделать, что и где искать в документации?
 
 Для начала я задал вопрос на stackoverflow:
-[http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789](), после чего приступил к самостоятельному исследованию. 
+[http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789](http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789), после чего приступил к самостоятельному исследованию. 
 
 Первый шаг был узнать, что хвостики и крышечки – это могут быть как диакритические знаки, так и знаки ударения (accent) и что-то еще. Затем, то что в регулярном выражении в Perl их можно искать/удалять с помощью \p{Marks}, предварительно выделив эти знаки (marks) из строки с помощью NFD-нормализации. 
 
@@ -163,14 +163,14 @@ Cейчас это часть стандарта Unicode. Стандарт вк�
 
 см. также:
 
-- [http://en.wikipedia.org/wiki/Unicode_input]()
-- [http://tlt.its.psu.edu/suggestions/international/accents/codemac.html]()
+- [http://en.wikipedia.org/wiki/Unicode_input](http://en.wikipedia.org/wiki/Unicode_input)
+- [http://tlt.its.psu.edu/suggestions/international/accents/codemac.html](http://tlt.its.psu.edu/suggestions/international/accents/codemac.html)
 
 В вебе есть базы данных символов юникод, где можно посмотреть, что кроме числового UCS-представления у этих символов существует множество свойств и способов кодирования, определенных стандартом.
 
 **UCS4** - основа всех современных unicode-кодировок.
 
-**Character General Category** – каждый code point относится к одной из основных категорий: буква, знак (см диакр. знаки), число(number), пунктуационный знак, символ, разделитель (см. [http://www.unicode.org/versions/Unicode6.0.0/ch02.pdf]())
+**Character General Category** – каждый code point относится к одной из основных категорий: буква, знак (см диакр. знаки), число(number), пунктуационный знак, символ, разделитель (см. [http://www.unicode.org/versions/Unicode6.0.0/ch02.pdf](http://www.unicode.org/versions/Unicode6.0.0/ch02.pdf))
 
 ### UTF, кодировка символов
 
@@ -203,14 +203,14 @@ UTF-16 используется в Win 2000, Vista, .NET, MacOS X Cocoa, Python 
 Пары суррогатных code point соответствуют реально существующим codepoint-ам, выходящим за base plane. По отдельности они не имеют смысла.
 
 
-[http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters]()
+[http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters](http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters)
 
 > Не надо путать составные символы и суррогатные пары
 
 
 **UTF32** – кодировка фиксированной ширины, всегда 4 байта.
 
-[http://en.wikipedia.org/wiki/UTF-32/UCS-4]()
+[http://en.wikipedia.org/wiki/UTF-32/UCS-4](http://en.wikipedia.org/wiki/UTF-32/UCS-4)
 
 удобна в плане простоты, но редко используется из-за необходимости выделения 4 байт для каждого символа
 
@@ -222,7 +222,7 @@ UTF-16 используется в Win 2000, Vista, .NET, MacOS X Cocoa, Python 
 Хитро мапит кодепоинты в байты, ипользует часть битов для спец-целей (из первого байта можно узнать длину последовательности). Отсюда следует, что _коды символов не совпадают с UCS_.
 > Самая "православная" кодировка. ☺
 
-- [http://en.wikipedia.org/wiki/UTF-EBCDIC]() – редкая кодировка UTF-8 "для мейнфреймов"
+- [http://en.wikipedia.org/wiki/UTF-EBCDIC](http://en.wikipedia.org/wiki/UTF-EBCDIC) – редкая кодировка UTF-8 "для мейнфреймов"
 
 Perl может внутри хранить строки как в UTF-8 так и в UTF-EBCDIC
 
@@ -258,7 +258,7 @@ Perl может внутри хранить строки как в UTF-8 так 
 
 **Нормализация**. Поскольку одни и те же символы можно представить различными кодами, что иногда затрудняет обработку, существуют процессы нормализации, предназначенные для приведения текста к определённому стандартному виду. 
 
-- [http://www.unicode.org/faq/normalization.html]()
+- [http://www.unicode.org/faq/normalization.html](http://www.unicode.org/faq/normalization.html)
 
 **Case folding** – приведение символа или строки к заданному регистру (у символов может быть от одного до трех возможных регистров).
 
@@ -315,7 +315,7 @@ Perl может внутри хранить строки как в UTF-8 так 
 - ["Unicode in Perl Regexes"](http://doc.japh.se/tchrist_oscon_perl_unicode_essentials/45m-Unicode_in_Perl_Regexes.html)
 
 
-Оригиналы находятся на странице автора [http://training.perl.com/OSCON2011/index.html]()
+)ригиналы находятся на странице автора [http://training.perl.com/OSCON2011/index.html](http://training.perl.com/OSCON2011/index.html)
 но она, к сожалению, чаще не работает, чем работает ☠ ☠ ☠)
 
 Если вы Perl-разработчик, то прочитайте [документацию](http://perldoc.perl.org/search.html?q=perluni)
@@ -329,40 +329,40 @@ Perl может внутри хранить строки как в UTF-8 так 
 - [Avoiding encoding headache (in Perl)](http://sigstp.blogspot.com/search/label/encoding)
 - [shapecatcher.com – распознавание Unicode символов по рисунку ](http://shapecatcher.com/)
 - Онлайн база Unicode:
-    - [http://www.fileformat.info/info/unicode/index.htm]()
-    - [http://www.fileformat.info/info/unicode/char/fc/index.htm]()
-    - [http://www.fileformat.info/info/unicode/char/search.htm?q=%D0%B8&preview=entity]()
-    - [http://www.fileformat.info/info/unicode/char/1f4a9/index.htm]()
-- [http://www.unicode.org/charts/charindex.html]()
+    - [http://www.fileformat.info/info/unicode/index.htm](http://www.fileformat.info/info/unicode/index.htm)
+    - [http://www.fileformat.info/info/unicode/char/fc/index.htm](http://www.fileformat.info/info/unicode/char/fc/index.htm)
+    - [http://www.fileformat.info/info/unicode/char/search.htm?q=%D0%B8&preview=entity](http://www.fileformat.info/info/unicode/char/search.htm?q=%D0%B8&preview=entity)
+    - [http://www.fileformat.info/info/unicode/char/1f4a9/index.htm](http://www.fileformat.info/info/unicode/char/1f4a9/index.htm)
+- [http://www.unicode.org/charts/charindex.html](http://www.unicode.org/charts/charindex.html)
 - шрифты: 
-    - [http://users.teilar.gr/~g1951d/]()
-    - [https://github.com/nordicdyno/talk_uni_edu/tree/master/fonts]()
+    - [http://users.teilar.gr/~g1951d/](http://users.teilar.gr/~g1951d/)
+    - [https://github.com/nordicdyno/talk_uni_edu/tree/master/fonts](https://github.com/nordicdyno/talk_uni_edu/tree/master/fonts)
 
 ### документация и технические подробности
 
 - [Документация Perl по Unicode](http://perldoc.perl.org/search.html?q=perluni)
-- Casefolding: [http://perldoc.perl.org/5.14.0/Unicode/UCD.html]()
-- UNICODE COLLATION ALGORITHM [http://www.unicode.org/reports/tr10/]()
-- набор функций Glib для обработки Unicode [http://docstore.mik.ua/manuals/ru/glib_api/glib-Unicode-Manipulation.html]()
+- Casefolding: [http://perldoc.perl.org/5.14.0/Unicode/UCD.html](http://perldoc.perl.org/5.14.0/Unicode/UCD.html)
+- UNICODE COLLATION ALGORITHM [http://www.unicode.org/reports/tr10/](http://www.unicode.org/reports/tr10/)
+- набор функций Glib для обработки Unicode [http://docstore.mik.ua/manuals/ru/glib_api/glib-Unicode-Manipulation.html](http://docstore.mik.ua/manuals/ru/glib_api/glib-Unicode-Manipulation.html)
 
 ### Wikipedia и официальная справка
 
-- [http://ru.wikipedia.org/wiki/Юникод]()
-- [http://en.wikipedia.org/wiki/UTF-8]()
-- [http://en.wikipedia.org/wiki/UTF-EBCDIC]()
-- [http://en.wikipedia.org/wiki/UTF-16]()
-- [http://en.wikipedia.org/wiki/UTF-32/UCS-4]()
-- [http://en.wikipedia.org/wiki/Byte_order_mark]()
-- [http://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings]()
-- [http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters]()
-- [http://en.wikipedia.org/wiki/Canonical_equivalence]()
-- [http://www.w3.org/International/wiki/Case_folding]()
-- [http://www.unicode.org]()
+- <a href="http://ru.wikipedia.org/wiki/Юникод">http://ru.wikipedia.org/wiki/Юникод</a>
+- [http://en.wikipedia.org/wiki/UTF-8](http://en.wikipedia.org/wiki/UTF-8)
+- [http://en.wikipedia.org/wiki/UTF-EBCDIC](http://en.wikipedia.org/wiki/UTF-EBCDIC)
+- [http://en.wikipedia.org/wiki/UTF-16](http://en.wikipedia.org/wiki/UTF-16)
+- [http://en.wikipedia.org/wiki/UTF-32/UCS-4](http://en.wikipedia.org/wiki/UTF-32/UCS-4)
+- [http://en.wikipedia.org/wiki/Byte_order_mark](http://en.wikipedia.org/wiki/Byte_order_mark)
+- [http://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings](http://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings)
+- [http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters](http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters)
+- [http://en.wikipedia.org/wiki/Canonical_equivalence](http://en.wikipedia.org/wiki/Canonical_equivalence)
+- [http://www.w3.org/International/wiki/Case_folding](http://www.w3.org/International/wiki/Case_folding)
+- [http://www.unicode.org](http://www.unicode.org)
 - [Официальный глоссарий www.unicode.org/glossary/](http://www.unicode.org/glossary/)
 - [FAQ по BOM](http://www.unicode.org/faq/utf_bom.html)
 - про нормализацию:
-    * [http://en.wikipedia.org/wiki/Unicode_normalization]()
-    * [http://habrahabr.ru/blogs/webdev/45489/]()
+    * [http://en.wikipedia.org/wiki/Unicode_normalization](http://en.wikipedia.org/wiki/Unicode_normalization)
+    * [http://habrahabr.ru/blogs/webdev/45489/](http://habrahabr.ru/blogs/webdev/45489/)
     * <a href="http://ru.wikipedia.org/wiki/Юникод#.D0.A4.D0.BE.D1.80.D0.BC.D1.8B_.D0.BD.D0.BE.D1.80.D0.BC.D0.B0.D0.BB.D0.B8.D0.B7.D0.B0.D1.86.D0.B8.D0.B8">http://ru.wikipedia.org/wiki/Юникод</a>
 
 ### статьи, публикации в блогах
@@ -373,7 +373,7 @@ Perl может внутри хранить строки как в UTF-8 так 
 - [Как сортировать Unicode-строки в Perl (en)](http://www.perl.com/pub/2011/08/whats-wrong-with-sort-and-how-to-fix-it.html)
 - [Применение нормализации при использовании split в Perl (en)](http://www.effectiveperlprogramming.com/blog/1416)
 ["JavaScript strings outside of the BMP"](http://fatalweb.com/questions/178785/javascript-strings-outside-of-the-bmp)
-- [http://lionet.livejournal.com/tag/unicode]()
+- [http://lionet.livejournal.com/tag/unicode](http://lionet.livejournal.com/tag/unicode)
 - [UTF-8 and Unicode FAQ for Unix/Linux](http://www.cl.cam.ac.uk/~mgk25/unicode.html)
 
 ### материалы конференций ---
@@ -381,22 +381,22 @@ Perl может внутри хранить строки как в UTF-8 так 
 - доклад Монса на YAPC::Russia May Perl 2008: [часть 1](http://rutube.ru/tracks/793436.html?v=252bdfab9677b48a96c5c47c8dc42c27), 
  [часть 2](http://rutube.ru/tracks/793450.html?v=0a9de4c7350b0f84ae2f9c325dcb6237),
  [часть 3](http://rutube.ru/tracks/793452.html?v=0e76a93c96a45074d0d5d430a13bf1cd)
-- рассказ Олега Алистратова на PerlMova - 2010 [http://www.slideshare.net/alistratov/perl-unicode]()
+- рассказ Олега Алистратова на PerlMova - 2010 [http://www.slideshare.net/alistratov/perl-unicode](http://www.slideshare.net/alistratov/perl-unicode)
 - [Unicode In Python, Completely Demystified](http://www.farmdev.com/talks/unicode/)
 
 ### Разное 
 
 - ["UTF-8 history" from Rob 'Commander' Pike](http://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt)
 - ["Use ICU for Unicode in Perl?"](http://www.nntp.perl.org/group/perl.perl5.porters/2010/01/msg156111.html)
-- [http://www.unicode.org/announcements/quotations.html]()
+- [http://www.unicode.org/announcements/quotations.html](http://www.unicode.org/announcements/quotations.html)
 - [Three-letter_acronym](http://en.wikipedia.org/wiki/Three-letter_acronym)
 - [Мой вопрос на StackOverflow](http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789)
-- JSON-редактор [http://jsonviewer.stack.hu/]()
+- JSON-редактор [http://jsonviewer.stack.hu/](http://jsonviewer.stack.hu/)
 
-Сайт с большой подборкой информации о локализации и интернационализации: [http://www.i18nguy.com]()
+Сайт с большой подборкой информации о локализации и интернационализации: [http://www.i18nguy.com](http://www.i18nguy.com)
 
-- статья про суррогаты: [http://www.i18nguy.com/surrogates.html]()
-- юмор: [http://www.i18nguy.com/humor/unicode-humor.html]()
+- статья про суррогаты: [http://www.i18nguy.com/surrogates.html](http://www.i18nguy.com/surrogates.html)
+- юмор: [http://www.i18nguy.com/humor/unicode-humor.html](http://www.i18nguy.com/humor/unicode-humor.html)
 
 тест правильной работы c UTF-8 в JSON-парзере:
- [https://metacpan.org/source/MLEHMANN/JSON-XS-2.32/t/01_utf8.t]()
+ [https://metacpan.org/source/MLEHMANN/JSON-XS-2.32/t/01_utf8.t](https://metacpan.org/source/MLEHMANN/JSON-XS-2.32/t/01_utf8.t)

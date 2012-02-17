@@ -16,24 +16,24 @@ categories: [Perl, guts, xs]
 - у CODE-блоков есть счетчик уровня рекурсии
 - треды в Perl дорогие и лучше их не юзать, с тредами имеют шанс некорректно работать многие XS-модули
 – cобранный без тредов и multiplicity Perl имеет бонус в производительности
-- Inline::C на самом деле существует для быстрого прототипирования, а не для продакшена: [https://metacpan.org/module/Inline::C-Cookbook]()
+- Inline::C на самом деле существует для быстрого прототипирования, а не для продакшена: [https://metacpan.org/module/Inline::C-Cookbook](https://metacpan.org/module/Inline::C-Cookbook)
 - в 5.14 довольно многое поменялось в API
 - раньше у глобов была "магия", но сейчас ее, похоже, выпилили
 - "магия" в Perl – это умение дергать функции при манипуляции с sv-шками (из vtable из 5 функций)
  
-Посмотреть какая магия есть "унутре", в табличке после слов "The current kinds of Magic Virtual Tables are" здесь: [http://perldoc.perl.org/perlguts.html#Magic-Virtual-Tables]()
+Посмотреть какая магия есть "унутре", в табличке после слов "The current kinds of Magic Virtual Tables are" здесь: [http://perldoc.perl.org/perlguts.html#Magic-Virtual-Tables](http://perldoc.perl.org/perlguts.html#Magic-Virtual-Tables)
 
 Есть магия с vtable с 3 дополнительными функциями, одна из которых для клонирования.
 
-Можно прикрутить свою "магию". Пример можно посмотреть в коде форка Javascript::V8 [https://github.com/ezhi/javascript-v8]()
+Можно прикрутить свою "магию". Пример можно посмотреть в коде форка Javascript::V8 [https://github.com/ezhi/javascript-v8](https://github.com/ezhi/javascript-v8)
  
 подборка ресурсов:
  
-- [http://www.profvince.com/xs.pdf]()
-- [http://perldoc.perl.org/perlapi.html]()
-- [http://www.e1.ru/tech/documentation/perl/perlcall.html]()
-- [http://cpansearch.perl.org/src/RURBAN/illguts-0.38/index.html]()
-- [https://github.com/mirrors/perl/branches]()
+- [http://www.profvince.com/xs.pdf](http://www.profvince.com/xs.pdf)
+- [http://perldoc.perl.org/perlapi.html](http://perldoc.perl.org/perlapi.html)
+- [http://www.e1.ru/tech/documentation/perl/perlcall.html](http://www.e1.ru/tech/documentation/perl/perlcall.html)
+- [http://cpansearch.perl.org/src/RURBAN/illguts-0.38/index.html](http://cpansearch.perl.org/src/RURBAN/illguts-0.38/index.html)
+- [https://github.com/mirrors/perl/branches](https://github.com/mirrors/perl/branches)
 - книга "Extending and Embedding Perl"
 
 Замечание по поводу книги. Она может пригодится только для понимания каких-то базовых вещей. И может не представлять интереса для продвинутого XS-разработчика (см. [критический обзор](http://redplait.blogspot.com/2010/11/extending-and-embedding-perl.html)) Я оцениваю ее содержимое с точки зрения того, что в ней есть, а не того чего нет. 
