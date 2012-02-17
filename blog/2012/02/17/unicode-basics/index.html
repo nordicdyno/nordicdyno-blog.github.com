@@ -149,7 +149,7 @@
 <p>Для начала я задал вопрос на stackoverflow:
 <a href="http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789">http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789</a>, после чего приступил к самостоятельному исследованию.</p>
 
-<p>Первый шаг был узнать, что хвостики и крышечки – это могут быть как диакритические знаки, так и знаки ударения (accent) и что-то еще. Затем, то что в регулярном выражении в Perl их можно искать/удалять с помощью \p{Marks}, предварительно выделив эти знаки (marks) из строки с помощью NFD-нормализации.</p>
+<p>Первый шаг был узнать, что хвостики и крышечки – это могут быть как диакритические знаки, так и знаки ударения (accent) и что-то еще. Затем, то что в регулярном выражении в Perl их можно искать/удалять с помощью \p{Marks}, предварительно выделив эти знаки (marks) из строки с помощью <a href="http://www.unicode.org/reports/tr15/">NFD-нормализации</a>.</p>
 
 <h3>Решение №1</h3>
 
@@ -165,7 +165,7 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="k">use</span> <span class="n">utf8</span><span class="p">;</span>
-</span><span class='line'><span class="k">use</span> <span class="nn">Unicode::</span><span class="n">Normalize</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="nn">Unicode::</span><span class="n">Normalize</span> <span class="sx">qw/ NFD /</span><span class="p">;</span>
 </span><span class='line'><span class="nb">binmode</span> <span class="bp">STDOUT</span><span class="p">,</span> <span class="s">&#39;:encoding(UTF-8)&#39;</span><span class="p">;</span>
 </span><span class='line'><span class="k">my</span> <span class="nv">$str</span>  <span class="o">=</span> <span class="s">&quot;Îñţérñåţîöñåļîžåţîöñ&quot;</span><span class="p">;</span>
 </span><span class='line'><span class="k">my</span> <span class="nv">$look</span> <span class="o">=</span> <span class="s">&quot;Nation&quot;</span><span class="p">;</span>
@@ -352,9 +352,9 @@ windows: alt + “+” + code
 <p>Была изобретена 2 сентября 1992 года Кеном Томпсоном и Робом Пайком.
 Совместима с ASCII, если не выходить за границу 128 символов.</p>
 
-<p>Хитро мапит кодепоинты в байты, ипользует часть битов для спец-целей (из первого байта можно узнать длину последовательности). Отсюда следует, что <em>коды символов не совпадают с UCS</em>.</p>
+<p><em>Самая &#8220;православная&#8221; кодировка</em>. ☺</p>
 
-<blockquote><p>Самая &#8220;православная&#8221; кодировка. ☺</p></blockquote>
+<p>Хитро мапит кодепоинты в байты, ипользует часть битов для спец-целей (из первого байта можно узнать длину последовательности). Отсюда следует, что <em>коды символов не совпадают с UCS</em>.</p>
 
 <ul>
 <li><a href="http://en.wikipedia.org/wiki/UTF-EBCDIC">http://en.wikipedia.org/wiki/UTF-EBCDIC</a> – редкая кодировка UTF-8 &#8220;для мейнфреймов&#8221;</li>
@@ -366,7 +366,7 @@ windows: alt + “+” + code
 <p><strong>Композиция символов</strong> – cимволы  задающиеся несколькими кодами (составные символы)
 Для некоторых символов есть как композитные так и монолитные формы записи</p>
 
-<pre><code>Ё (U+0401) и Й (U+0419), 
+<pre><code>Ё (U+0401) и Й (U+0419)
 Е +  ̈ (U+0415 U+0308)
 И +  ̆ (U+0418 U+0306)
 </code></pre>
@@ -409,7 +409,9 @@ windows: alt + “+” + code
 
 <p>Вообще-то это не все термины и понятия, но уже не мало?</p>
 
-<p>здесь можно сделать небольшую передышку ☕</p>
+<p>здесь можно сделать небольшую передышку</p>
+
+<h2>☕</h2>
 
 <h2>Часть 3. «Домашняя работа»</h2>
 
@@ -517,6 +519,7 @@ windows: alt + “+” + code
 <li>про нормализацию:
 
 <ul>
+<li><a href="http://www.unicode.org/reports/tr15/">http://www.unicode.org/reports/tr15/</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Unicode_normalization">http://en.wikipedia.org/wiki/Unicode_normalization</a></li>
 <li><a href="http://habrahabr.ru/blogs/webdev/45489/">http://habrahabr.ru/blogs/webdev/45489/</a></li>
 <li><a href="http://ru.wikipedia.org/wiki/Юникод#.D0.A4.D0.BE.D1.80.D0.BC.D1.8B_.D0.BD.D0.BE.D1.80.D0.BC.D0.B0.D0.BB.D0.B8.D0.B7.D0.B0.D1.86.D0.B8.D0.B8">http://ru.wikipedia.org/wiki/Юникод</a></li>
