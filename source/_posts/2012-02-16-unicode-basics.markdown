@@ -305,7 +305,7 @@ Perl может внутри хранить строки как в UTF-8 так 
 
 Во первых, прочитайте статью Джоэла (ссылка выше). Установите Unicode-шрифты (доступны в [репозитории](https://github.com/nordicdyno/talk_uni_edu/tree/master/fonts) и по ссылкам в конце).
 
-Прочитайте обзорную статью в Википедии  [http://ru.wikipedia.org/wiki/Юникод][http://ru.wikipedia.org/wiki/Юникод]
+Прочитайте обзорную статью в Википедии  [http://ru.wikipedia.org/wiki/Юникод](http://ru.wikipedia.org/wiki/Юникод)
 
 Обратитесь к публикациям Tom Christiansen. Обязательно ознакомьтесь с его презентациями с OSCON 2011, если вы еще не успели это сделать.
 
