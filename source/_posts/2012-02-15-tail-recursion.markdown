@@ -81,3 +81,7 @@ sub get_rss {
     +{ map { split ' ' } `ps -o pid,rss` }->{$$}
 }
 {% endcodeblock %}
+
+_Upd:_ 
+
+Я так понимаю, что полученный профит по памяти получается благодаря экономии стека ([perldoc -f goto](http://perldoc.perl.org/functions/goto.html)), а процессор экономится, потому, что, не копируется контекст функции при рекурсивных вызовах ([perldoc perlguts секция #Scratchpads-and-recursion](http://perldoc.perl.org/perlguts.html#Scratchpads-and-recursion)), что становится заметно при использовании [bigint](http://perldoc.perl.org/bigint.html).
