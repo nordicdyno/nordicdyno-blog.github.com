@@ -305,7 +305,7 @@ Perl может внутри хранить строки как в UTF-8 так 
 
 Во первых, прочитайте статью Джоэла (ссылка выше). Установите Unicode-шрифты (доступны в [репозитории](https://github.com/nordicdyno/talk_uni_edu/tree/master/fonts) и по ссылкам в конце).
 
-Прочитайте обзорную статью в Википедии  [http://ru.wikipedia.org/wiki/Юникод](http://ru.wikipedia.org/wiki/Юникод)
+Прочитайте <a href="http://ru.wikipedia.org/wiki/Юникод">обзорную статью в Википедии</a>
 
 Обратитесь к публикациям Tom Christiansen. Обязательно ознакомьтесь с его презентациями с OSCON 2011, если вы еще не успели это сделать.
 
@@ -328,13 +328,15 @@ Perl может внутри хранить строки как в UTF-8 так 
 -[Unicode over 60 percent of the web (2012)]( http://googleblog.blogspot.com/2012/02/unicode-over-60-percent-of-web.html)
 - [Avoiding encoding headache (in Perl)](http://sigstp.blogspot.com/search/label/encoding)
 - [shapecatcher.com – распознавание Unicode символов по рисунку ](http://shapecatcher.com/)
-- шрифты: http://users.teilar.gr/~g1951d/
 - Онлайн база Unicode:
     - [http://www.fileformat.info/info/unicode/index.htm]()
     - [http://www.fileformat.info/info/unicode/char/fc/index.htm]()
     - [http://www.fileformat.info/info/unicode/char/search.htm?q=%D0%B8&preview=entity]()
     - [http://www.fileformat.info/info/unicode/char/1f4a9/index.htm]()
 - [http://www.unicode.org/charts/charindex.html]()
+- шрифты: 
+    - [http://users.teilar.gr/~g1951d/]()
+    - [https://github.com/nordicdyno/talk_uni_edu/tree/master/fonts]()
 
 ### документация и технические подробности
 
