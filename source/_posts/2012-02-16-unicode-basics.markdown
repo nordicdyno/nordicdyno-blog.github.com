@@ -303,7 +303,7 @@ Perl может внутри хранить строки как в UTF-8 так 
 
 Мой совет – обратиться к авторитетным источникам! (cтандарт слишком большой и читать его скучно)
 
-Во первых, прочитайте статью Джоэла (ссылка выше). Установите Unicode-шрифты (доступны в репозитории и по ссылкам в конце).
+Во первых, прочитайте статью Джоэла (ссылка выше). Установите Unicode-шрифты (доступны в [репозитории](https://github.com/nordicdyno/talk_uni_edu/tree/master/fonts) и по ссылкам в конце).
 
 Прочитайте обзорную статью в Википедии  [http://ru.wikipedia.org/wiki/Юникод][http://ru.wikipedia.org/wiki/Юникод]
 
@@ -315,7 +315,7 @@ Perl может внутри хранить строки как в UTF-8 так 
 - ["Unicode in Perl Regexes"](http://doc.japh.se/tchrist_oscon_perl_unicode_essentials/45m-Unicode_in_Perl_Regexes.html)
 
 
-Оригиналы находятся на странице автора http://training.perl.com/OSCON2011/index.html
+Оригиналы находятся на странице автора [http://training.perl.com/OSCON2011/index.html]()
 но она, к сожалению, чаще не работает, чем работает ☠ ☠ ☠)
 
 Если вы Perl-разработчик, то прочитайте [документацию](http://perldoc.perl.org/search.html?q=perluni)
