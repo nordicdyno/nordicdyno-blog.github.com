@@ -365,7 +365,7 @@ Perl может внутри хранить строки как в UTF-8 так 
     * [http://habrahabr.ru/blogs/webdev/45489/]()
     * <a href="http://ru.wikipedia.org/wiki/Юникод#.D0.A4.D0.BE.D1.80.D0.BC.D1.8B_.D0.BD.D0.BE.D1.80.D0.BC.D0.B0.D0.BB.D0.B8.D0.B7.D0.B0.D1.86.D0.B8.D0.B8">http://ru.wikipedia.org/wiki/Юникод</a>
 
-### статьи
+### статьи, публикации в блогах
 - [What Every Programmer Absolutely, Positively Needs To Know About Encodings And Character Sets To Work With Text](http://kunststube.net/encoding/)
 - [PHP 6 не будет, не осилили (habr)](http://habrahabr.ru/blogs/php/138269/)
 - [Регистр в Unicode - это непросто](http://www.transl-gunsmoker.ru/2008/11/unicode.html)
@@ -373,6 +373,8 @@ Perl может внутри хранить строки как в UTF-8 так 
 - [Как сортировать Unicode-строки в Perl (en)](http://www.perl.com/pub/2011/08/whats-wrong-with-sort-and-how-to-fix-it.html)
 - [Применение нормализации при использовании split в Perl (en)](http://www.effectiveperlprogramming.com/blog/1416)
 ["JavaScript strings outside of the BMP"](http://fatalweb.com/questions/178785/javascript-strings-outside-of-the-bmp)
+- [http://lionet.livejournal.com/tag/unicode]()
+- [UTF-8 and Unicode FAQ for Unix/Linux](http://www.cl.cam.ac.uk/~mgk25/unicode.html)
 
 ### материалы конференций ---
 
