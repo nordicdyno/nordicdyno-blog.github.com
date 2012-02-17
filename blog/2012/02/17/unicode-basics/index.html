@@ -114,7 +114,7 @@
 <p>Хочу предупредить, что этот рассказ не о интернационализации или локализации, хотя это и очень близкие темы. Еще я не буду рассказывать об истории кодировок (почти). Или о том, как надо правильно работать с Unicode в Perl или каком-либо другом языке.
 Я хочу рассказать о том, что просто необходимо разработчику знать о Unicode и почему.</p>
 
-<h2>Объяснение названия</h2>
+<h2>объяснение названия</h2>
 
 <blockquote><p><strong>Ликбез</strong> (ликвидация безграмотности) – в переносном смысле — обучение неподготовленной аудитории базовым понятиям какой-либо науки, процесса или явления.</p></blockquote>
 
@@ -151,7 +151,7 @@
 
 <p>Первый шаг был узнать, что хвостики и крышечки – это могут быть как диакритические знаки, так и знаки ударения (accent) и что-то еще. Затем, то что в регулярном выражении в Perl их можно искать/удалять с помощью \p{Marks}, предварительно выделив эти знаки (marks) из строки с помощью <a href="http://www.unicode.org/reports/tr15/">NFD-нормализации</a>.</p>
 
-<h3>Решение №1</h3>
+<h3>решение №1</h3>
 
 <figure class='code'><figcaption><span>variant 1  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -190,7 +190,7 @@
 
 <p>В результате, когда я разобрался что к чему и исправил код, он стал выглядеть скучнее:</p>
 
-<h3>Решение №2</h3>
+<h3>решение №2</h3>
 
 <figure class='code'><figcaption><span>variant 2  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -220,7 +220,7 @@
 
 <blockquote><p>«Code that assumes you can remove diacritics to get at base ASCII letters is evil, still, broken, brain-damaged, wrong, and justification for capital punishment»</p></blockquote>
 
-<h3>Рефлексия</h3>
+<h3>рефлексия</h3>
 
 <p>В чем же была моя основная ошибка (или в чем заключалось невежество)?
 Основной ошибкой была попытка, не понимая сути, решить, как оказалось, нетривиальную задачу с помощью простого рецепта.</p>
@@ -371,7 +371,7 @@ windows: alt + “+” + code
 И +  ̆ (U+0418 U+0306)
 </code></pre>
 
-<h3>Еще термины, которые полезно знать и различать при изучении Unicode.</h3>
+<h3>термины, которые полезно знать и различать при изучении Unicode</h3>
 
 <p><strong>Character</strong> – минимальный компонент письменного языка, имеющий семантическое значение. Ссылается на абстрактное значение (знак) или на символ</p>
 
@@ -390,7 +390,7 @@ windows: alt + “+” + code
 
 <p><strong>Идеограмма</strong> - письменный знак, обозначающий (в отличие от букв) не звуки какого-либо языка, а целое слово или корень.</p>
 
-<h3>Что еще описывается стандартом Unicode</h3>
+<h3>что еще описывается стандартом Unicode</h3>
 
 <p><strong>Нормализация</strong>. Поскольку одни и те же символы можно представить различными кодами, что иногда затрудняет обработку, существуют процессы нормализации, предназначенные для приведения текста к определённому стандартному виду.</p>
 
@@ -543,7 +543,7 @@ windows: alt + “+” + code
 </ul>
 
 
-<h3>материалы конференций &#8212;</h3>
+<h3>материалы конференций</h3>
 
 <ul>
 <li>доклад Монса на YAPC::Russia May Perl 2008: <a href="http://rutube.ru/tracks/793436.html?v=252bdfab9677b48a96c5c47c8dc42c27">часть 1</a>,
@@ -554,7 +554,7 @@ windows: alt + “+” + code
 </ul>
 
 
-<h3>Разное</h3>
+<h3>разное</h3>
 
 <ul>
 <li><a href="http://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt">&#8220;UTF-8 history&#8221; from Rob &#8216;Commander&#8217; Pike</a></li>
@@ -576,6 +576,16 @@ windows: alt + “+” + code
 
 <p>тест правильной работы c UTF-8 в JSON-парзере:
  <a href="https://metacpan.org/source/MLEHMANN/JSON-XS-2.32/t/01_utf8.t">https://metacpan.org/source/MLEHMANN/JSON-XS-2.32/t/01_utf8.t</a></p>
+
+<h3>книги</h3>
+
+<p>для углубленного изучения, если есть интерес (спасибо Dmitry Arsentiev за ссылки):</p>
+
+<ul>
+<li><a href="http://shop.oreilly.com/product/9780596102425.do">«Fonts &amp; Encodings: From Advanced Typography to Unicode and Everything in Between»</a></li>
+<li><a href="http://shop.oreilly.com/product/9780596514471.do">«CJKV Information Processing, 2nd Edition»</a></li>
+</ul>
+
 </div>
 
 
