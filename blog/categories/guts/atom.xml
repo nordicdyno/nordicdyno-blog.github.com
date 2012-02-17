@@ -4,7 +4,7 @@
   <title><![CDATA[Category: guts | YA IT's blog]]></title>
   <link href="http://nordicdyno.github.com/blog/categories/guts/atom.xml" rel="self"/>
   <link href="http://nordicdyno.github.com/"/>
-  <updated>2012-02-17T14:00:56+04:00</updated>
+  <updated>2012-02-17T14:47:44+04:00</updated>
   <id>http://nordicdyno.github.com/</id>
   <author>
     <name><![CDATA[nordicdyno@gmail.com]]></name>
@@ -31,27 +31,27 @@
 <li>у CODE-блоков есть счетчик уровня рекурсии</li>
 <li>треды в Perl дорогие и лучше их не юзать, с тредами имеют шанс некорректно работать многие XS-модули
 – cобранный без тредов и multiplicity Perl имеет бонус в производительности</li>
-<li>Inline::C на самом деле существует для быстрого прототипирования, а не для продакшена: <a href="">https://metacpan.org/module/Inline::C-Cookbook</a></li>
+<li>Inline::C на самом деле существует для быстрого прототипирования, а не для продакшена: <a href="https://metacpan.org/module/Inline::C-Cookbook">https://metacpan.org/module/Inline::C-Cookbook</a></li>
 <li>в 5.14 довольно многое поменялось в API</li>
 <li>раньше у глобов была "магия", но сейчас ее, похоже, выпилили</li>
 <li>"магия" в Perl – это умение дергать функции при манипуляции с sv-шками (из vtable из 5 функций)</li>
 </ul>
 
 
-<p>Посмотреть какая магия есть "унутре", в табличке после слов "The current kinds of Magic Virtual Tables are" здесь: <a href="">http://perldoc.perl.org/perlguts.html#Magic-Virtual-Tables</a></p>
+<p>Посмотреть какая магия есть "унутре", в табличке после слов "The current kinds of Magic Virtual Tables are" здесь: <a href="http://perldoc.perl.org/perlguts.html#Magic-Virtual-Tables">http://perldoc.perl.org/perlguts.html#Magic-Virtual-Tables</a></p>
 
 <p>Есть магия с vtable с 3 дополнительными функциями, одна из которых для клонирования.</p>
 
-<p>Можно прикрутить свою "магию". Пример можно посмотреть в коде форка Javascript::V8 <a href="">https://github.com/ezhi/javascript-v8</a></p>
+<p>Можно прикрутить свою "магию". Пример можно посмотреть в коде форка Javascript::V8 <a href="https://github.com/ezhi/javascript-v8">https://github.com/ezhi/javascript-v8</a></p>
 
 <p>подборка ресурсов:</p>
 
 <ul>
-<li><a href="">http://www.profvince.com/xs.pdf</a></li>
-<li><a href="">http://perldoc.perl.org/perlapi.html</a></li>
-<li><a href="">http://www.e1.ru/tech/documentation/perl/perlcall.html</a></li>
-<li><a href="">http://cpansearch.perl.org/src/RURBAN/illguts-0.38/index.html</a></li>
-<li><a href="">https://github.com/mirrors/perl/branches</a></li>
+<li><a href="http://www.profvince.com/xs.pdf">http://www.profvince.com/xs.pdf</a></li>
+<li><a href="http://perldoc.perl.org/perlapi.html">http://perldoc.perl.org/perlapi.html</a></li>
+<li><a href="http://www.e1.ru/tech/documentation/perl/perlcall.html">http://www.e1.ru/tech/documentation/perl/perlcall.html</a></li>
+<li><a href="http://cpansearch.perl.org/src/RURBAN/illguts-0.38/index.html">http://cpansearch.perl.org/src/RURBAN/illguts-0.38/index.html</a></li>
+<li><a href="https://github.com/mirrors/perl/branches">https://github.com/mirrors/perl/branches</a></li>
 <li>книга "Extending and Embedding Perl"</li>
 </ul>
 

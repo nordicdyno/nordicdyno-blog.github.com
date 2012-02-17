@@ -4,7 +4,7 @@
   <title><![CDATA[YA IT's blog]]></title>
   <link href="http://nordicdyno.github.com/atom.xml" rel="self"/>
   <link href="http://nordicdyno.github.com/"/>
-  <updated>2012-02-17T14:00:56+04:00</updated>
+  <updated>2012-02-17T14:47:44+04:00</updated>
   <id>http://nordicdyno.github.com/</id>
   <author>
     <name><![CDATA[nordicdyno@gmail.com]]></name>
@@ -61,7 +61,7 @@
 Да, в исходном слове (реально не существующем, кстати) есть какие-то крышечки, но наверняка их можно убрать и найти нужную подстроку регулярным выражением – ведь регекспы в Perl могут все? Но как это сделать, что и где искать в документации?</p>
 
 <p>Для начала я задал вопрос на stackoverflow:
-<a href="">http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789</a>, после чего приступил к самостоятельному исследованию.</p>
+<a href="http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789">http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789</a>, после чего приступил к самостоятельному исследованию.</p>
 
 <p>Первый шаг был узнать, что хвостики и крышечки – это могут быть как диакритические знаки, так и знаки ударения (accent) и что-то еще. Затем, то что в регулярном выражении в Perl их можно искать/удалять с помощью \p{Marks}, предварительно выделив эти знаки (marks) из строки с помощью NFD-нормализации.</p>
 
@@ -210,8 +210,8 @@ windows: alt + “+” + code
 <p>см. также:</p>
 
 <ul>
-<li><a href="">http://en.wikipedia.org/wiki/Unicode_input</a></li>
-<li><a href="">http://tlt.its.psu.edu/suggestions/international/accents/codemac.html</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Unicode_input">http://en.wikipedia.org/wiki/Unicode_input</a></li>
+<li><a href="http://tlt.its.psu.edu/suggestions/international/accents/codemac.html">http://tlt.its.psu.edu/suggestions/international/accents/codemac.html</a></li>
 </ul>
 
 
@@ -219,7 +219,7 @@ windows: alt + “+” + code
 
 <p><strong>UCS4</strong> - основа всех современных unicode-кодировок.</p>
 
-<p><strong>Character General Category</strong> – каждый code point относится к одной из основных категорий: буква, знак (см диакр. знаки), число(number), пунктуационный знак, символ, разделитель (см. <a href="">http://www.unicode.org/versions/Unicode6.0.0/ch02.pdf</a>)</p>
+<p><strong>Character General Category</strong> – каждый code point относится к одной из основных категорий: буква, знак (см диакр. знаки), число(number), пунктуационный знак, символ, разделитель (см. <a href="http://www.unicode.org/versions/Unicode6.0.0/ch02.pdf">http://www.unicode.org/versions/Unicode6.0.0/ch02.pdf</a>)</p>
 
 <h3>UTF, кодировка символов</h3>
 
@@ -251,13 +251,13 @@ windows: alt + “+” + code
 <p>Еще немного о неотображаемых code point-ах (суррогатах). Те, что в BMP-диапазоне, называются  &#8220;low surrogates&#8221;, те, что выше – &#8220;high surrogates&#8221;. И они используются только в UTF-16! (основное отличие UTF-16 от UCS-2)
 Пары суррогатных code point соответствуют реально существующим codepoint-ам, выходящим за base plane. По отдельности они не имеют смысла.</p>
 
-<p><a href="">http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters</a></p>
+<p><a href="http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters">http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters</a></p>
 
 <blockquote><p>Не надо путать составные символы и суррогатные пары</p></blockquote>
 
 <p><strong>UTF32</strong> – кодировка фиксированной ширины, всегда 4 байта.</p>
 
-<p><a href="">http://en.wikipedia.org/wiki/UTF-32/UCS-4</a></p>
+<p><a href="http://en.wikipedia.org/wiki/UTF-32/UCS-4">http://en.wikipedia.org/wiki/UTF-32/UCS-4</a></p>
 
 <p>удобна в плане простоты, но редко используется из-за необходимости выделения 4 байт для каждого символа</p>
 
@@ -271,7 +271,7 @@ windows: alt + “+” + code
 <blockquote><p>Самая &#8220;православная&#8221; кодировка. ☺</p></blockquote>
 
 <ul>
-<li><a href="">http://en.wikipedia.org/wiki/UTF-EBCDIC</a> – редкая кодировка UTF-8 &#8220;для мейнфреймов&#8221;</li>
+<li><a href="http://en.wikipedia.org/wiki/UTF-EBCDIC">http://en.wikipedia.org/wiki/UTF-EBCDIC</a> – редкая кодировка UTF-8 &#8220;для мейнфреймов&#8221;</li>
 </ul>
 
 
@@ -309,7 +309,7 @@ windows: alt + “+” + code
 <p><strong>Нормализация</strong>. Поскольку одни и те же символы можно представить различными кодами, что иногда затрудняет обработку, существуют процессы нормализации, предназначенные для приведения текста к определённому стандартному виду.</p>
 
 <ul>
-<li><a href="">http://www.unicode.org/faq/normalization.html</a></li>
+<li><a href="http://www.unicode.org/faq/normalization.html">http://www.unicode.org/faq/normalization.html</a></li>
 </ul>
 
 
@@ -368,7 +368,7 @@ windows: alt + “+” + code
 </ul>
 
 
-<p>Оригиналы находятся на странице автора <a href="">http://training.perl.com/OSCON2011/index.html</a>
+<p>)ригиналы находятся на странице автора <a href="http://training.perl.com/OSCON2011/index.html">http://training.perl.com/OSCON2011/index.html</a>
 но она, к сожалению, чаще не работает, чем работает ☠ ☠ ☠)</p>
 
 <p>Если вы Perl-разработчик, то прочитайте <a href="http://perldoc.perl.org/search.html?q=perluni">документацию</a></p>
@@ -385,18 +385,18 @@ windows: alt + “+” + code
 <li>Онлайн база Unicode:
 
 <ul>
-<li><a href="">http://www.fileformat.info/info/unicode/index.htm</a></li>
-<li><a href="">http://www.fileformat.info/info/unicode/char/fc/index.htm</a></li>
-<li><a href="">http://www.fileformat.info/info/unicode/char/search.htm?q=%D0%B8&amp;preview=entity</a></li>
-<li><a href="">http://www.fileformat.info/info/unicode/char/1f4a9/index.htm</a></li>
+<li><a href="http://www.fileformat.info/info/unicode/index.htm">http://www.fileformat.info/info/unicode/index.htm</a></li>
+<li><a href="http://www.fileformat.info/info/unicode/char/fc/index.htm">http://www.fileformat.info/info/unicode/char/fc/index.htm</a></li>
+<li><a href="http://www.fileformat.info/info/unicode/char/search.htm?q=%D0%B8&amp;preview=entity">http://www.fileformat.info/info/unicode/char/search.htm?q=%D0%B8&amp;preview=entity</a></li>
+<li><a href="http://www.fileformat.info/info/unicode/char/1f4a9/index.htm">http://www.fileformat.info/info/unicode/char/1f4a9/index.htm</a></li>
 </ul>
 </li>
-<li><a href="">http://www.unicode.org/charts/charindex.html</a></li>
+<li><a href="http://www.unicode.org/charts/charindex.html">http://www.unicode.org/charts/charindex.html</a></li>
 <li>шрифты:
 
 <ul>
-<li><a href="">http://users.teilar.gr/~g1951d/</a></li>
-<li><a href="">https://github.com/nordicdyno/talk_uni_edu/tree/master/fonts</a></li>
+<li><a href="http://users.teilar.gr/~g1951d/">http://users.teilar.gr/~g1951d/</a></li>
+<li><a href="https://github.com/nordicdyno/talk_uni_edu/tree/master/fonts">https://github.com/nordicdyno/talk_uni_edu/tree/master/fonts</a></li>
 </ul>
 </li>
 </ul>
@@ -406,33 +406,33 @@ windows: alt + “+” + code
 
 <ul>
 <li><a href="http://perldoc.perl.org/search.html?q=perluni">Документация Perl по Unicode</a></li>
-<li>Casefolding: <a href="">http://perldoc.perl.org/5.14.0/Unicode/UCD.html</a></li>
-<li>UNICODE COLLATION ALGORITHM <a href="">http://www.unicode.org/reports/tr10/</a></li>
-<li>набор функций Glib для обработки Unicode <a href="">http://docstore.mik.ua/manuals/ru/glib_api/glib-Unicode-Manipulation.html</a></li>
+<li>Casefolding: <a href="http://perldoc.perl.org/5.14.0/Unicode/UCD.html">http://perldoc.perl.org/5.14.0/Unicode/UCD.html</a></li>
+<li>UNICODE COLLATION ALGORITHM <a href="http://www.unicode.org/reports/tr10/">http://www.unicode.org/reports/tr10/</a></li>
+<li>набор функций Glib для обработки Unicode <a href="http://docstore.mik.ua/manuals/ru/glib_api/glib-Unicode-Manipulation.html">http://docstore.mik.ua/manuals/ru/glib_api/glib-Unicode-Manipulation.html</a></li>
 </ul>
 
 
 <h3>Wikipedia и официальная справка</h3>
 
 <ul>
-<li><a href="">http://ru.wikipedia.org/wiki/Юникод</a></li>
-<li><a href="">http://en.wikipedia.org/wiki/UTF-8</a></li>
-<li><a href="">http://en.wikipedia.org/wiki/UTF-EBCDIC</a></li>
-<li><a href="">http://en.wikipedia.org/wiki/UTF-16</a></li>
-<li><a href="">http://en.wikipedia.org/wiki/UTF-32/UCS-4</a></li>
-<li><a href="">http://en.wikipedia.org/wiki/Byte_order_mark</a></li>
-<li><a href="">http://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings</a></li>
-<li><a href="">http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters</a></li>
-<li><a href="">http://en.wikipedia.org/wiki/Canonical_equivalence</a></li>
-<li><a href="">http://www.w3.org/International/wiki/Case_folding</a></li>
-<li><a href="">http://www.unicode.org</a></li>
+<li><a href="http://ru.wikipedia.org/wiki/Юникод">http://ru.wikipedia.org/wiki/Юникод</a></li>
+<li><a href="http://en.wikipedia.org/wiki/UTF-8">http://en.wikipedia.org/wiki/UTF-8</a></li>
+<li><a href="http://en.wikipedia.org/wiki/UTF-EBCDIC">http://en.wikipedia.org/wiki/UTF-EBCDIC</a></li>
+<li><a href="http://en.wikipedia.org/wiki/UTF-16">http://en.wikipedia.org/wiki/UTF-16</a></li>
+<li><a href="http://en.wikipedia.org/wiki/UTF-32/UCS-4">http://en.wikipedia.org/wiki/UTF-32/UCS-4</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Byte_order_mark">http://en.wikipedia.org/wiki/Byte_order_mark</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings">http://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters">http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Canonical_equivalence">http://en.wikipedia.org/wiki/Canonical_equivalence</a></li>
+<li><a href="http://www.w3.org/International/wiki/Case_folding">http://www.w3.org/International/wiki/Case_folding</a></li>
+<li><a href="http://www.unicode.org">http://www.unicode.org</a></li>
 <li><a href="http://www.unicode.org/glossary/">Официальный глоссарий www.unicode.org/glossary/</a></li>
 <li><a href="http://www.unicode.org/faq/utf_bom.html">FAQ по BOM</a></li>
 <li>про нормализацию:
 
 <ul>
-<li><a href="">http://en.wikipedia.org/wiki/Unicode_normalization</a></li>
-<li><a href="">http://habrahabr.ru/blogs/webdev/45489/</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Unicode_normalization">http://en.wikipedia.org/wiki/Unicode_normalization</a></li>
+<li><a href="http://habrahabr.ru/blogs/webdev/45489/">http://habrahabr.ru/blogs/webdev/45489/</a></li>
 <li><a href="http://ru.wikipedia.org/wiki/Юникод#.D0.A4.D0.BE.D1.80.D0.BC.D1.8B_.D0.BD.D0.BE.D1.80.D0.BC.D0.B0.D0.BB.D0.B8.D0.B7.D0.B0.D1.86.D0.B8.D0.B8">http://ru.wikipedia.org/wiki/Юникод</a></li>
 </ul>
 </li>
@@ -449,7 +449,7 @@ windows: alt + “+” + code
 <li><a href="http://www.perl.com/pub/2011/08/whats-wrong-with-sort-and-how-to-fix-it.html">Как сортировать Unicode-строки в Perl (en)</a></li>
 <li><a href="http://www.effectiveperlprogramming.com/blog/1416">Применение нормализации при использовании split в Perl (en)</a>
 <a href="http://fatalweb.com/questions/178785/javascript-strings-outside-of-the-bmp">&#8220;JavaScript strings outside of the BMP&#8221;</a></li>
-<li><a href="">http://lionet.livejournal.com/tag/unicode</a></li>
+<li><a href="http://lionet.livejournal.com/tag/unicode">http://lionet.livejournal.com/tag/unicode</a></li>
 <li><a href="http://www.cl.cam.ac.uk/~mgk25/unicode.html">UTF-8 and Unicode FAQ for Unix/Linux</a></li>
 </ul>
 
@@ -460,7 +460,7 @@ windows: alt + “+” + code
 <li>доклад Монса на YAPC::Russia May Perl 2008: <a href="http://rutube.ru/tracks/793436.html?v=252bdfab9677b48a96c5c47c8dc42c27">часть 1</a>,
 <a href="http://rutube.ru/tracks/793450.html?v=0a9de4c7350b0f84ae2f9c325dcb6237">часть 2</a>,
 <a href="http://rutube.ru/tracks/793452.html?v=0e76a93c96a45074d0d5d430a13bf1cd">часть 3</a></li>
-<li>рассказ Олега Алистратова на PerlMova - 2010 <a href="">http://www.slideshare.net/alistratov/perl-unicode</a></li>
+<li>рассказ Олега Алистратова на PerlMova - 2010 <a href="http://www.slideshare.net/alistratov/perl-unicode">http://www.slideshare.net/alistratov/perl-unicode</a></li>
 <li><a href="http://www.farmdev.com/talks/unicode/">Unicode In Python, Completely Demystified</a></li>
 </ul>
 
@@ -470,23 +470,23 @@ windows: alt + “+” + code
 <ul>
 <li><a href="http://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt">&#8220;UTF-8 history&#8221; from Rob &#8216;Commander&#8217; Pike</a></li>
 <li><a href="http://www.nntp.perl.org/group/perl.perl5.porters/2010/01/msg156111.html">&#8220;Use ICU for Unicode in Perl?&#8221;</a></li>
-<li><a href="">http://www.unicode.org/announcements/quotations.html</a></li>
+<li><a href="http://www.unicode.org/announcements/quotations.html">http://www.unicode.org/announcements/quotations.html</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Three-letter_acronym">Three-letter_acronym</a></li>
 <li><a href="http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789">Мой вопрос на StackOverflow</a></li>
-<li>JSON-редактор <a href="">http://jsonviewer.stack.hu/</a></li>
+<li>JSON-редактор <a href="http://jsonviewer.stack.hu/">http://jsonviewer.stack.hu/</a></li>
 </ul>
 
 
-<p>Сайт с большой подборкой информации о локализации и интернационализации: <a href="">http://www.i18nguy.com</a></p>
+<p>Сайт с большой подборкой информации о локализации и интернационализации: <a href="http://www.i18nguy.com">http://www.i18nguy.com</a></p>
 
 <ul>
-<li>статья про суррогаты: <a href="">http://www.i18nguy.com/surrogates.html</a></li>
-<li>юмор: <a href="">http://www.i18nguy.com/humor/unicode-humor.html</a></li>
+<li>статья про суррогаты: <a href="http://www.i18nguy.com/surrogates.html">http://www.i18nguy.com/surrogates.html</a></li>
+<li>юмор: <a href="http://www.i18nguy.com/humor/unicode-humor.html">http://www.i18nguy.com/humor/unicode-humor.html</a></li>
 </ul>
 
 
 <p>тест правильной работы c UTF-8 в JSON-парзере:
- <a href="">https://metacpan.org/source/MLEHMANN/JSON-XS-2.32/t/01_utf8.t</a></p>
+ <a href="https://metacpan.org/source/MLEHMANN/JSON-XS-2.32/t/01_utf8.t">https://metacpan.org/source/MLEHMANN/JSON-XS-2.32/t/01_utf8.t</a></p>
 ]]></content>
   </entry>
   
@@ -646,27 +646,27 @@ rec  25000!  (63 sec, 15016 kb)
 <li>у CODE-блоков есть счетчик уровня рекурсии</li>
 <li>треды в Perl дорогие и лучше их не юзать, с тредами имеют шанс некорректно работать многие XS-модули
 – cобранный без тредов и multiplicity Perl имеет бонус в производительности</li>
-<li>Inline::C на самом деле существует для быстрого прототипирования, а не для продакшена: <a href="">https://metacpan.org/module/Inline::C-Cookbook</a></li>
+<li>Inline::C на самом деле существует для быстрого прототипирования, а не для продакшена: <a href="https://metacpan.org/module/Inline::C-Cookbook">https://metacpan.org/module/Inline::C-Cookbook</a></li>
 <li>в 5.14 довольно многое поменялось в API</li>
 <li>раньше у глобов была &#8220;магия&#8221;, но сейчас ее, похоже, выпилили</li>
 <li>&#8220;магия&#8221; в Perl – это умение дергать функции при манипуляции с sv-шками (из vtable из 5 функций)</li>
 </ul>
 
 
-<p>Посмотреть какая магия есть &#8220;унутре&#8221;, в табличке после слов &#8220;The current kinds of Magic Virtual Tables are&#8221; здесь: <a href="">http://perldoc.perl.org/perlguts.html#Magic-Virtual-Tables</a></p>
+<p>Посмотреть какая магия есть &#8220;унутре&#8221;, в табличке после слов &#8220;The current kinds of Magic Virtual Tables are&#8221; здесь: <a href="http://perldoc.perl.org/perlguts.html#Magic-Virtual-Tables">http://perldoc.perl.org/perlguts.html#Magic-Virtual-Tables</a></p>
 
 <p>Есть магия с vtable с 3 дополнительными функциями, одна из которых для клонирования.</p>
 
-<p>Можно прикрутить свою &#8220;магию&#8221;. Пример можно посмотреть в коде форка Javascript::V8 <a href="">https://github.com/ezhi/javascript-v8</a></p>
+<p>Можно прикрутить свою &#8220;магию&#8221;. Пример можно посмотреть в коде форка Javascript::V8 <a href="https://github.com/ezhi/javascript-v8">https://github.com/ezhi/javascript-v8</a></p>
 
 <p>подборка ресурсов:</p>
 
 <ul>
-<li><a href="">http://www.profvince.com/xs.pdf</a></li>
-<li><a href="">http://perldoc.perl.org/perlapi.html</a></li>
-<li><a href="">http://www.e1.ru/tech/documentation/perl/perlcall.html</a></li>
-<li><a href="">http://cpansearch.perl.org/src/RURBAN/illguts-0.38/index.html</a></li>
-<li><a href="">https://github.com/mirrors/perl/branches</a></li>
+<li><a href="http://www.profvince.com/xs.pdf">http://www.profvince.com/xs.pdf</a></li>
+<li><a href="http://perldoc.perl.org/perlapi.html">http://perldoc.perl.org/perlapi.html</a></li>
+<li><a href="http://www.e1.ru/tech/documentation/perl/perlcall.html">http://www.e1.ru/tech/documentation/perl/perlcall.html</a></li>
+<li><a href="http://cpansearch.perl.org/src/RURBAN/illguts-0.38/index.html">http://cpansearch.perl.org/src/RURBAN/illguts-0.38/index.html</a></li>
+<li><a href="https://github.com/mirrors/perl/branches">https://github.com/mirrors/perl/branches</a></li>
 <li>книга &#8220;Extending and Embedding Perl&#8221;</li>
 </ul>
 
@@ -700,16 +700,16 @@ rec  25000!  (63 sec, 15016 kb)
 <!-- more -->
 
 
-<p>Итак, сам сайт конференции <a href="">http://yapcasia.org/2011/</a>, для чтения иероглифов я пользовался Бромиумом (Хромом от Я), он довольно хорошо справляется с переводом страниц Японский->Английский (часть презентаций в html и там перевод тоже работает). Есть недостаток, что этот механизм не очень надежный (то ли меня банят, то ли <a href="">http://translate.google.ru/</a> &#8220;лагает&#8221; часто). Pdf-презентации, тоже не очень сложно перевести, если зарегистрироваться на slideshare их можно будет скачать, а потом все легко: pdf -> text или google docs -> google translate -> profit! )</p>
+<p>Итак, сам сайт конференции <a href="http://yapcasia.org/2011/">http://yapcasia.org/2011/</a>, для чтения иероглифов я пользовался Бромиумом (Хромом от Я), он довольно хорошо справляется с переводом страниц Японский->Английский (часть презентаций в html и там перевод тоже работает). Есть недостаток, что этот механизм не очень надежный (то ли меня банят, то ли <a href="http://translate.google.ru">http://translate.google.ru/</a> &#8220;лагает&#8221; часто). Pdf-презентации, тоже не очень сложно перевести, если зарегистрироваться на slideshare их можно будет скачать, а потом все легко: pdf -> text или google docs -> google translate -> profit! )</p>
 
 <p>Здесь обзор конференции на английском:
-<a href="">http://blogs.perl.org/users/lestrrat/2011/10/a-glimpse-of-yapcasia-tokyo-2011.html</a>
+<a href="http://blogs.perl.org/users/lestrrat/2011/10/a-glimpse-of-yapcasia-tokyo-2011.html">http://blogs.perl.org/users/lestrrat/2011/10/a-glimpse-of-yapcasia-tokyo-2011.html</a>
 из него я узнал победителях на конкурсе лучших докладов:</p>
 
 <p>1 Fujiwara-san, who taught us the many lessons learned and techniques used to migrate his applications from an old datacenter to a new one.
-слайды на японском: <a href="">http://dl.dropbox.com/u/224433/YAPC2011/index.html</a> (можно перевести в chrome/brome, кроме картинок, т.к. html)
+слайды на японском: <a href="http://dl.dropbox.com/u/224433/YAPC2011/index.html">http://dl.dropbox.com/u/224433/YAPC2011/index.html</a> (можно перевести в chrome/brome, кроме картинок, т.к. html)
 2 Second place was Takesako-san with his Win32::GuiTest talk – пока нет видео и слайдов
-3 Third place was Tokumaru-san, who presented the various ways to protect passwords in your system <a href="">http://yapcasia.org/2011/talk/56</a></p>
+3 Third place was Tokumaru-san, who presented the various ways to protect passwords in your system <a href="http://yapcasia.org/2011/talk/56">http://yapcasia.org/2011/talk/56</a></p>
 
 <p>Далее список докладов, материалы к которым я успел посмотреть, с моими краткими комментариями. В начале постарался расположить наиболее интересные доклады.</p>
 
@@ -718,21 +718,21 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Рекомендую посмотреть. Мне отдельно понравилось то, как происходит ротация релиз-инженеров в команде perl5 porters.</p>
 
 <ul>
-<li>видео и слайды <a href="">http://yapcasia.org/2011/talk/96</a></li>
+<li>видео и слайды <a href="http://yapcasia.org/2011/talk/96">http://yapcasia.org/2011/talk/96</a></li>
 </ul>
 
 
 <h4>Perl 5.14 For Pragmatists</h4>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/95</a> – слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/95">http://yapcasia.org/2011/talk/95</a> – слайды</li>
 </ul>
 
 
 <h4>Unix Programming with Perl 2</h4>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/76</a> - слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/76">http://yapcasia.org/2011/talk/76</a> - слайды</li>
 </ul>
 
 
@@ -741,37 +741,37 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Интересно, но мне не очень понятно было с первого раза. )</p>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/82</a> - слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/82">http://yapcasia.org/2011/talk/82</a> - слайды</li>
 </ul>
 
 
 <h4>Dtrace printf debugging for seventh-level wizards</h4>
 
 <ul>
-<li><a href="">http://sartak.org/talks/yapc-asia-2011/dtrace/dtrace.pdf</a> - слайды en/jp</li>
+<li><a href="http://sartak.org/talks/yapc-asia-2011/dtrace/dtrace.pdf">http://sartak.org/talks/yapc-asia-2011/dtrace/dtrace.pdf</a> - слайды en/jp</li>
 </ul>
 
 
 <h4>AnyEvent, Coro, IO::AIO - mlehmann</h4>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/71</a> - слайды и видео</li>
+<li><a href="http://yapcasia.org/2011/talk/71">http://yapcasia.org/2011/talk/71</a> - слайды и видео</li>
 </ul>
 
 
 <h4>Hello Embed Perl!</h4>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/43</a> - слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/43">http://yapcasia.org/2011/talk/43</a> - слайды</li>
 </ul>
 
 
 <h4>Hacking Mac OSX Cocoa API from Perl</h4>
 
-<p>О модулях Cocoa::*, блог автора <a href="">http://unknownplace.org/memo/</a></p>
+<p>О модулях Cocoa::*, блог автора <a href="http://unknownplace.org/memo/">http://unknownplace.org/memo/</a></p>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/30</a></li>
+<li><a href="http://yapcasia.org/2011/talk/30">http://yapcasia.org/2011/talk/30</a></li>
 </ul>
 
 
@@ -791,21 +791,21 @@ rec  25000!  (63 sec, 15016 kb)
 <blockquote><p>This script helps you to create single-file perl interpreters or applications, or embedding a perl interpreter in your applications.</p></blockquote>
 
 <ul>
-<li><a href="">https://metacpan.org/module/staticperl</a></li>
+<li><a href="https://metacpan.org/module/staticperl">https://metacpan.org/module/staticperl</a></li>
 </ul>
 
 
 <h4>Mote electronic tools in Perl</h4>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/60</a></li>
+<li><a href="http://yapcasia.org/2011/talk/60">http://yapcasia.org/2011/talk/60</a></li>
 </ul>
 
 
 <h4>Large-scale environment maniac caching technologies available</h4>
 
 <ul>
-<li><a href="">http://static.xaicron.dotcloud.com/slide/yapc2011/index.html</a></li>
+<li><a href="http://static.xaicron.dotcloud.com/slide/yapc2011/index.html">http://static.xaicron.dotcloud.com/slide/yapc2011/index.html</a></li>
 </ul>
 
 
@@ -814,7 +814,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>к сожалению пока только видео, но тема интересная</p>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/61</a></li>
+<li><a href="http://yapcasia.org/2011/talk/61">http://yapcasia.org/2011/talk/61</a></li>
 </ul>
 
 
@@ -823,19 +823,19 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Про детектинг изображений. На японском, но тоже очень интересная тема.</p>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/73</a> – слайды, видео</li>
+<li><a href="http://yapcasia.org/2011/talk/73">http://yapcasia.org/2011/talk/73</a> – слайды, видео</li>
 </ul>
 
 
 <h4>Watch your log http://nekokak.org/presen/yapcasia2011/ слайды</h4>
 
-<p>Про мониторинг и <a href="">https://github.com/nekokak/Komainu</a></p>
+<p>Про мониторинг и <a href="https://github.com/nekokak/Komainu">https://github.com/nekokak/Komainu</a></p>
 
 <p>Автор Nagios Warakan:</p>
 
 <ul>
-<li><a href="">https://metacpan.org/author/NEKOKAK</a></li>
-<li><a href="">https://github.com/nekokak</a></li>
+<li><a href="https://metacpan.org/author/NEKOKAK">https://metacpan.org/author/NEKOKAK</a></li>
+<li><a href="https://github.com/nekokak">https://github.com/nekokak</a></li>
 </ul>
 
 
@@ -844,56 +844,56 @@ rec  25000!  (63 sec, 15016 kb)
 <p>доклад 16-летнего школьника с Хокайдо (самый юный участник).</p>
 
 <ul>
-<li><a href="">http://akiym.com/slides/20111016-yapcasia2011-why/index.html</a></li>
+<li><a href="http://akiym.com/slides/20111016-yapcasia2011-why/index.html">http://akiym.com/slides/20111016-yapcasia2011-why/index.html</a></li>
 </ul>
 
 
 <h4>Web Application Acceleration story</h4>
 
 <ul>
-<li><a href="">http://ma.la/files/yapcasia2011/</a> – слайды</li>
+<li><a href="http://ma.la/files/yapcasia2011/">http://ma.la/files/yapcasia2011/</a> – слайды</li>
 </ul>
 
 
 <h4>Hacking with metacpan</h4>
 
-<p>Реклама <a href="">metacpan.org</a></p>
+<p>Реклама <a href="https://metacpan.org">metacpan.org</a></p>
 
 <ul>
-<li><a href="">http://tokuhirom.github.com/talks/20111015-yapcasia2011-metacpan/#0</a> - слайды</li>
+<li><a href="http://tokuhirom.github.com/talks/20111015-yapcasia2011-metacpan/#0">http://tokuhirom.github.com/talks/20111015-yapcasia2011-metacpan/#0</a> - слайды</li>
 </ul>
 
 
 <h4>Whada: Multi-Protocol Authentcation / Authorization Tool</h4>
 
-<p>Рассказ о системе разграничения прав с админкой <a href="">https://github.com/tagomoris/whada</a>,
+<p>Рассказ о системе разграничения прав с админкой <a href="https://github.com/tagomoris/whada">https://github.com/tagomoris/whada</a>,
 построенной поверх Slapd (OpenLDAP Server).</p>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/24</a> – слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/24">http://yapcasia.org/2011/talk/24</a> – слайды</li>
 </ul>
 
 
 <h4>Evolution of API With Blogging</h4>
 
-<p>Узнал о <a href="">http://explorer.metacpan.org/</a> и о протоколе <a href="http://ru.wikipedia.org/wiki/Trackback">Trackback</a>.</p>
+<p>Узнал о <a href="http://explorer.metacpan.org/">http://explorer.metacpan.org/</a> и о протоколе <a href="http://ru.wikipedia.org/wiki/Trackback">Trackback</a>.</p>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/48</a> – слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/48">http://yapcasia.org/2011/talk/48</a> – слайды</li>
 </ul>
 
 
 <h4>perlbrew</h4>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/65</a> - видео и слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/65">http://yapcasia.org/2011/talk/65</a> - видео и слайды</li>
 </ul>
 
 
 <h4>Carton: CPAN dependencies manager</h4>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/91</a> – слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/91">http://yapcasia.org/2011/talk/91</a> – слайды</li>
 </ul>
 
 
@@ -902,7 +902,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Слайды на английском, речь на японском. Доклад совсем не технический, поэтому без расшифровки лектора, по одним слайдам мне было мало чего понятно. )</p>
 
 <ul>
-<li><a href="">http://www.dan.co.jp/~dankogai/yapcasia2011/jobdone.html</a></li>
+<li><a href="http://www.dan.co.jp/~dankogai/yapcasia2011/jobdone.html">http://www.dan.co.jp/~dankogai/yapcasia2011/jobdone.html</a></li>
 </ul>
 
 
@@ -911,7 +911,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Еще одни слайды на японском в pdf, может быть интересен довольно большой список модулей, о многих узнал впервые</p>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/25</a></li>
+<li><a href="http://yapcasia.org/2011/talk/25">http://yapcasia.org/2011/talk/25</a></li>
 </ul>
 
 ]]></content>
@@ -936,7 +936,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Ларри выступил в своей привычной  роли идеолога и философа Perl-коммьюнити, взяв темой своих рассуждений (размышлений)  &#8220;Modern perl&#8221;. Мне было очень интересно.)</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3531</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3531">http://yapceurope.lv/ye2011/talk/3531</a></li>
 </ul>
 
 
@@ -945,7 +945,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Carl Mäsak рассказывал о <a href="http://martinfowler.com/bliki/CQRS.html">CQRS</a> на примере приложения, обслуживающего пассажиропоток в аэропорту</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3517</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3517">http://yapceurope.lv/ye2011/talk/3517</a></li>
 </ul>
 
 
@@ -954,7 +954,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Юсуке Кавасаки о использовании Perl в японском энтерпрайзе, на примере своего работодателя <a href="http://www.rws.com/">RWS</a> (японский медиа-гигант)</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3472</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3472">http://yapceurope.lv/ye2011/talk/3472</a></li>
 </ul>
 
 
@@ -963,7 +963,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Carl Mäsak о использовании Perl 5/6 для решения комбинаторных задач. Я так понял, что в качестве визуализатора и прототипирования алгоритма (по сути обвязка для C),</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3518</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3518">http://yapceurope.lv/ye2011/talk/3518</a></li>
 </ul>
 
 
@@ -972,16 +972,16 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Повестование о том, как хранилище DHCP-сервиса перевели из постгреса в редиску. Если честно, я не дослушал, т.к. было скучно.</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3482</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3482">http://yapceurope.lv/ye2011/talk/3482</a></li>
 </ul>
 
 
 <h3>Tapper test scheduling</h3>
 
-<p>Инженер из AMD о внутреннем тестовом фреймворке на Perl, который они выложили в opensource <a href="">https://github.com/amd</a></p>
+<p>Инженер из AMD о внутреннем тестовом фреймворке на Perl, который они выложили в opensource <a href="https://github.com/amd">https://github.com/amd</a></p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3430</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3430">http://yapceurope.lv/ye2011/talk/3430</a></li>
 </ul>
 
 
@@ -991,7 +991,7 @@ rec  25000!  (63 sec, 15016 kb)
 Я лично ожидал, что будет интереснее. Какие нибудь истории из жизни тестеров, например.</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3547</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3547">http://yapceurope.lv/ye2011/talk/3547</a></li>
 </ul>
 
 
@@ -1002,7 +1002,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Автор множества модулей http://search.cpan.org/~dconway/ и PhD из Мельбурна о том, как круто будет писать на Perl6 )</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3532</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3532">http://yapceurope.lv/ye2011/talk/3532</a></li>
 </ul>
 
 
@@ -1011,7 +1011,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Этот доклад я не дослушал, т.к. не понял какую проблему хотел решить автор, да и код на слайдах мне не был хорошо виден, а во круг его объяснения строился рассказ</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3325</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3325">http://yapceurope.lv/ye2011/talk/3325</a></li>
 </ul>
 
 
@@ -1020,7 +1020,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Немец пообещал веб-сервис для бенчмаркинга на основе tapper (&#8220;через 2 недели&#8221;)</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3467</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3467">http://yapceurope.lv/ye2011/talk/3467</a></li>
 </ul>
 
 
@@ -1029,7 +1029,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Автор предложил на коленке собрать очень простой сайт на Dancer, мне это не показалось интересным и я сбежал на параллельный доклад</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3591</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3591">http://yapceurope.lv/ye2011/talk/3591</a></li>
 </ul>
 
 
@@ -1039,7 +1039,7 @@ rec  25000!  (63 sec, 15016 kb)
  А вообще приятно и интересно наблюдать таких увлекающихся людей как автор (в данном случае музыкой и Perl)</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3536</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3536">http://yapceurope.lv/ye2011/talk/3536</a></li>
 </ul>
 
 
@@ -1048,7 +1048,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Мантейнер perl и cygwin о возможных нововведениях в perl 5.16. О реализации оптимизаций по скорости и памяти на основе указания программистом типов переменных в коде (опционально). Также о планах добавления возможности выбора программистом механизма хэширования и поддержки алгоритма &#8220;Perfect hash&#8221; (O(1) BDZ algorithm)</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3288</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3288">http://yapceurope.lv/ye2011/talk/3288</a></li>
 </ul>
 
 
@@ -1057,7 +1057,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Президент TPF о пожертвованиях, работе и успехах/неудачах фонда. Интересно с точки зрения того как живет и устроен Open Source.</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3650</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3650">http://yapceurope.lv/ye2011/talk/3650</a></li>
 </ul>
 
 
@@ -1066,7 +1066,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>О том, что такое PSGI и Plack и о инфраструктуре вокруг Plack (Plack::App:: Plack::Middleware).</p>
 
 <ul>
-<li>[http://yapceurope.lv/ye2011/talk/3380]</li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3380">http://yapceurope.lv/ye2011/talk/3380</a></li>
 </ul>
 
 
@@ -1075,7 +1075,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>В основном, автор с говорящим именем (псевдонимом?), говорил о пользе PR Perl и об успехах за последние несколько лет в этом направлении.</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3364</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3364">http://yapceurope.lv/ye2011/talk/3364</a></li>
 </ul>
 
 
@@ -1087,8 +1087,8 @@ rec  25000!  (63 sec, 15016 kb)
 Основной лидер и координатор разработки perl5 Jesse Vincent о успехах в разработке Perl5 и какие есть планы на будущее.</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3291</a></li>
-<li><a href="">http://www.slideshare.net/obrajesse/perl-516-and-beyond</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3291">http://yapceurope.lv/ye2011/talk/3291</a></li>
+<li><a href="http://www.slideshare.net/obrajesse/perl-516-and-beyond">http://www.slideshare.net/obrajesse/perl-516-and-beyond</a></li>
 </ul>
 
 
@@ -1097,7 +1097,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Англичанин рассказал как они распиливали свою легаси систему (что-то B2B-шное, связанное с налогообложением) и постепенно по кусочкам переписывали. В результате получили новую-кленовую с лучшим интерфейсом, оттестированную. документированную и с модерновым-перлом унутре.</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3652</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3652">http://yapceurope.lv/ye2011/talk/3652</a></li>
 </ul>
 
 
@@ -1106,7 +1106,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Yet Another презентация о фреймворке Dancer. Я ничего нового не узнал, но вообще хороший старт для интересующихся, но еще не &#8220;пощупавших&#8221;.</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3543</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3543">http://yapceurope.lv/ye2011/talk/3543</a></li>
 </ul>
 
 
@@ -1116,7 +1116,7 @@ rec  25000!  (63 sec, 15016 kb)
 Настолько, что написал свою обертку для запуска mod_perl приложений под plack-ом (использует только для девелопмента). Полученный профит – тесты, няшные миддлваре (StackTrace) и удобство в разработке. В продакшене обертку они не используют.</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3432</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3432">http://yapceurope.lv/ye2011/talk/3432</a></li>
 </ul>
 
 
@@ -1125,7 +1125,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>После недавнего землятресения в Японии, японские хакеры помогали тем, что умеют хорошо, а именно писали код. Рассказ о том, как были организованы хакатоны, какие полезные сервисы и приложения были созданы. Особенно интересно про самодельные счетчики Гейгера (они не продаются в японских магазинах, если что).</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3471</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3471">http://yapceurope.lv/ye2011/talk/3471</a></li>
 </ul>
 
 
@@ -1136,17 +1136,17 @@ rec  25000!  (63 sec, 15016 kb)
 В основном Ларс рассказывал о том, как распилили на модули LWP 6-й версии, и какая непростая штука ssl, во многом из-за бардака с сертификатами, как намучались с OpenSSL. Сейчас SSL из LWP выпилен в отдельный модуль LWP::Protocol::https и еще существует модуль Mozilla::CA, в котором храняться копии корневых сертификатов, что типа некрасиво. но зато работает (в curl сделано также).</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3628</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3628">http://yapceurope.lv/ye2011/talk/3628</a></li>
 </ul>
 
 
 <p>ссылки по теме:</p>
 
 <ul>
-<li>Firesheep (<a href="">http://www.rb.ru/topstory/science/2010/10/26/185603.html</a>)</li>
-<li>Monkeysphere (<a href="">http://web.monkeysphere.info/why/#index1h2</a>)</li>
-<li><a href="">http://vttynotes.blogspot.com/2010/12/man-in-middle-fun-with-perl-lwp.html</a></li>
-<li>intermediate certificates <a href="">http://vttynotes.blogspot.com/2011/03/quick-note-on-lwp-and-perl-security-cve.html</a></li>
+<li>Firesheep (<a href="http://www.rb.ru/topstory/science/2010/10/26/185603.html">http://www.rb.ru/topstory/science/2010/10/26/185603.html</a>)</li>
+<li>Monkeysphere (<a href="http://web.monkeysphere.info/why/#index1h2">http://web.monkeysphere.info/why/#index1h2</a>)</li>
+<li><a href="http://vttynotes.blogspot.com/2010/12/man-in-middle-fun-with-perl-lwp.html">http://vttynotes.blogspot.com/2010/12/man-in-middle-fun-with-perl-lwp.html</a></li>
+<li>intermediate certificates <a href="http://vttynotes.blogspot.com/2011/03/quick-note-on-lwp-and-perl-security-cve.html">http://vttynotes.blogspot.com/2011/03/quick-note-on-lwp-and-perl-security-cve.html</a></li>
 </ul>
 
 
@@ -1157,7 +1157,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Мое резюме такое, что доклад годный в плане прочистки некоторых программистских мозгов. Да, думать как бизнесмен разработчику обычно не нужно, но понимать скучных дядек в костюмах надо и полезно, все-таки они в конечном итоге занимаются возгонкой денег из кода :)</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3510</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3510">http://yapceurope.lv/ye2011/talk/3510</a></li>
 </ul>
 
 
@@ -1166,7 +1166,7 @@ rec  25000!  (63 sec, 15016 kb)
 <p>Экспрессивная речь (как обычно) известного разработчика и пропагандиста Perl Мэта Траута. Правда матерился он меньше обычного и вообще общий настрой у доклада был позитивный. Мэт рассказал о том, как обратить в свою пользу особенности поведения персонажей в интернете, которых он классифицировал как assholes, idiots, whiners, trolls. При этом из зала в него летели плюшевые ктулху, одним из которых он потом перестреливался с Ларри Уоллом. А я утащил потом одного домой на память. )</p>
 
 <ul>
-<li><a href="">http://yapceurope.lv/ye2011/talk/3316</a></li>
+<li><a href="http://yapceurope.lv/ye2011/talk/3316">http://yapceurope.lv/ye2011/talk/3316</a></li>
 </ul>
 
 

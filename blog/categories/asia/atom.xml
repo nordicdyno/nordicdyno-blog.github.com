@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Asia | YA IT's blog]]></title>
   <link href="http://nordicdyno.github.com/blog/categories/asia/atom.xml" rel="self"/>
   <link href="http://nordicdyno.github.com/"/>
-  <updated>2012-02-17T14:00:56+04:00</updated>
+  <updated>2012-02-17T14:47:44+04:00</updated>
   <id>http://nordicdyno.github.com/</id>
   <author>
     <name><![CDATA[nordicdyno@gmail.com]]></name>
@@ -24,16 +24,16 @@
 <!-- more -->
 
 
-<p>Итак, сам сайт конференции <a href="">http://yapcasia.org/2011/</a>, для чтения иероглифов я пользовался Бромиумом (Хромом от Я), он довольно хорошо справляется с переводом страниц Японский->Английский (часть презентаций в html и там перевод тоже работает). Есть недостаток, что этот механизм не очень надежный (то ли меня банят, то ли <a href="">http://translate.google.ru/</a> "лагает" часто). Pdf-презентации, тоже не очень сложно перевести, если зарегистрироваться на slideshare их можно будет скачать, а потом все легко: pdf -> text или google docs -> google translate -> profit! )</p>
+<p>Итак, сам сайт конференции <a href="http://yapcasia.org/2011/">http://yapcasia.org/2011/</a>, для чтения иероглифов я пользовался Бромиумом (Хромом от Я), он довольно хорошо справляется с переводом страниц Японский->Английский (часть презентаций в html и там перевод тоже работает). Есть недостаток, что этот механизм не очень надежный (то ли меня банят, то ли <a href="http://translate.google.ru">http://translate.google.ru/</a> "лагает" часто). Pdf-презентации, тоже не очень сложно перевести, если зарегистрироваться на slideshare их можно будет скачать, а потом все легко: pdf -> text или google docs -> google translate -> profit! )</p>
 
 <p>Здесь обзор конференции на английском:
-<a href="">http://blogs.perl.org/users/lestrrat/2011/10/a-glimpse-of-yapcasia-tokyo-2011.html</a>
+<a href="http://blogs.perl.org/users/lestrrat/2011/10/a-glimpse-of-yapcasia-tokyo-2011.html">http://blogs.perl.org/users/lestrrat/2011/10/a-glimpse-of-yapcasia-tokyo-2011.html</a>
 из него я узнал победителях на конкурсе лучших докладов:</p>
 
 <p>1 Fujiwara-san, who taught us the many lessons learned and techniques used to migrate his applications from an old datacenter to a new one.
-слайды на японском: <a href="">http://dl.dropbox.com/u/224433/YAPC2011/index.html</a> (можно перевести в chrome/brome, кроме картинок, т.к. html)
+слайды на японском: <a href="http://dl.dropbox.com/u/224433/YAPC2011/index.html">http://dl.dropbox.com/u/224433/YAPC2011/index.html</a> (можно перевести в chrome/brome, кроме картинок, т.к. html)
 2 Second place was Takesako-san with his Win32::GuiTest talk – пока нет видео и слайдов
-3 Third place was Tokumaru-san, who presented the various ways to protect passwords in your system <a href="">http://yapcasia.org/2011/talk/56</a></p>
+3 Third place was Tokumaru-san, who presented the various ways to protect passwords in your system <a href="http://yapcasia.org/2011/talk/56">http://yapcasia.org/2011/talk/56</a></p>
 
 <p>Далее список докладов, материалы к которым я успел посмотреть, с моими краткими комментариями. В начале постарался расположить наиболее интересные доклады.</p>
 
@@ -42,21 +42,21 @@
 <p>Рекомендую посмотреть. Мне отдельно понравилось то, как происходит ротация релиз-инженеров в команде perl5 porters.</p>
 
 <ul>
-<li>видео и слайды <a href="">http://yapcasia.org/2011/talk/96</a></li>
+<li>видео и слайды <a href="http://yapcasia.org/2011/talk/96">http://yapcasia.org/2011/talk/96</a></li>
 </ul>
 
 
 <h4>Perl 5.14 For Pragmatists</h4>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/95</a> – слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/95">http://yapcasia.org/2011/talk/95</a> – слайды</li>
 </ul>
 
 
 <h4>Unix Programming with Perl 2</h4>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/76</a> - слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/76">http://yapcasia.org/2011/talk/76</a> - слайды</li>
 </ul>
 
 
@@ -65,37 +65,37 @@
 <p>Интересно, но мне не очень понятно было с первого раза. )</p>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/82</a> - слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/82">http://yapcasia.org/2011/talk/82</a> - слайды</li>
 </ul>
 
 
 <h4>Dtrace printf debugging for seventh-level wizards</h4>
 
 <ul>
-<li><a href="">http://sartak.org/talks/yapc-asia-2011/dtrace/dtrace.pdf</a> - слайды en/jp</li>
+<li><a href="http://sartak.org/talks/yapc-asia-2011/dtrace/dtrace.pdf">http://sartak.org/talks/yapc-asia-2011/dtrace/dtrace.pdf</a> - слайды en/jp</li>
 </ul>
 
 
 <h4>AnyEvent, Coro, IO::AIO - mlehmann</h4>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/71</a> - слайды и видео</li>
+<li><a href="http://yapcasia.org/2011/talk/71">http://yapcasia.org/2011/talk/71</a> - слайды и видео</li>
 </ul>
 
 
 <h4>Hello Embed Perl!</h4>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/43</a> - слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/43">http://yapcasia.org/2011/talk/43</a> - слайды</li>
 </ul>
 
 
 <h4>Hacking Mac OSX Cocoa API from Perl</h4>
 
-<p>О модулях Cocoa::*, блог автора <a href="">http://unknownplace.org/memo/</a></p>
+<p>О модулях Cocoa::*, блог автора <a href="http://unknownplace.org/memo/">http://unknownplace.org/memo/</a></p>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/30</a></li>
+<li><a href="http://yapcasia.org/2011/talk/30">http://yapcasia.org/2011/talk/30</a></li>
 </ul>
 
 
@@ -115,21 +115,21 @@
 <blockquote><p>This script helps you to create single-file perl interpreters or applications, or embedding a perl interpreter in your applications.</p></blockquote>
 
 <ul>
-<li><a href="">https://metacpan.org/module/staticperl</a></li>
+<li><a href="https://metacpan.org/module/staticperl">https://metacpan.org/module/staticperl</a></li>
 </ul>
 
 
 <h4>Mote electronic tools in Perl</h4>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/60</a></li>
+<li><a href="http://yapcasia.org/2011/talk/60">http://yapcasia.org/2011/talk/60</a></li>
 </ul>
 
 
 <h4>Large-scale environment maniac caching technologies available</h4>
 
 <ul>
-<li><a href="">http://static.xaicron.dotcloud.com/slide/yapc2011/index.html</a></li>
+<li><a href="http://static.xaicron.dotcloud.com/slide/yapc2011/index.html">http://static.xaicron.dotcloud.com/slide/yapc2011/index.html</a></li>
 </ul>
 
 
@@ -138,7 +138,7 @@
 <p>к сожалению пока только видео, но тема интересная</p>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/61</a></li>
+<li><a href="http://yapcasia.org/2011/talk/61">http://yapcasia.org/2011/talk/61</a></li>
 </ul>
 
 
@@ -147,19 +147,19 @@
 <p>Про детектинг изображений. На японском, но тоже очень интересная тема.</p>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/73</a> – слайды, видео</li>
+<li><a href="http://yapcasia.org/2011/talk/73">http://yapcasia.org/2011/talk/73</a> – слайды, видео</li>
 </ul>
 
 
 <h4>Watch your log http://nekokak.org/presen/yapcasia2011/ слайды</h4>
 
-<p>Про мониторинг и <a href="">https://github.com/nekokak/Komainu</a></p>
+<p>Про мониторинг и <a href="https://github.com/nekokak/Komainu">https://github.com/nekokak/Komainu</a></p>
 
 <p>Автор Nagios Warakan:</p>
 
 <ul>
-<li><a href="">https://metacpan.org/author/NEKOKAK</a></li>
-<li><a href="">https://github.com/nekokak</a></li>
+<li><a href="https://metacpan.org/author/NEKOKAK">https://metacpan.org/author/NEKOKAK</a></li>
+<li><a href="https://github.com/nekokak">https://github.com/nekokak</a></li>
 </ul>
 
 
@@ -168,56 +168,56 @@
 <p>доклад 16-летнего школьника с Хокайдо (самый юный участник).</p>
 
 <ul>
-<li><a href="">http://akiym.com/slides/20111016-yapcasia2011-why/index.html</a></li>
+<li><a href="http://akiym.com/slides/20111016-yapcasia2011-why/index.html">http://akiym.com/slides/20111016-yapcasia2011-why/index.html</a></li>
 </ul>
 
 
 <h4>Web Application Acceleration story</h4>
 
 <ul>
-<li><a href="">http://ma.la/files/yapcasia2011/</a> – слайды</li>
+<li><a href="http://ma.la/files/yapcasia2011/">http://ma.la/files/yapcasia2011/</a> – слайды</li>
 </ul>
 
 
 <h4>Hacking with metacpan</h4>
 
-<p>Реклама <a href="">metacpan.org</a></p>
+<p>Реклама <a href="https://metacpan.org">metacpan.org</a></p>
 
 <ul>
-<li><a href="">http://tokuhirom.github.com/talks/20111015-yapcasia2011-metacpan/#0</a> - слайды</li>
+<li><a href="http://tokuhirom.github.com/talks/20111015-yapcasia2011-metacpan/#0">http://tokuhirom.github.com/talks/20111015-yapcasia2011-metacpan/#0</a> - слайды</li>
 </ul>
 
 
 <h4>Whada: Multi-Protocol Authentcation / Authorization Tool</h4>
 
-<p>Рассказ о системе разграничения прав с админкой <a href="">https://github.com/tagomoris/whada</a>,
+<p>Рассказ о системе разграничения прав с админкой <a href="https://github.com/tagomoris/whada">https://github.com/tagomoris/whada</a>,
 построенной поверх Slapd (OpenLDAP Server).</p>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/24</a> – слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/24">http://yapcasia.org/2011/talk/24</a> – слайды</li>
 </ul>
 
 
 <h4>Evolution of API With Blogging</h4>
 
-<p>Узнал о <a href="">http://explorer.metacpan.org/</a> и о протоколе <a href="http://ru.wikipedia.org/wiki/Trackback">Trackback</a>.</p>
+<p>Узнал о <a href="http://explorer.metacpan.org/">http://explorer.metacpan.org/</a> и о протоколе <a href="http://ru.wikipedia.org/wiki/Trackback">Trackback</a>.</p>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/48</a> – слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/48">http://yapcasia.org/2011/talk/48</a> – слайды</li>
 </ul>
 
 
 <h4>perlbrew</h4>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/65</a> - видео и слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/65">http://yapcasia.org/2011/talk/65</a> - видео и слайды</li>
 </ul>
 
 
 <h4>Carton: CPAN dependencies manager</h4>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/91</a> – слайды</li>
+<li><a href="http://yapcasia.org/2011/talk/91">http://yapcasia.org/2011/talk/91</a> – слайды</li>
 </ul>
 
 
@@ -226,7 +226,7 @@
 <p>Слайды на английском, речь на японском. Доклад совсем не технический, поэтому без расшифровки лектора, по одним слайдам мне было мало чего понятно. )</p>
 
 <ul>
-<li><a href="">http://www.dan.co.jp/~dankogai/yapcasia2011/jobdone.html</a></li>
+<li><a href="http://www.dan.co.jp/~dankogai/yapcasia2011/jobdone.html">http://www.dan.co.jp/~dankogai/yapcasia2011/jobdone.html</a></li>
 </ul>
 
 
@@ -235,7 +235,7 @@
 <p>Еще одни слайды на японском в pdf, может быть интересен довольно большой список модулей, о многих узнал впервые</p>
 
 <ul>
-<li><a href="">http://yapcasia.org/2011/talk/25</a></li>
+<li><a href="http://yapcasia.org/2011/talk/25">http://yapcasia.org/2011/talk/25</a></li>
 </ul>
 
 ]]></content>
