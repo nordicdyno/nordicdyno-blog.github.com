@@ -2,13 +2,21 @@
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
 <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+{% capture description %}
+{% if page.title %}
+    {% if page.description %}
+        {{ page.description }}
+    {% else %}
+        {{ content | raw_content }}
+    {% endif %}
+{% else %}
+    {{ site.description }}
+{% endif %}{% endcapture %}
 <head>
   <meta charset="utf-8">
   <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
   <meta name="author" content="{{ site.author }}">
-
-  {% capture description %}{% if page.description %}{{ page.description }}{% else %}{{ content | raw_content }}{% endif %}{% endcapture %}
-  <meta name="description" content="{{ description | strip_html | condense_spaces | truncate:150 }}">
+  <meta name="description" content="{{ description | strip_html | strip_newlines | condense_spaces | truncate:150 }}">
   {% if page.keywords %}<meta name="keywords" content="{{ page.keywords }}">{% endif %}
 
   <!-- http://t.co/dKP3o1e -->

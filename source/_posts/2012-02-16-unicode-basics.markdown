@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Unicode. Ликбез"
+description: "Unicode Ликбез"
 date: 2012-02-17 18:30
 comments: true
 published: true
@@ -12,7 +13,7 @@ categories: [Perl, Unicode, YAPC]
 
 ## Вступление
 
-Хочу предупредить, что этот рассказ не об интернационализации или локализации, хотя это и очень близкие темы. Еще я не буду рассказывать об истории кодировок (почти). Или о том, как надо правильно работать с Unicode в Perl или каком-либо другом языке.
+Хочу предупредить, что этот рассказ не о интернационализации или локализации, хотя это и очень близкие темы. Еще я не буду рассказывать об истории кодировок (почти). Или о том, как надо правильно работать с Unicode в Perl или каком-либо другом языке.
 Я хочу рассказать о том, что просто необходимо разработчику знать о Unicode и почему.
 
 ## Объяснение названия
@@ -313,6 +314,7 @@ Perl может внутри хранить строки как в UTF-8 так 
 - ["Perl Unicode Essentials"](http://doc.japh.se/tchrist_oscon_perl_unicode_essentials/3h-Perl_Unicode_Essentials.html)
 - ["Unicode in Perl Regexes"](http://doc.japh.se/tchrist_oscon_perl_unicode_essentials/45m-Unicode_in_Perl_Regexes.html)
 
+
 Оригиналы находятся на странице автора http://training.perl.com/OSCON2011/index.html
 но она, к сожалению, чаще не работает, чем работает ☠ ☠ ☠)
 
@@ -362,7 +364,8 @@ Perl может внутри хранить строки как в UTF-8 так 
     * <a href="http://ru.wikipedia.org/wiki/Юникод#.D0.A4.D0.BE.D1.80.D0.BC.D1.8B_.D0.BD.D0.BE.D1.80.D0.BC.D0.B0.D0.BB.D0.B8.D0.B7.D0.B0.D1.86.D0.B8.D0.B8">http://ru.wikipedia.org/wiki/Юникод</a>
 
 ### статьи
-
+- [What Every Programmer Absolutely, Positively Needs To Know About Encodings And Character Sets To Work With Text](http://kunststube.net/encoding/)
+- [PHP 6 не будет, не осилили (habr)](http://habrahabr.ru/blogs/php/138269/)
 - [Регистр в Unicode - это непросто](http://www.transl-gunsmoker.ru/2008/11/unicode.html)
 - [Javascript and Unicode](http://blog.jochentopf.com/2011-03-17-javascript-and-unicode.html)
 - [Как сортировать Unicode-строки в Perl (en)](http://www.perl.com/pub/2011/08/whats-wrong-with-sort-and-how-to-fix-it.html)
