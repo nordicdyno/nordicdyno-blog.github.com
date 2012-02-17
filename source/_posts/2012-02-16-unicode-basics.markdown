@@ -46,13 +46,13 @@ categories: [Perl, Unicode, YAPC]
 Для начала я задал вопрос на stackoverflow:
 [http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789](http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789), после чего приступил к самостоятельному исследованию. 
 
-Первый шаг был узнать, что хвостики и крышечки – это могут быть как диакритические знаки, так и знаки ударения (accent) и что-то еще. Затем, то что в регулярном выражении в Perl их можно искать/удалять с помощью \p{Marks}, предварительно выделив эти знаки (marks) из строки с помощью NFD-нормализации. 
+Первый шаг был узнать, что хвостики и крышечки – это могут быть как диакритические знаки, так и знаки ударения (accent) и что-то еще. Затем, то что в регулярном выражении в Perl их можно искать/удалять с помощью \p{Marks}, предварительно выделив эти знаки (marks) из строки с помощью [NFD-нормализации](http://www.unicode.org/reports/tr15/).
 
 ### Решение №1
 
 {% codeblock variant 1 lang:perl %}
 use utf8;
-use Unicode::Normalize;
+use Unicode::Normalize qw/ NFD /; 
 binmode STDOUT, ':encoding(UTF-8)';
 my $str  = "Îñţérñåţîöñåļîžåţîöñ";
 my $look = "Nation";
@@ -219,8 +219,10 @@ UTF-16 используется в Win 2000, Vista, .NET, MacOS X Cocoa, Python 
 Была изобретена 2 сентября 1992 года Кеном Томпсоном и Робом Пайком.
 Совместима с ASCII, если не выходить за границу 128 символов. 
 
+_Самая "православная" кодировка_. ☺
+
 Хитро мапит кодепоинты в байты, ипользует часть битов для спец-целей (из первого байта можно узнать длину последовательности). Отсюда следует, что _коды символов не совпадают с UCS_.
-> Самая "православная" кодировка. ☺
+
 
 - [http://en.wikipedia.org/wiki/UTF-EBCDIC](http://en.wikipedia.org/wiki/UTF-EBCDIC) – редкая кодировка UTF-8 "для мейнфреймов"
 
@@ -229,7 +231,7 @@ Perl может внутри хранить строки как в UTF-8 так 
 **Композиция символов** – cимволы  задающиеся несколькими кодами (составные символы)
 Для некоторых символов есть как композитные так и монолитные формы записи
 
-    Ё (U+0401) и Й (U+0419), 
+    Ё (U+0401) и Й (U+0419)
     Е +  ̈ (U+0415 U+0308)
     И +  ̆ (U+0418 U+0306)
 
@@ -270,7 +272,9 @@ Perl может внутри хранить строки как в UTF-8 так 
 
 Вообще-то это не все термины и понятия, но уже не мало?
 
-здесь можно сделать небольшую передышку ☕
+здесь можно сделать небольшую передышку 
+
+## ☕
 
 
 ## Часть 3. «Домашняя работа» 
@@ -361,6 +365,7 @@ Perl может внутри хранить строки как в UTF-8 так 
 - [Официальный глоссарий www.unicode.org/glossary/](http://www.unicode.org/glossary/)
 - [FAQ по BOM](http://www.unicode.org/faq/utf_bom.html)
 - про нормализацию:
+    * [http://www.unicode.org/reports/tr15/](http://www.unicode.org/reports/tr15/)
     * [http://en.wikipedia.org/wiki/Unicode_normalization](http://en.wikipedia.org/wiki/Unicode_normalization)
     * [http://habrahabr.ru/blogs/webdev/45489/](http://habrahabr.ru/blogs/webdev/45489/)
     * <a href="http://ru.wikipedia.org/wiki/Юникод#.D0.A4.D0.BE.D1.80.D0.BC.D1.8B_.D0.BD.D0.BE.D1.80.D0.BC.D0.B0.D0.BB.D0.B8.D0.B7.D0.B0.D1.86.D0.B8.D0.B8">http://ru.wikipedia.org/wiki/Юникод</a>
