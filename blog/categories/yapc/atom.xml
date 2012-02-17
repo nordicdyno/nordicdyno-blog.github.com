@@ -4,7 +4,7 @@
   <title><![CDATA[Category: YAPC | YA IT's blog]]></title>
   <link href="http://nordicdyno.github.com/blog/categories/yapc/atom.xml" rel="self"/>
   <link href="http://nordicdyno.github.com/"/>
-  <updated>2012-02-17T13:26:51+04:00</updated>
+  <updated>2012-02-17T13:40:46+04:00</updated>
   <id>http://nordicdyno.github.com/</id>
   <author>
     <name><![CDATA[nordicdyno@gmail.com]]></name>
@@ -441,7 +441,7 @@ windows: alt + “+” + code
 </ul>
 
 
-<h3>статьи</h3>
+<h3>статьи, публикации в блогах</h3>
 
 <ul>
 <li><a href="http://kunststube.net/encoding/">What Every Programmer Absolutely, Positively Needs To Know About Encodings And Character Sets To Work With Text</a></li>
@@ -451,6 +451,8 @@ windows: alt + “+” + code
 <li><a href="http://www.perl.com/pub/2011/08/whats-wrong-with-sort-and-how-to-fix-it.html">Как сортировать Unicode-строки в Perl (en)</a></li>
 <li><a href="http://www.effectiveperlprogramming.com/blog/1416">Применение нормализации при использовании split в Perl (en)</a>
 <a href="http://fatalweb.com/questions/178785/javascript-strings-outside-of-the-bmp">"JavaScript strings outside of the BMP"</a></li>
+<li><a href="">http://lionet.livejournal.com/tag/unicode</a></li>
+<li><a href="http://www.cl.cam.ac.uk/~mgk25/unicode.html">UTF-8 and Unicode FAQ for Unix/Linux</a></li>
 </ul>
 
 
