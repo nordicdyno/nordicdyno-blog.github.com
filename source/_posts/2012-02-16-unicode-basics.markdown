@@ -16,7 +16,7 @@ categories: [Perl, Unicode, YAPC]
 Хочу предупредить, что этот рассказ не о интернационализации или локализации, хотя это и очень близкие темы. Еще я не буду рассказывать об истории кодировок (почти). Или о том, как надо правильно работать с Unicode в Perl или каком-либо другом языке.
 Я хочу рассказать о том, что просто необходимо разработчику знать о Unicode и почему.
 
-## Объяснение названия
+## объяснение названия
 
 > **Ликбез** (ликвидация безграмотности) – в переносном смысле — обучение неподготовленной аудитории базовым понятиям какой-либо науки, процесса или явления.
 
@@ -48,7 +48,7 @@ categories: [Perl, Unicode, YAPC]
 
 Первый шаг был узнать, что хвостики и крышечки – это могут быть как диакритические знаки, так и знаки ударения (accent) и что-то еще. Затем, то что в регулярном выражении в Perl их можно искать/удалять с помощью \p{Marks}, предварительно выделив эти знаки (marks) из строки с помощью [NFD-нормализации](http://www.unicode.org/reports/tr15/).
 
-### Решение №1
+### решение №1
 
 {% codeblock variant 1 lang:perl %}
 use utf8;
@@ -77,7 +77,7 @@ This is the wrong way to do it. You need to use a UCA match at level 1
 
 В результате, когда я разобрался что к чему и исправил код, он стал выглядеть скучнее:
 
-### Решение №2
+### решение №2
 
 {% codeblock variant 2 lang:perl %}
 use 5.014;
@@ -96,7 +96,7 @@ say “matches: ” . join(“, “, @match);
 
 > «Code that assumes you can remove diacritics to get at base ASCII letters is evil, still, broken, brain-damaged, wrong, and justification for capital punishment»
 
-### Рефлексия
+### рефлексия
 В чем же была моя основная ошибка (или в чем заключалось невежество)?
 Основной ошибкой была попытка, не понимая сути, решить, как оказалось, нетривиальную задачу с помощью простого рецепта.
 
@@ -236,7 +236,7 @@ Perl может внутри хранить строки как в UTF-8 так 
     И +  ̆ (U+0418 U+0306)
 
 
-### Еще термины, которые полезно знать и различать при изучении Unicode.
+### термины, которые полезно знать и различать при изучении Unicode
 
 **Character** – минимальный компонент письменного языка, имеющий семантическое значение. Ссылается на абстрактное значение (знак) или на символ
 
@@ -256,7 +256,7 @@ Perl может внутри хранить строки как в UTF-8 так 
 **Идеограмма** - письменный знак, обозначающий (в отличие от букв) не звуки какого-либо языка, а целое слово или корень.
 
 
-### Что еще описывается стандартом Unicode
+### что еще описывается стандартом Unicode
 
 **Нормализация**. Поскольку одни и те же символы можно представить различными кодами, что иногда затрудняет обработку, существуют процессы нормализации, предназначенные для приведения текста к определённому стандартному виду. 
 
@@ -381,7 +381,7 @@ Perl может внутри хранить строки как в UTF-8 так 
 - [http://lionet.livejournal.com/tag/unicode](http://lionet.livejournal.com/tag/unicode)
 - [UTF-8 and Unicode FAQ for Unix/Linux](http://www.cl.cam.ac.uk/~mgk25/unicode.html)
 
-### материалы конференций ---
+### материалы конференций
 
 - доклад Монса на YAPC::Russia May Perl 2008: [часть 1](http://rutube.ru/tracks/793436.html?v=252bdfab9677b48a96c5c47c8dc42c27), 
  [часть 2](http://rutube.ru/tracks/793450.html?v=0a9de4c7350b0f84ae2f9c325dcb6237),
@@ -389,7 +389,7 @@ Perl может внутри хранить строки как в UTF-8 так 
 - рассказ Олега Алистратова на PerlMova - 2010 [http://www.slideshare.net/alistratov/perl-unicode](http://www.slideshare.net/alistratov/perl-unicode)
 - [Unicode In Python, Completely Demystified](http://www.farmdev.com/talks/unicode/)
 
-### Разное 
+### разное 
 
 - ["UTF-8 history" from Rob 'Commander' Pike](http://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt)
 - ["Use ICU for Unicode in Perl?"](http://www.nntp.perl.org/group/perl.perl5.porters/2010/01/msg156111.html)
@@ -405,3 +405,9 @@ Perl может внутри хранить строки как в UTF-8 так 
 
 тест правильной работы c UTF-8 в JSON-парзере:
  [https://metacpan.org/source/MLEHMANN/JSON-XS-2.32/t/01_utf8.t](https://metacpan.org/source/MLEHMANN/JSON-XS-2.32/t/01_utf8.t)
+
+### книги 
+для углубленного изучения, если есть интерес (спасибо Dmitry Arsentiev за ссылки):
+
+- [«Fonts & Encodings: From Advanced Typography to Unicode and Everything in Between»](http://shop.oreilly.com/product/9780596102425.do)
+- [«CJKV Information Processing, 2nd Edition»](http://shop.oreilly.com/product/9780596514471.do)
