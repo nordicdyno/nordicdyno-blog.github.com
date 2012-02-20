@@ -1,0 +1,12 @@
+<div class="highlight"><pre><span class="k">use</span> <span class="n">utf8</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">Unicode::</span><span class="n">Normalize</span> <span class="sx">qw/ NFD /</span><span class="p">;</span>
+<span class="nb">binmode</span> <span class="bp">STDOUT</span><span class="p">,</span> <span class="s">&#39;:encoding(UTF-8)&#39;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$str</span>  <span class="o">=</span> <span class="s">&quot;Îñţérñåţîöñåļîžåţîöñ&quot;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$look</span> <span class="o">=</span> <span class="s">&quot;Nation&quot;</span><span class="p">;</span>
+<span class="n">say</span> <span class="s">&quot;before: $str\n&quot;</span><span class="p">;</span>
+<span class="nv">$str</span> <span class="o">=</span> <span class="n">NFD</span><span class="p">(</span><span class="nv">$str</span><span class="p">);</span>
+<span class="nv">$str</span> <span class="o">=~</span> <span class="sr">s/\pM//og</span><span class="p">;</span> <span class="c1"># remove &quot;marks&quot;</span>
+<span class="n">say</span> <span class="s">&quot;after: $str&quot;</span><span class="p">;</span>
+<span class="n">say</span> <span class="s">&quot;is_match: &quot;</span><span class="p">,</span> <span class="nv">$str</span> <span class="o">=~</span><span class="sr"> /$look/i</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
+</pre>
+</div>

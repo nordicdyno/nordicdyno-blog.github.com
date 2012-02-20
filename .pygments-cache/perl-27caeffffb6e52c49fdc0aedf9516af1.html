@@ -1,0 +1,12 @@
+<div class="highlight"><pre><span class="k">use</span> <span class="mf">5.014</span><span class="p">;</span>
+<span class="k">use</span> <span class="n">utf8</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">Unicode::</span><span class="n">Collate</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$str</span>  <span class="o">=</span> <span class="s">&quot;Îñţérñåţîöñåļîžåţîöñ&quot;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$look</span> <span class="o">=</span> <span class="s">&quot;Nation&quot;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$Collator</span> <span class="o">=</span> <span class="nn">Unicode::</span><span class="n">Collate</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span>
+    <span class="n">normalization</span> <span class="o">=&gt;</span> <span class="nb">undef</span><span class="p">,</span> <span class="n">level</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+<span class="p">);</span>
+<span class="k">my</span> <span class="nv">@match</span> <span class="o">=</span> <span class="nv">$Collator</span><span class="o">-&gt;</span><span class="n">match</span><span class="p">(</span><span class="nv">$str</span><span class="p">,</span> <span class="nv">$look</span><span class="p">);</span>
+<span class="n">say</span> <span class="err">“</span><span class="n">matches:</span> <span class="err">”</span> <span class="o">.</span> <span class="nb">join</span><span class="p">(</span><span class="err">“</span><span class="p">,</span> <span class="err">“</span><span class="p">,</span> <span class="nv">@match</span><span class="p">);</span>
+</pre>
+</div>
