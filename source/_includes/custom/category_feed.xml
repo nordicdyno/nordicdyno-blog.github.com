@@ -15,13 +15,18 @@ layout: nil
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  {% for post in site.categories[page.category] limit: 5 %}
+  {% for post in site.categories[page.category] limit: 10 %}
   <entry>
     <title type="html"><![CDATA[{{ post.title | cdata_escape }}]]></title>
     <link href="{{ site.url }}{{ post.url }}"/>
     <updated>{{ post.date | date_to_xmlschema }}</updated>
     <id>{{ site.url }}{{ post.id }}</id>
-    <content type="html"><![CDATA[{{ post.content | expand_urls: site.url | markdownify | cdata_escape }}]]></content>
+    {% capture excerpted %}{{ post.content | has_excerpt }}{% endcapture %}
+    {% capture rss_body %}
+    {{ post.content | excerpt | expand_urls: site.url | markdownify | cdata_escape }}
+    {% if excerpted == 'true' %}<br><a rel="full-article" href="{{ root_url }}{{ post.url }}">{{ site.excerpt_link }}</a>
+    {% endif %}{% endcapture %}
+    <content type="html"><![CDATA[{{ rss_body }}]]></content>
   </entry>
   {% endfor %}
 </feed>
