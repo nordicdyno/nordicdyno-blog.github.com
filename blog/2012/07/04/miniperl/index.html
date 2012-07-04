@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: security - YA IT's blog</title>
+  <title>miniperl - YA IT's blog</title>
   <meta name="author" content="nordicdyno@gmail.com">
 
   
-  <meta name="description" content="Category: security">
+  <meta name="description" content="В составе исходников Perl (пользователи perlbrew легко могут их найти в ~/perl5/perlbrew/build) есть урезаннная версия интерпретатора, которая &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://nordicdyno.github.comblog/categories/security/">
+  <link rel="canonical" href="http://nordicdyno.github.com/blog/2012/07/04/miniperl/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -75,36 +75,121 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Security</h1>
+    
+      <h1 class="entry-title">Miniperl</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-04T21:00:00+04:00" pubdate data-updated="true">Jul 4<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>В составе исходников Perl (пользователи  perlbrew легко могут их найти в <em>~/perl5/perlbrew/build</em>) есть урезаннная версия интерпретатора, которая называется microperl.</p>
 
-  
-  <h2>2011</h2>
+<p>Собирается и запускается так:</p>
 
-<article>
-  
-<h1><a href="/blog/2011/12/29/diligent-perl/">Diligent Perl</a></h1>
-<time datetime="2011-12-29T14:25:00+04:00" pubdate><span class='month'>Dec</span> <span class='day'>29</span> <span class='year'>2011</span></time>
+<pre><code>make -f Makefile.micro
+./microperl t/base/cond.t
+</code></pre>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/perl/'>Perl</a>, <a class='category' href='/blog/categories/security/'>security</a>, <a class='category' href='/blog/categories/twitter/'>twitter</a></span>
-</footer>
+<p>или так:</p>
 
+<pre><code>make -f Makefile.micro OPTIMIZE="-O3 -static"
+</code></pre>
 
-</article>
+<p>Сборка без -O3 на Macbook Pro занимает меньше 10 секунд. Это быстрее, чем длится стандартный sh Configure -de перед сборкой (18,52s user 11,68s system 91% cpu 33,089 total).  Размер бинарника  получается между 1.5 и 2 mb.</p>
+
+<p>Может пригодится для написания скриптов в &#8220;голом&#8221; окружении, когда на *sh писать не хочется, а /usr/bin/perl по какой-то причине не доступен и собрать свой нельзя или долго.</p>
+
+<p>Дополнительные материалы:</p>
+
+<ul>
+<li><a href="http://www.perlmonks.org/?node_id=228040">bootstrapping with microperl</a></li>
+<li><a href="http://www.foo.be/docs/tpj/issues/vol5_3/tpj0503-0003.html">http://www.foo.be/docs/tpj/issues/vol5_3/tpj0503-0003.html</a></li>
+<li>README.micro в составе дистрибутива</li>
+</ul>
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">nordicdyno@gmail.com</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-04T21:00:00+04:00" pubdate data-updated="true">Jul 4<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/perl/'>Perl</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://nordicdyno.github.com/blog/2012/07/04/miniperl/" data-via="" data-counturl="http://nordicdyno.github.com/blog/2012/07/04/miniperl/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/02/17/unicode-basics/" title="Previous Post: Unicode. Ликбез">&laquo; Unicode. Ликбез</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -164,7 +249,10 @@
       var disqus_shortname = 'yaitsblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://nordicdyno.github.com/blog/2012/07/04/miniperl/';
+        var disqus_url = 'http://nordicdyno.github.com/blog/2012/07/04/miniperl/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -4,7 +4,7 @@
   <title><![CDATA[YA IT's blog]]></title>
   <link href="http://nordicdyno.github.com/atom.xml" rel="self"/>
   <link href="http://nordicdyno.github.com/"/>
-  <updated>2012-02-21T19:31:44+04:00</updated>
+  <updated>2012-07-04T20:59:35+04:00</updated>
   <id>http://nordicdyno.github.com/</id>
   <author>
     <name><![CDATA[nordicdyno@gmail.com]]></name>
@@ -12,6 +12,39 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[miniperl]]></title>
+    <link href="http://nordicdyno.github.com/blog/2012/07/04/miniperl/"/>
+    <updated>2012-07-04T21:00:00+04:00</updated>
+    <id>http://nordicdyno.github.com/blog/2012/07/04/miniperl</id>
+    <content type="html"><![CDATA[<p>В составе исходников Perl (пользователи  perlbrew легко могут их найти в <em>~/perl5/perlbrew/build</em>) есть урезаннная версия интерпретатора, которая называется microperl.</p>
+
+<p>Собирается и запускается так:</p>
+
+<pre><code>make -f Makefile.micro
+./microperl t/base/cond.t
+</code></pre>
+
+<p>или так:</p>
+
+<pre><code>make -f Makefile.micro OPTIMIZE="-O3 -static"
+</code></pre>
+
+<p>Сборка без -O3 на Macbook Pro занимает меньше 10 секунд. Это быстрее, чем длится стандартный sh Configure -de перед сборкой (18,52s user 11,68s system 91% cpu 33,089 total).  Размер бинарника  получается между 1.5 и 2 mb.</p>
+
+<p>Может пригодится для написания скриптов в &#8220;голом&#8221; окружении, когда на *sh писать не хочется, а /usr/bin/perl по какой-то причине не доступен и собрать свой нельзя или долго.</p>
+
+<p>Дополнительные материалы:</p>
+
+<ul>
+<li><a href="http://www.perlmonks.org/?node_id=228040">bootstrapping with microperl</a></li>
+<li><a href="http://www.foo.be/docs/tpj/issues/vol5_3/tpj0503-0003.html">http://www.foo.be/docs/tpj/issues/vol5_3/tpj0503-0003.html</a></li>
+<li>README.micro в составе дистрибутива</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Unicode. Ликбез]]></title>

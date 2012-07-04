@@ -3,12 +3,13 @@
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
 <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-
 <head>
   <meta charset="utf-8">
   <title>YA IT's blog</title>
   <meta name="author" content="nordicdyno@gmail.com">
-  <meta name="description" content=" Yet Another IT weblog">
+
+  
+  <meta name="description" content="В составе исходников Perl (пользователи perlbrew легко могут их найти в ~/perl5/perlbrew/build) есть урезаннная версия интерпретатора, которая &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -17,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://nordicdyno.github.com">
+  <link rel="canonical" href="http://nordicdyno.github.com/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -66,7 +67,6 @@
 </form>
   
 <ul class="main-navigation">
-<!--  <li><a href="/about">About</a></li> -->
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
 </ul>
@@ -76,6 +76,68 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/04/miniperl/">Miniperl</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-04T21:00:00+04:00" pubdate data-updated="true">Jul 4<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/04/miniperl/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>В составе исходников Perl (пользователи  perlbrew легко могут их найти в <em>~/perl5/perlbrew/build</em>) есть урезаннная версия интерпретатора, которая называется microperl.</p>
+
+<p>Собирается и запускается так:</p>
+
+<pre><code>make -f Makefile.micro
+./microperl t/base/cond.t
+</code></pre>
+
+<p>или так:</p>
+
+<pre><code>make -f Makefile.micro OPTIMIZE="-O3 -static"
+</code></pre>
+
+<p>Сборка без -O3 на Macbook Pro занимает меньше 10 секунд. Это быстрее, чем длится стандартный sh Configure -de перед сборкой (18,52s user 11,68s system 91% cpu 33,089 total).  Размер бинарника  получается между 1.5 и 2 mb.</p>
+
+<p>Может пригодится для написания скриптов в &#8220;голом&#8221; окружении, когда на *sh писать не хочется, а /usr/bin/perl по какой-то причине не доступен и собрать свой нельзя или долго.</p>
+
+<p>Дополнительные материалы:</p>
+
+<ul>
+<li><a href="http://www.perlmonks.org/?node_id=228040">bootstrapping with microperl</a></li>
+<li><a href="http://www.foo.be/docs/tpj/issues/vol5_3/tpj0503-0003.html">http://www.foo.be/docs/tpj/issues/vol5_3/tpj0503-0003.html</a></li>
+<li>README.micro в составе дистрибутива</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -367,13 +429,16 @@ rec  25000!  (63 sec, 15016 kb)
 <aside class="sidebar">
   
     <section>
-  <h1>О блоге:</h1>
-  <p>мои заметки о программировании, профессии и всем около-айтишном,
-  собранные в одном месте</p>
+  <h1>About Me</h1>
+  <p>A little something about me.</p>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/04/miniperl/">miniperl</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/02/17/unicode-basics/">Unicode. Ликбез</a>
@@ -389,10 +454,6 @@ rec  25000!  (63 sec, 15016 kb)
     
       <li class="post">
         <a href="/blog/2011/12/23/perl-guts/">Perl guts</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/10/22/po-sliedam-yapc-asia-2011/">По следам YAPC::ASIA 2011</a>
       </li>
     
   </ul>
@@ -412,20 +473,6 @@ rec  25000!  (63 sec, 15016 kb)
   Copyright &copy; 2012 - nordicdyno@gmail.com -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
-<!-- Yandex.Metrika counter -->
-<div style="display:none;"><script type="text/javascript">
-(function(w, c) {
-    (w[c] = w[c] || []).push(function() {
-        try {
-            w.yaCounter12762430 = new Ya.Metrika({id:12762430, enableAll: true});
-        }
-        catch(e) { }
-    });
-})(window, "yandex_metrika_callbacks");
-</script></div>
-<script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript" defer="defer"></script>
-<noscript><div><img src="//mc.yandex.ru/watch/12762430" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
 
 </footer>
   
