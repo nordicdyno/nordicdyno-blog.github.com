@@ -1,0 +1,1004 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: YAPC | YA IT's blog]]></title>
+  <link href="http://nordicdyno.github.com/blog/categories/yapc/atom.xml" rel="self"/>
+  <link href="http://nordicdyno.github.com/"/>
+  <updated>2012-07-04T20:59:35+04:00</updated>
+  <id>http://nordicdyno.github.com/</id>
+  <author>
+    <name><![CDATA[nordicdyno@gmail.com]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Unicode. Ликбез]]></title>
+    <link href="http://nordicdyno.github.com/blog/2012/02/17/unicode-basics/"/>
+    <updated>2012-02-17T18:30:00+04:00</updated>
+    <id>http://nordicdyno.github.com/blog/2012/02/17/unicode-basics</id>
+    <content type="html"><![CDATA[<p>Текст выросший из моего доклада <a href="http://event.perlrussia.org/saintperl3/talk/158">Unicode-ликбез</a> на Санкт-Петербугском воркшопе <a href="http://event.perlrussia.org/saintperl3/index.html">SaintPerl 2011</a>.</p>
+
+<!-- more -->
+
+
+<h2>Вступление</h2>
+
+<p>Хочу предупредить, что этот рассказ не о интернационализации или локализации, хотя это и очень близкие темы. Еще я не буду рассказывать об истории кодировок (почти). Или о том, как надо правильно работать с Unicode в Perl или каком-либо другом языке.
+Я хочу рассказать о том, что просто необходимо разработчику знать о Unicode и почему.</p>
+
+<h2>объяснение названия</h2>
+
+<blockquote><p><strong>Ликбез</strong> (ликвидация безграмотности) – в переносном смысле — обучение неподготовленной аудитории базовым понятиям какой-либо науки, процесса или явления.</p></blockquote>
+
+<p>В нашем случае аудитория вполне подготовленная. И, казалось бы, что такого можно рассказать о Unicode разработчикам?
+Все наверняка слышали про кодировки (мы не из ASCII-мира), и разве Unicode – это не просто еще одна расширенная универсальная кодировка, призванная заменить все предыдущие?</p>
+
+<p>Честно говоря, я примерно так и воспринимал Unicode. Потому что это просто - так думать!  Но такое упрощенное понимание неверно и может приводить к неожиданным ошибкам в коде и непониманию происходящего при обработке текстов, вне зависимости от используемых инструментов: редактор ли это текстов или язык программирования.</p>
+
+<p>Во многих случаях упрощение – это неизбежность, т.к. невозможно (и не нужно) знать все. Но для программиста незнание или непонимание Unicode – серьезный изъян в профессиональных навыках.</p>
+
+<p>К необходимости знания и понимания Unicode я пришел, основываясь на собственном опыте и ликбез относится ко мне не в последнюю очередь.</p>
+
+<p>Я разделил свой доклад на три части.</p>
+
+<h2>Часть 1 «Задачка»</h2>
+
+<p>В том, что Unicode - это не просто кодировка, я убедился, когда попробовал решить простую на первый взгляд задачку:</p>
+
+<p>найти в слове</p>
+
+<pre><code>Îñţérñåţîöñåļîžåţîöñ 
+</code></pre>
+
+<p>подстроку</p>
+
+<pre><code>Nation
+</code></pre>
+
+<p>Выглядит довольно просто.
+Да, в исходном слове (реально не существующем, кстати) есть какие-то крышечки, но наверняка их можно убрать и найти нужную подстроку регулярным выражением – ведь регекспы в Perl могут все? Но как это сделать, что и где искать в документации?</p>
+
+<p>Для начала я задал вопрос на stackoverflow:
+<a href="http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789">http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789</a>, после чего приступил к самостоятельному исследованию.</p>
+
+<p>Первый шаг был узнать, что хвостики и крышечки – это могут быть как диакритические знаки, так и знаки ударения (accent) и что-то еще. Затем, то что в регулярном выражении в Perl их можно искать/удалять с помощью \p{Marks}, предварительно выделив эти знаки (marks) из строки с помощью <a href="http://www.unicode.org/reports/tr15/">NFD-нормализации</a>.</p>
+
+<h3>решение №1</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>variant 1  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="k">use</span> <span class="n">utf8</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="nn">Unicode::</span><span class="n">Normalize</span> <span class="sx">qw/ NFD /</span><span class="p">;</span>
+</span><span class='line'><span class="nb">binmode</span> <span class="bp">STDOUT</span><span class="p">,</span> <span class="s">&#39;:encoding(UTF-8)&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$str</span>  <span class="o">=</span> <span class="s">&quot;Îñţérñåţîöñåļîžåţîöñ&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$look</span> <span class="o">=</span> <span class="s">&quot;Nation&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="n">say</span> <span class="s">&quot;before: $str\n&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$str</span> <span class="o">=</span> <span class="n">NFD</span><span class="p">(</span><span class="nv">$str</span><span class="p">);</span>
+</span><span class='line'><span class="nv">$str</span> <span class="o">=~</span> <span class="sr">s/\pM//og</span><span class="p">;</span> <span class="c1"># remove &quot;marks&quot;</span>
+</span><span class='line'><span class="n">say</span> <span class="s">&quot;after: $str&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="n">say</span> <span class="s">&quot;is_match: &quot;</span><span class="p">,</span> <span class="nv">$str</span> <span class="o">=~</span><span class="sr"> /$look/i</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Довольно много новой информации и новых слов: "нормализация", "диакритические знаки".
+Я был доволен и опубликовал свое решение на stackoverflow.
+Но, когда, спустя некоторое время, я вернулся к своему посту (чтобы порадоваться растущему рейтингу), там меня озадачил такой комментарий:</p>
+
+<p><blockquote><p>This is the wrong way to do it. You need to use a UCA match at level 1</p><footer><strong>tchrist</strong> <cite><a href='http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#comment8983109_7429964'>stackoverflow.com/questions/&hellip;</a></cite></footer></blockquote></p>
+
+<p>Итак, я узнал много новых слов при решении, но все равно сделал что-то неправильно! Хмм...</p>
+
+<p>Я не имел никакого представления, что за зверь «<em>UCA match at level 1</em>» и в чем моя ошибка, но твердо решил, что должен с этим разобраться. Особенно, после того, как посмотрел в профиле кто такой <strong>tchrist</strong>. Это оказался, известный в Perl-коммьюнити разработчик Tom Christiansen, соавтор книг о Perl, один из разработчиков языка и (как оказалось позже) Unicode-эксперт.</p>
+
+<p>В результате, когда я разобрался что к чему и исправил код, он стал выглядеть скучнее:</p>
+
+<h3>решение №2</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>variant 2  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="k">use</span> <span class="mf">5.014</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="n">utf8</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="nn">Unicode::</span><span class="n">Collate</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$str</span>  <span class="o">=</span> <span class="s">&quot;Îñţérñåţîöñåļîžåţîöñ&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$look</span> <span class="o">=</span> <span class="s">&quot;Nation&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">$Collator</span> <span class="o">=</span> <span class="nn">Unicode::</span><span class="n">Collate</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="sr">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;</span><span class="n">normalization</span> <span class="o">=&amp;</span><span class="ow">gt</span><span class="p">;</span> <span class="nb">undef</span><span class="p">,</span> <span class="n">level</span> <span class="o">=&amp;</span><span class="ow">gt</span><span class="p">;</span> <span class="mi">1</span>
+</span><span class='line'><span class="sr">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;</span><span class="p">);</span>
+</span><span class='line'><span class="k">my</span> <span class="nv">@match</span> <span class="o">=</span> <span class="nv">$Collator</span><span class="o">-&gt;</span><span class="n">match</span><span class="p">(</span><span class="nv">$str</span><span class="p">,</span> <span class="nv">$look</span><span class="p">);</span>
+</span><span class='line'><span class="n">say</span> <span class="err">“</span><span class="n">matches:</span> <span class="err">”</span> <span class="o">.</span> <span class="nb">join</span><span class="p">(</span><span class="err">“</span><span class="p">,</span> <span class="err">“</span><span class="p">,</span> <span class="nv">@match</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Кстати, вот еще одна цитата <strong>tchrist</strong>, найденная на stackoverflow:</p>
+
+<blockquote><p>«Code that assumes you can remove diacritics to get at base ASCII letters is evil, still, broken, brain-damaged, wrong, and justification for capital punishment»</p></blockquote>
+
+<h3>рефлексия</h3>
+
+<p>В чем же была моя основная ошибка (или в чем заключалось невежество)?
+Основной ошибкой была попытка, не понимая сути, решить, как оказалось, нетривиальную задачу с помощью простого рецепта.</p>
+
+<p>Рецепты – это неплохо. Это такая хорошая штука, которая позволят здорово экономить время. Например, готовка супа по рецепту отлично работает. И для многих случаев, с которыми приходится сталкиваться в программировании, рецепты тоже работают. Но это хорошо работает только для простых задач, а не для сложных!
+Например, для химических экспериментов необходимо понимание происходящих процессов и основ химии. Иначе может быть <em>бум</em>! (Придумайте еще примеры :)
+И для правильной обработки Unicode, также, просто необходимо знание основ.</p>
+
+<h2>Часть 2 «Ликбез»</h2>
+
+<p>Итак мы видим, что Unicode – это большая и сложная тема. И если мы хотим в ней разобраться, то с чего начать?</p>
+
+<p>Первое, с чего я рекомендую начать изучение – это терминология.
+Важно начать именно с нее, так как знание терминологии помогает избежать путаницы и сохранить ясность мысли в процессе обучения.
+В сети очень много материалов о Unicode, и хотя в целом информация полезная и хорошая, но авторы очень часто небрежно используют термины (например, не делая различия между UCS-2 и UTF-16), в результате чего новичку (и не только!) очень легко запутаться или получить неверное представление.</p>
+
+<p>Начем с того, что Unicode – это не кодировка или таблица символов. Это стандарт! В который входит, помимо таблиц символов и правил их кодирования, еще много-много чего.</p>
+
+<p>Стандарт Unicode это:</p>
+
+<ul>
+<li>таблицы символов</li>
+<li>несколько механизмов кодирования</li>
+<li>формы нормализации текста</li>
+<li>правила casemapping и casefolding</li>
+<li>гибкие правила collation</li>
+<li>правила переносов для слов и разбиения строк</li>
+<li>специальные правила для регулярных выражений</li>
+<li>тысячи именованых свойств (properties)</li>
+<li>численные эквивалентности (U+216B XII)</li>
+<li>направление текста</li>
+<li><em>многое другое</em></li>
+</ul>
+
+
+<p>Важный момент: Unicode не отвечает за то, как отрисовываются символы, т.е. за их рендеринг (это делают шрифты и конечное ПО).</p>
+
+<p>В Unicode можно указывать на направленность текста (но поддержка вертикальных текстов пока только в планах).</p>
+
+<p>Стандарт имеет массу документов, разные версии (1.0 – October 1991, ... 5.0 – July 2006, 6.0 – October 2010), собственную терминологию, в том числе множество TLA или ТБС (Three-letter acronyms или Трех Буквенных Сокращений).</p>
+
+<p>Некоторые TLA (ТБС) описываются ниже.</p>
+
+<h3>UCS, таблицы символов</h3>
+
+<p><strong>UCS (ucs-2, ucs-4)</strong> – универсальный набор символов (universal character set) задаёт однозначное соответствие символов кодам — элементам кодового пространства, представляющим неотрицательные целые числа.
+Определен в стандарте ISO/IEC 10646 (включен в стандарт Unicode)</p>
+
+<p>UCS стандартизирует набор абстрактных символов, на данный момент примерно 100 тысяч (потенциально до 1,114,112 code points), каждый из которых имеет уникальное имя и числовое значение - кодовую точку (code point).
+Cейчас это часть стандарта Unicode. Стандарт включает наборы USC-2 (устаревший) и UCS-4.</p>
+
+<p><strong>Кодовое пространство</strong> (codespace) – в Unicode разбито на 17 плоскостей по 2<sup>16</sup> (65536) code points (кодовых точек), набор всех code points: 0hex to 10FFFFhex</p>
+
+<p><strong>Нулевая плоскость</strong> (BMP/Basic Multilingual Plane) – в ней расположены символы наиболее употребительных письменностей. Т.е. это code points в диапазоне 0x0 - 0xFFFF (не все используются, верхняя часть диапазона зарезервирована)</p>
+
+<blockquote><p>Часто встречается путаница в терминах, из-за того, что во многих системах реализованых в доюникодную эпоху (Symbyan, NT, CD_ROM, Python 2.x, Java &lt; 7, JavaScript), используется  устаревший UCS-2 для кодирования символов.
+И поэтому закодированный в UCS-2 текст часто называют юникодом, хотя правильнее было бы называть UCS-2 подмножеством Unicode.
+(программы работающие с UCS-2 не умеют полноценно обрабатывать Unicode, так как ничего не знают о стандарте)</p>
+
+<p>Самый известный пример – современные реализации языка JavaScript, где строки хранятся в UCS-2 (символы там всегда шириной 2 байта и это оговорено стандартом языка). Причем сами JS-движки обычно внутри себя используют UTF-16.</p></blockquote>
+
+<p>Именно UCS используется при численной записи Unicode символов, которую многие видели.</p>
+
+<pre><code>u (U+0075 ʟᴀᴛɪɴ sᴍᴀʟʟ ʟᴇᴛᴛᴇʀ ᴜ) + ¨(U+0308 ᴄᴏᴍʙɪɴɪɴɢ ᴅɪᴀᴇʀᴇsɪs) =&gt; ü
+</code></pre>
+
+<p>эти же коды используются в современных ОС для ввода с клавиатуры</p>
+
+<pre><code>mac: unicode hex input (language &amp; text), option + code
+windows: alt + “+” + code
+</code></pre>
+
+<p>см. также:</p>
+
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Unicode_input">http://en.wikipedia.org/wiki/Unicode_input</a></li>
+<li><a href="http://tlt.its.psu.edu/suggestions/international/accents/codemac.html">http://tlt.its.psu.edu/suggestions/international/accents/codemac.html</a></li>
+</ul>
+
+
+<p>В вебе есть базы данных символов юникод, где можно посмотреть, что кроме числового UCS-представления у этих символов существует множество свойств и способов кодирования, определенных стандартом.</p>
+
+<p><strong>UCS4</strong> - основа всех современных unicode-кодировок.</p>
+
+<p><strong>Character General Category</strong> – каждый code point относится к одной из основных категорий: буква, знак (см диакр. знаки), число(number), пунктуационный знак, символ, разделитель (см. <a href="http://www.unicode.org/versions/Unicode6.0.0/ch02.pdf">http://www.unicode.org/versions/Unicode6.0.0/ch02.pdf</a>)</p>
+
+<h3>UTF, кодировка символов</h3>
+
+<p><strong>UTF</strong> (Unicode transformation format) – семейство кодировок, которое определяет машинное представление последовательности кодов UCS.
+Существует 3 кодировки: UTF-8, UTF-16, UTF-32 и 6 способов закодировать <strong>code point</strong>-ы: UTF-8 (UTF-EBCDIC), UTF-16BE, UTF-16LE, UTF-32BE, UTF-32LE</p>
+
+<p><strong>BE</strong> и <strong>LE</strong> расшифровываются как big-endian (BE), дословно «тупоконечный» – порядок байт от старшего к младшему, и little-endian (LE), дословно «остроконечный» – порядок байт от младшего к старшему.</p>
+
+<p>Если нет <strong>BOM</strong> (о нем ниже), то стандартом предписывается Big Endian. (Выбор BE и LE определяется архитектурой компьютера, для большинства машин (x86-совместимых) – это LE)</p>
+
+<blockquote><p>Все эти кодировки, кроме UTF-32 - переменной ширины!</p></blockquote>
+
+<p><em>Еще раз: UCS - таблица(-ы) code point-ов в стандарте, UTF - способ кодирования их в поток байт, которые можно сохранить в памяти/на накопителе или передать по сети.</em></p>
+
+<p><strong>BOM</strong> (byte order mark) – позволет понять при чтении, какая последовательность байт используется (LE или BE).</p>
+
+<p>BOM важен для UTF-16 и UTF-32. Для UTF-8 обычно не нужен, но есть в стандарте. Подразумевается, что встретив незнакомый BOM, UTF-16,32 программы cмогут понять, что в файле utf-8.</p>
+
+<blockquote><p>BOM не нужен для правильной обработки UTF-8, но иметь в виду его необходимо, т.к. те же MS-программы, живущие в мире нескольких Unicode-кодировок (UTF-16 и UTF-8 как минимум), соблюдают это соглашение и сохраняют файлы в UTF-8 с BOM (Notepad и др.)</p></blockquote>
+
+<p><strong>UTF-16</strong> – особенность кодировки в том, что символы не из 0-й plane задаются составными кодами 16+16=32 бита, которые называются <strong>суррогатными парами</strong></p>
+
+<p>Для суррогатных пар зарезервированны значения, не задействованные в основном codespace</p>
+
+<blockquote><p>Софт работающий с ucs2/utf-16 зачастую имеет ошибки в обработке суррогатов, так как  редко встречаются и софт редко тестируется на совместимость с ними</p></blockquote>
+
+<p>UTF-16 используется в Win 2000, Vista, .NET, MacOS X Cocoa, Python (до недавних версий)</p>
+
+<p>Еще немного о неотображаемых code point-ах (суррогатах). Те, что в BMP-диапазоне, называются  "low surrogates", те, что выше – "high surrogates". И они используются только в UTF-16! (основное отличие UTF-16 от UCS-2)
+Пары суррогатных code point соответствуют реально существующим codepoint-ам, выходящим за base plane. По отдельности они не имеют смысла.</p>
+
+<p><a href="http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters">http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters</a></p>
+
+<blockquote><p>Не надо путать составные символы и суррогатные пары</p></blockquote>
+
+<p><strong>UTF32</strong> – кодировка фиксированной ширины, всегда 4 байта.</p>
+
+<p><a href="http://en.wikipedia.org/wiki/UTF-32/UCS-4">http://en.wikipedia.org/wiki/UTF-32/UCS-4</a></p>
+
+<p>удобна в плане простоты, но редко используется из-за необходимости выделения 4 байт для каждого символа</p>
+
+<p><strong>UTF-8</strong> – распространена в unix/web. Переменной ширины, кодовый символ может быть от 1 до 6 байт длиной, но не встречается больше 4 (2 оставлены про запас и врядли понадобятся в обозримом будущем).</p>
+
+<p>Была изобретена 2 сентября 1992 года Кеном Томпсоном и Робом Пайком.
+Совместима с ASCII, если не выходить за границу 128 символов.</p>
+
+<p><em>Самая "православная" кодировка</em>. ☺</p>
+
+<p>Хитро мапит кодепоинты в байты, ипользует часть битов для спец-целей (из первого байта можно узнать длину последовательности). Отсюда следует, что <em>коды символов не совпадают с UCS</em>.</p>
+
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/UTF-EBCDIC">http://en.wikipedia.org/wiki/UTF-EBCDIC</a> – редкая кодировка UTF-8 "для мейнфреймов"</li>
+</ul>
+
+
+<p>Perl может внутри хранить строки как в UTF-8 так и в UTF-EBCDIC</p>
+
+<p><strong>Композиция символов</strong> – cимволы  задающиеся несколькими кодами (составные символы)
+Для некоторых символов есть как композитные так и монолитные формы записи</p>
+
+<pre><code>Ё (U+0401) и Й (U+0419)
+Е +  ̈ (U+0415 U+0308)
+И +  ̆ (U+0418 U+0306)
+</code></pre>
+
+<h3>термины, которые полезно знать и различать при изучении Unicode</h3>
+
+<p><strong>Character</strong> – минимальный компонент письменного языка, имеющий семантическое значение. Ссылается на абстрактное значение (знак) или на символ</p>
+
+<p><strong>Символ (symbol)</strong> (из греч. σύμβολον) — знак, изображение какой-нибудь вещи или животного для означения качества предмета; условный знак каких-либо понятий, идей, явлений.</p>
+
+<p><strong>Графема (grapheme)</strong> (от греч. γράφω — пишу и -ема) — единица письменной речи (в алфавите — буква, в неалфавитных системах письма — слоговой знак, иероглиф, идеограмма и др.).
+Графема однозначно отличима от любой другой единицы этой же письменности.</p>
+
+<p><strong>Глиф (glypth)</strong> (греч. γλύφειν — резное письмо) — элемент письма, конкретное графическое представление графемы, иногда нескольких связанных графем (составной глиф), или только части графемы (например, диакритический знак).<br/>
+И если графема - это единица текста, то глиф - единица графики.</p>
+
+<p><strong>Буква (Letter)</strong> – отдельный символ какого-либо алфавита, графема. Чаще всего буква соответствует звуку в устной речи, но это необязательно.
+У буквы может существовать несколько равнозначных вариантов написания, не меняющих её произношения и смысла.</p>
+
+<p><strong>Диакритические знаки (diacritical mark)</strong> - различные надстрочные, подстрочные, реже внутристрочные знаки</p>
+
+<p><strong>Идеограмма</strong> - письменный знак, обозначающий (в отличие от букв) не звуки какого-либо языка, а целое слово или корень.</p>
+
+<h3>что еще описывается стандартом Unicode</h3>
+
+<p><strong>Нормализация</strong>. Поскольку одни и те же символы можно представить различными кодами, что иногда затрудняет обработку, существуют процессы нормализации, предназначенные для приведения текста к определённому стандартному виду.</p>
+
+<ul>
+<li><a href="http://www.unicode.org/faq/normalization.html">http://www.unicode.org/faq/normalization.html</a></li>
+</ul>
+
+
+<p><strong>Case folding</strong> – приведение символа или строки к заданному регистру (у символов может быть от одного до трех возможных регистров).</p>
+
+<p><strong>UCA</strong> (Unicode Collation Algorithm) – алгоритм сравнения двух строк, с учетом особенностей Unicode.</p>
+
+<p><strong>ICU</strong> (International Components for Unicode) – не входит в стандарт, но полезно знать. ICU – набор C-библиотек для разработки программ с поддержкой Unicode.</p>
+
+<blockquote><p>для Python есть pyICU, в Perl5 своя реализация Unicode, поддерживаемая perl5 porters</p></blockquote>
+
+<p>Вообще-то это не все термины и понятия, но уже не мало?</p>
+
+<p>здесь можно сделать небольшую передышку</p>
+
+<h2>☕</h2>
+
+<h2>Часть 3. «Домашняя работа»</h2>
+
+<p>Итак, мы теперь знаем, что Unicode это не просто расширенная таблица символов, не плаваем в терминах и понимаем, что Unicode – это совсем не просто. Что дальше?</p>
+
+<p>Дальше нужно воспользоваться дополнительными материалами, поисковиком, любимым инструментарием и глубже изучить тему самостоятельно!</p>
+
+<p>Может возникнуть вопрос "Зачем учить?". Простой ответ заключается втом, что для квалифицированного программиста в настоящее время знание хотя бы основ Unicode и того как в используемом языке, ОС реализована поддержка его стандарта – обязательное условие.</p>
+
+<p>Известная статья Джоела, на эту же тему:
+<a href ="http://local.joelonsoftware.com/wiki/Абсолютный_Минимум,_который_Каждый_Разработчик_Программного_Обеспечения_Обязательно_Должен_Знать_о_Unicode_и_Наборах_Символов">Абсолютный минимум, который каждый разработчик программного обеспечения обязательно должен знать о Unicode и наборах символов</a>, которая была написана в 2001 г., то есть более 10 лет(!) назад.</p>
+
+<p>Незнание или, что еще хуже, поверхностное знание, может и не помешать написать <em>вроде как</em> правильно работающий код, но чревато тем, что он окажется неправильным в самый неожиданный и неподходящий момент.</p>
+
+<p>Никто не гарантирует, что вы не столкнетесь с неправильной реализацией Unicode в сторонних библиотеках, и в таком случае хорошее знание темы может очень помочь в понимании того, что происходит.</p>
+
+<p>И еще одна причина. Когда человек чего-то не знает или недопонимает, он это может считать магическим и волшебным (примеры: молния, Unicode, сборщик мусора виртуальной машины). Цитата, иллюстрирующая пример такого отношения из рассылки Moscow.pm:</p>
+
+<p><blockquote><p>«Все-таки UTF8 в перле - это немного черная магия»</p></blockquote></p>
+
+<p>Чтобы это не казалось магией – необходимо знание!</p>
+
+<p>Если вопроса "Зачем учить" не возникает, то я попробую ответить на вопрос: "Как учить?".</p>
+
+<p>Хорошая новость в том, что есть множество ресурсов с тоннами информации по Unicode. Презентации, статьи – все есть в сети.
+Не очень хорошая новость – информации очень и очень много. Что же делать чтобы в ней не утонуть?</p>
+
+<p>Мой совет – обратиться к авторитетным источникам! (cтандарт слишком большой и читать его скучно)</p>
+
+<p>Во первых, прочитайте статью Джоэла (ссылка выше). Установите Unicode-шрифты (доступны в <a href="https://github.com/nordicdyno/talk_uni_edu/tree/master/fonts">репозитории</a> и по ссылкам в конце).</p>
+
+<p>Прочитайте <a href="http://ru.wikipedia.org/wiki/Юникод">обзорную статью в Википедии</a></p>
+
+<p>Обратитесь к публикациям Tom Christiansen. Обязательно ознакомьтесь с его презентациями с OSCON 2011, если вы еще не успели это сделать.</p>
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/6162484/why-does-modern-perl-avoid-utf-8-by-default/6163129#6163129">супер комментарий-рассказ tchrist о практиках работы с Unicode</a></li>
+<li><a href="http://dheeb.files.wordpress.com/2011/07/gbu.pdf">"Unicode Support Shootout: The Good, the Bad, &amp; the (mostly) Ugly"</a></li>
+<li><a href="http://doc.japh.se/tchrist_oscon_perl_unicode_essentials/3h-Perl_Unicode_Essentials.html">"Perl Unicode Essentials"</a></li>
+<li><a href="http://doc.japh.se/tchrist_oscon_perl_unicode_essentials/45m-Unicode_in_Perl_Regexes.html">"Unicode in Perl Regexes"</a></li>
+</ul>
+
+
+<p>)ригиналы находятся на странице автора <a href="http://training.perl.com/OSCON2011/index.html">http://training.perl.com/OSCON2011/index.html</a>
+но она, к сожалению, чаще не работает, чем работает ☠ ☠ ☠)</p>
+
+<p>Если вы Perl-разработчик, то прочитайте <a href="http://perldoc.perl.org/search.html?q=perluni">документацию</a></p>
+
+<p>Обратите внимание на ссылки внизу.</p>
+
+<h2>Ресурсы</h2>
+
+<ul>
+<li><a href="http://googleblog.blogspot.com/2010/01/unicode-nearing-50-of-web.html">Unicode nearing 50% of the web (2010)</a>
+-<a href="http://googleblog.blogspot.com/2012/02/unicode-over-60-percent-of-web.html">Unicode over 60 percent of the web (2012)</a></li>
+<li><a href="http://sigstp.blogspot.com/search/label/encoding">Avoiding encoding headache (in Perl)</a></li>
+<li><a href="http://shapecatcher.com/">shapecatcher.com – распознавание Unicode символов по рисунку </a></li>
+<li>Онлайн база Unicode:
+
+<ul>
+<li><a href="http://www.fileformat.info/info/unicode/index.htm">http://www.fileformat.info/info/unicode/index.htm</a></li>
+<li><a href="http://www.fileformat.info/info/unicode/char/fc/index.htm">http://www.fileformat.info/info/unicode/char/fc/index.htm</a></li>
+<li><a href="http://www.fileformat.info/info/unicode/char/search.htm?q=%D0%B8&amp;preview=entity">http://www.fileformat.info/info/unicode/char/search.htm?q=%D0%B8&amp;preview=entity</a></li>
+<li><a href="http://www.fileformat.info/info/unicode/char/1f4a9/index.htm">http://www.fileformat.info/info/unicode/char/1f4a9/index.htm</a></li>
+</ul>
+</li>
+<li><a href="http://www.unicode.org/charts/charindex.html">http://www.unicode.org/charts/charindex.html</a></li>
+<li>шрифты:
+
+<ul>
+<li><a href="http://users.teilar.gr/~g1951d/">http://users.teilar.gr/~g1951d/</a></li>
+<li><a href="https://github.com/nordicdyno/talk_uni_edu/tree/master/fonts">https://github.com/nordicdyno/talk_uni_edu/tree/master/fonts</a></li>
+</ul>
+</li>
+</ul>
+
+
+<h3>документация и технические подробности</h3>
+
+<ul>
+<li><a href="http://perldoc.perl.org/search.html?q=perluni">Документация Perl по Unicode</a></li>
+<li>Casefolding: <a href="http://perldoc.perl.org/5.14.0/Unicode/UCD.html">http://perldoc.perl.org/5.14.0/Unicode/UCD.html</a></li>
+<li>UNICODE COLLATION ALGORITHM <a href="http://www.unicode.org/reports/tr10/">http://www.unicode.org/reports/tr10/</a></li>
+<li>набор функций Glib для обработки Unicode <a href="http://docstore.mik.ua/manuals/ru/glib_api/glib-Unicode-Manipulation.html">http://docstore.mik.ua/manuals/ru/glib_api/glib-Unicode-Manipulation.html</a></li>
+</ul>
+
+
+<h3>Wikipedia и официальная справка</h3>
+
+<ul>
+<li><a href="http://ru.wikipedia.org/wiki/Юникод">http://ru.wikipedia.org/wiki/Юникод</a></li>
+<li><a href="http://en.wikipedia.org/wiki/UTF-8">http://en.wikipedia.org/wiki/UTF-8</a></li>
+<li><a href="http://en.wikipedia.org/wiki/UTF-EBCDIC">http://en.wikipedia.org/wiki/UTF-EBCDIC</a></li>
+<li><a href="http://en.wikipedia.org/wiki/UTF-16">http://en.wikipedia.org/wiki/UTF-16</a></li>
+<li><a href="http://en.wikipedia.org/wiki/UTF-32/UCS-4">http://en.wikipedia.org/wiki/UTF-32/UCS-4</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Byte_order_mark">http://en.wikipedia.org/wiki/Byte_order_mark</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings">http://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters">http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Canonical_equivalence">http://en.wikipedia.org/wiki/Canonical_equivalence</a></li>
+<li><a href="http://www.w3.org/International/wiki/Case_folding">http://www.w3.org/International/wiki/Case_folding</a></li>
+<li><a href="http://www.unicode.org">http://www.unicode.org</a></li>
+<li><a href="http://www.unicode.org/glossary/">Официальный глоссарий www.unicode.org/glossary/</a></li>
+<li><a href="http://www.unicode.org/faq/utf_bom.html">FAQ по BOM</a></li>
+<li>про нормализацию:
+
+<ul>
+<li><a href="http://www.unicode.org/reports/tr15/">http://www.unicode.org/reports/tr15/</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Unicode_normalization">http://en.wikipedia.org/wiki/Unicode_normalization</a></li>
+<li><a href="http://habrahabr.ru/blogs/webdev/45489/">http://habrahabr.ru/blogs/webdev/45489/</a></li>
+<li><a href="http://ru.wikipedia.org/wiki/Юникод#.D0.A4.D0.BE.D1.80.D0.BC.D1.8B_.D0.BD.D0.BE.D1.80.D0.BC.D0.B0.D0.BB.D0.B8.D0.B7.D0.B0.D1.86.D0.B8.D0.B8">http://ru.wikipedia.org/wiki/Юникод</a></li>
+</ul>
+</li>
+</ul>
+
+
+<h3>статьи, публикации в блогах</h3>
+
+<ul>
+<li><a href="http://kunststube.net/encoding/">What Every Programmer Absolutely, Positively Needs To Know About Encodings And Character Sets To Work With Text</a></li>
+<li><a href="http://habrahabr.ru/blogs/php/138269/">PHP 6 не будет, не осилили (habr)</a></li>
+<li><a href="http://www.transl-gunsmoker.ru/2008/11/unicode.html">Регистр в Unicode - это непросто</a></li>
+<li><a href="http://blog.jochentopf.com/2011-03-17-javascript-and-unicode.html">Javascript and Unicode</a></li>
+<li><a href="http://www.perl.com/pub/2011/08/whats-wrong-with-sort-and-how-to-fix-it.html">Как сортировать Unicode-строки в Perl (en)</a></li>
+<li><a href="http://www.effectiveperlprogramming.com/blog/1416">Применение нормализации при использовании split в Perl (en)</a>
+<a href="http://fatalweb.com/questions/178785/javascript-strings-outside-of-the-bmp">"JavaScript strings outside of the BMP"</a></li>
+<li><a href="http://lionet.livejournal.com/tag/unicode">http://lionet.livejournal.com/tag/unicode</a></li>
+<li><a href="http://www.cl.cam.ac.uk/~mgk25/unicode.html">UTF-8 and Unicode FAQ for Unix/Linux</a></li>
+</ul>
+
+
+<h3>материалы конференций</h3>
+
+<ul>
+<li>доклад Монса на YAPC::Russia May Perl 2008: <a href="http://rutube.ru/tracks/793436.html?v=252bdfab9677b48a96c5c47c8dc42c27">часть 1</a>,
+<a href="http://rutube.ru/tracks/793450.html?v=0a9de4c7350b0f84ae2f9c325dcb6237">часть 2</a>,
+<a href="http://rutube.ru/tracks/793452.html?v=0e76a93c96a45074d0d5d430a13bf1cd">часть 3</a></li>
+<li>рассказ Олега Алистратова на PerlMova - 2010 <a href="http://www.slideshare.net/alistratov/perl-unicode">http://www.slideshare.net/alistratov/perl-unicode</a></li>
+<li><a href="http://www.farmdev.com/talks/unicode/">Unicode In Python, Completely Demystified</a></li>
+</ul>
+
+
+<h3>разное</h3>
+
+<ul>
+<li><a href="http://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt">"UTF-8 history" from Rob 'Commander' Pike</a></li>
+<li><a href="http://www.nntp.perl.org/group/perl.perl5.porters/2010/01/msg156111.html">"Use ICU for Unicode in Perl?"</a></li>
+<li><a href="http://www.unicode.org/announcements/quotations.html">http://www.unicode.org/announcements/quotations.html</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Three-letter_acronym">Three-letter_acronym</a></li>
+<li><a href="http://stackoverflow.com/questions/7429964/how-to-match-string-with-diacritic-in-modern-perl/7440789#7440789">Мой вопрос на StackOverflow</a></li>
+<li>JSON-редактор <a href="http://jsonviewer.stack.hu/">http://jsonviewer.stack.hu/</a></li>
+</ul>
+
+
+<p>Сайт с большой подборкой информации о локализации и интернационализации: <a href="http://www.i18nguy.com">http://www.i18nguy.com</a></p>
+
+<ul>
+<li>статья про суррогаты: <a href="http://www.i18nguy.com/surrogates.html">http://www.i18nguy.com/surrogates.html</a></li>
+<li>юмор: <a href="http://www.i18nguy.com/humor/unicode-humor.html">http://www.i18nguy.com/humor/unicode-humor.html</a></li>
+</ul>
+
+
+<p>тест правильной работы c UTF-8 в JSON-парзере:
+ <a href="https://metacpan.org/source/MLEHMANN/JSON-XS-2.32/t/01_utf8.t">https://metacpan.org/source/MLEHMANN/JSON-XS-2.32/t/01_utf8.t</a></p>
+
+<h3>книги</h3>
+
+<p>для углубленного изучения, если есть интерес (спасибо Dmitry Arsentiev за ссылки):</p>
+
+<ul>
+<li><a href="http://shop.oreilly.com/product/9780596102425.do">«Fonts &amp; Encodings: From Advanced Typography to Unicode and Everything in Between»</a></li>
+<li><a href="http://shop.oreilly.com/product/9780596514471.do">«CJKV Information Processing, 2nd Edition»</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[По следам YAPC::ASIA 2011]]></title>
+    <link href="http://nordicdyno.github.com/blog/2011/10/22/po-sliedam-yapc-asia-2011/"/>
+    <updated>2011-10-22T13:26:00+04:00</updated>
+    <id>http://nordicdyno.github.com/blog/2011/10/22/po-sliedam-yapc-asia-2011</id>
+    <content type="html"><![CDATA[<p>Не так давно в Токио прошла самая большая Perl-конференция этого года.
+Так как я потратил определенное время на изучение ее материалов, то решил поделиться информацией.</p>
+
+<!-- more -->
+
+
+<p>Итак, сам сайт конференции <a href="http://yapcasia.org/2011/">http://yapcasia.org/2011/</a>, для чтения иероглифов я пользовался Бромиумом (Хромом от Я), он довольно хорошо справляется с переводом страниц Японский->Английский (часть презентаций в html и там перевод тоже работает). Есть недостаток, что этот механизм не очень надежный (то ли меня банят, то ли <a href="http://translate.google.ru">http://translate.google.ru/</a> "лагает" часто). Pdf-презентации, тоже не очень сложно перевести, если зарегистрироваться на slideshare их можно будет скачать, а потом все легко: pdf -> text или google docs -> google translate -> profit! )</p>
+
+<p>Здесь обзор конференции на английском:
+<a href="http://blogs.perl.org/users/lestrrat/2011/10/a-glimpse-of-yapcasia-tokyo-2011.html">http://blogs.perl.org/users/lestrrat/2011/10/a-glimpse-of-yapcasia-tokyo-2011.html</a>
+из него я узнал победителях на конкурсе лучших докладов:</p>
+
+<p>1 Fujiwara-san, who taught us the many lessons learned and techniques used to migrate his applications from an old datacenter to a new one.
+слайды на японском: <a href="http://dl.dropbox.com/u/224433/YAPC2011/index.html">http://dl.dropbox.com/u/224433/YAPC2011/index.html</a> (можно перевести в chrome/brome, кроме картинок, т.к. html)
+2 Second place was Takesako-san with his Win32::GuiTest talk – пока нет видео и слайдов
+3 Third place was Tokumaru-san, who presented the various ways to protect passwords in your system <a href="http://yapcasia.org/2011/talk/56">http://yapcasia.org/2011/talk/56</a></p>
+
+<p>Далее список докладов, материалы к которым я успел посмотреть, с моими краткими комментариями. В начале постарался расположить наиболее интересные доклады.</p>
+
+<h4>"Perl 5.16 and beyond" - Jesse Vincent</h4>
+
+<p>Рекомендую посмотреть. Мне отдельно понравилось то, как происходит ротация релиз-инженеров в команде perl5 porters.</p>
+
+<ul>
+<li>видео и слайды <a href="http://yapcasia.org/2011/talk/96">http://yapcasia.org/2011/talk/96</a></li>
+</ul>
+
+
+<h4>Perl 5.14 For Pragmatists</h4>
+
+<ul>
+<li><a href="http://yapcasia.org/2011/talk/95">http://yapcasia.org/2011/talk/95</a> – слайды</li>
+</ul>
+
+
+<h4>Unix Programming with Perl 2</h4>
+
+<ul>
+<li><a href="http://yapcasia.org/2011/talk/76">http://yapcasia.org/2011/talk/76</a> - слайды</li>
+</ul>
+
+
+<h4>Monads in perl</h4>
+
+<p>Интересно, но мне не очень понятно было с первого раза. )</p>
+
+<ul>
+<li><a href="http://yapcasia.org/2011/talk/82">http://yapcasia.org/2011/talk/82</a> - слайды</li>
+</ul>
+
+
+<h4>Dtrace printf debugging for seventh-level wizards</h4>
+
+<ul>
+<li><a href="http://sartak.org/talks/yapc-asia-2011/dtrace/dtrace.pdf">http://sartak.org/talks/yapc-asia-2011/dtrace/dtrace.pdf</a> - слайды en/jp</li>
+</ul>
+
+
+<h4>AnyEvent, Coro, IO::AIO - mlehmann</h4>
+
+<ul>
+<li><a href="http://yapcasia.org/2011/talk/71">http://yapcasia.org/2011/talk/71</a> - слайды и видео</li>
+</ul>
+
+
+<h4>Hello Embed Perl!</h4>
+
+<ul>
+<li><a href="http://yapcasia.org/2011/talk/43">http://yapcasia.org/2011/talk/43</a> - слайды</li>
+</ul>
+
+
+<h4>Hacking Mac OSX Cocoa API from Perl</h4>
+
+<p>О модулях Cocoa::*, блог автора <a href="http://unknownplace.org/memo/">http://unknownplace.org/memo/</a></p>
+
+<ul>
+<li><a href="http://yapcasia.org/2011/talk/30">http://yapcasia.org/2011/talk/30</a></li>
+</ul>
+
+
+<h4>Perl Testing Consideration (seen from other languages)</h4>
+
+<p>Как я понял, речь о том, что можно еще хорошего позаимствовать из Ruby, чтобы тестирование веб-приложений было проще и приятнее.</p>
+
+<ul>
+<li><a href="http://www.slideshare.net/masaki/perl-testing-consideration-seen-from-other-languages">слайды на slideshare</a></li>
+</ul>
+
+
+<h4>Marc Lehmann о staticperl</h4>
+
+<p>100 модулей и Perl в 500 кб (которых должно хватить на всех)</p>
+
+<blockquote><p>This script helps you to create single-file perl interpreters or applications, or embedding a perl interpreter in your applications.</p></blockquote>
+
+<ul>
+<li><a href="https://metacpan.org/module/staticperl">https://metacpan.org/module/staticperl</a></li>
+</ul>
+
+
+<h4>Mote electronic tools in Perl</h4>
+
+<ul>
+<li><a href="http://yapcasia.org/2011/talk/60">http://yapcasia.org/2011/talk/60</a></li>
+</ul>
+
+
+<h4>Large-scale environment maniac caching technologies available</h4>
+
+<ul>
+<li><a href="http://static.xaicron.dotcloud.com/slide/yapc2011/index.html">http://static.xaicron.dotcloud.com/slide/yapc2011/index.html</a></li>
+</ul>
+
+
+<h4>"Perl script debugging with gdb"</h4>
+
+<p>к сожалению пока только видео, но тема интересная</p>
+
+<ul>
+<li><a href="http://yapcasia.org/2011/talk/61">http://yapcasia.org/2011/talk/61</a></li>
+</ul>
+
+
+<h4>Hacks image (Image Hacks with Perl)</h4>
+
+<p>Про детектинг изображений. На японском, но тоже очень интересная тема.</p>
+
+<ul>
+<li><a href="http://yapcasia.org/2011/talk/73">http://yapcasia.org/2011/talk/73</a> – слайды, видео</li>
+</ul>
+
+
+<h4>Watch your log http://nekokak.org/presen/yapcasia2011/ слайды</h4>
+
+<p>Про мониторинг и <a href="https://github.com/nekokak/Komainu">https://github.com/nekokak/Komainu</a></p>
+
+<p>Автор Nagios Warakan:</p>
+
+<ul>
+<li><a href="https://metacpan.org/author/NEKOKAK">https://metacpan.org/author/NEKOKAK</a></li>
+<li><a href="https://github.com/nekokak">https://github.com/nekokak</a></li>
+</ul>
+
+
+<h4>Why high school students use Perl?</h4>
+
+<p>доклад 16-летнего школьника с Хокайдо (самый юный участник).</p>
+
+<ul>
+<li><a href="http://akiym.com/slides/20111016-yapcasia2011-why/index.html">http://akiym.com/slides/20111016-yapcasia2011-why/index.html</a></li>
+</ul>
+
+
+<h4>Web Application Acceleration story</h4>
+
+<ul>
+<li><a href="http://ma.la/files/yapcasia2011/">http://ma.la/files/yapcasia2011/</a> – слайды</li>
+</ul>
+
+
+<h4>Hacking with metacpan</h4>
+
+<p>Реклама <a href="https://metacpan.org">metacpan.org</a></p>
+
+<ul>
+<li><a href="http://tokuhirom.github.com/talks/20111015-yapcasia2011-metacpan/#0">http://tokuhirom.github.com/talks/20111015-yapcasia2011-metacpan/#0</a> - слайды</li>
+</ul>
+
+
+<h4>Whada: Multi-Protocol Authentcation / Authorization Tool</h4>
+
+<p>Рассказ о системе разграничения прав с админкой <a href="https://github.com/tagomoris/whada">https://github.com/tagomoris/whada</a>,
+построенной поверх Slapd (OpenLDAP Server).</p>
+
+<ul>
+<li><a href="http://yapcasia.org/2011/talk/24">http://yapcasia.org/2011/talk/24</a> – слайды</li>
+</ul>
+
+
+<h4>Evolution of API With Blogging</h4>
+
+<p>Узнал о <a href="http://explorer.metacpan.org/">http://explorer.metacpan.org/</a> и о протоколе <a href="http://ru.wikipedia.org/wiki/Trackback">Trackback</a>.</p>
+
+<ul>
+<li><a href="http://yapcasia.org/2011/talk/48">http://yapcasia.org/2011/talk/48</a> – слайды</li>
+</ul>
+
+
+<h4>perlbrew</h4>
+
+<ul>
+<li><a href="http://yapcasia.org/2011/talk/65">http://yapcasia.org/2011/talk/65</a> - видео и слайды</li>
+</ul>
+
+
+<h4>Carton: CPAN dependencies manager</h4>
+
+<ul>
+<li><a href="http://yapcasia.org/2011/talk/91">http://yapcasia.org/2011/talk/91</a> – слайды</li>
+</ul>
+
+
+<h4>A Language for Getting Your Job Done</h4>
+
+<p>Слайды на английском, речь на японском. Доклад совсем не технический, поэтому без расшифровки лектора, по одним слайдам мне было мало чего понятно. )</p>
+
+<ul>
+<li><a href="http://www.dan.co.jp/~dankogai/yapcasia2011/jobdone.html">http://www.dan.co.jp/~dankogai/yapcasia2011/jobdone.html</a></li>
+</ul>
+
+
+<h4>How to Build a Web application is easy to operate</h4>
+
+<p>Еще одни слайды на японском в pdf, может быть интересен довольно большой список модулей, о многих узнал впервые</p>
+
+<ul>
+<li><a href="http://yapcasia.org/2011/talk/25">http://yapcasia.org/2011/talk/25</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Обзор YAPC::Europe 2011]]></title>
+    <link href="http://nordicdyno.github.com/blog/2011/08/23/yapc-europe-2011-review/"/>
+    <updated>2011-08-23T17:31:00+04:00</updated>
+    <id>http://nordicdyno.github.com/blog/2011/08/23/yapc-europe-2011-review</id>
+    <content type="html"><![CDATA[<p>На прошлой неделе я посетил Perl-конференцию <a href="http://yapceurope.lv/ye2011/">YAPC::Europe 2011 “Modern Perl”</a>, которая проходила в Риге.
+Помимо того, что мне удалось сфотографироваться с Ларри Уоллом и получить от него и Дэмиана Конвея автографы, потусить с гиками со всего мира и разжиться сувенирными футболками, я исправно посещал презентации в течении тех трех дней, что шла конференция, и даже немножечко пытался конспектировать то что слышал. )
+Ниже список тех выступлений, на которых удалось побывать, с моими кратким комментариями.</p>
+
+<!-- more -->
+
+
+<h2>1-й день</h2>
+
+<h3>Larry Wall's keynote</h3>
+
+<p>Ларри выступил в своей привычной  роли идеолога и философа Perl-коммьюнити, взяв темой своих рассуждений (размышлений)  "Modern perl". Мне было очень интересно.)</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3531">http://yapceurope.lv/ye2011/talk/3531</a></li>
+</ul>
+
+
+<h3>How not to screw up your business application</h3>
+
+<p>Carl Mäsak рассказывал о <a href="http://martinfowler.com/bliki/CQRS.html">CQRS</a> на примере приложения, обслуживающего пассажиропоток в аэропорту</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3517">http://yapceurope.lv/ye2011/talk/3517</a></li>
+</ul>
+
+
+<h3>Oriental Perl for Enterprise</h3>
+
+<p>Юсуке Кавасаки о использовании Perl в японском энтерпрайзе, на примере своего работодателя <a href="http://www.rws.com/">RWS</a> (японский медиа-гигант)</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3472">http://yapceurope.lv/ye2011/talk/3472</a></li>
+</ul>
+
+
+<h3>Making data dance</h3>
+
+<p>Carl Mäsak о использовании Perl 5/6 для решения комбинаторных задач. Я так понял, что в качестве визуализатора и прототипирования алгоритма (по сути обвязка для C),</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3518">http://yapceurope.lv/ye2011/talk/3518</a></li>
+</ul>
+
+
+<h3>Replacing Relational DB with Redis: a Case Study</h3>
+
+<p>Повестование о том, как хранилище DHCP-сервиса перевели из постгреса в редиску. Если честно, я не дослушал, т.к. было скучно.</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3482">http://yapceurope.lv/ye2011/talk/3482</a></li>
+</ul>
+
+
+<h3>Tapper test scheduling</h3>
+
+<p>Инженер из AMD о внутреннем тестовом фреймворке на Perl, который они выложили в opensource <a href="https://github.com/amd">https://github.com/amd</a></p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3430">http://yapceurope.lv/ye2011/talk/3430</a></li>
+</ul>
+
+
+<h3>Smoking The Onion - Tales of CPAN Testers</h3>
+
+<p>Рассказ о <a href="http://www.cpantesters.org/">cpantesters.org</a>
+Я лично ожидал, что будет интереснее. Какие нибудь истории из жизни тестеров, например.</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3547">http://yapceurope.lv/ye2011/talk/3547</a></li>
+</ul>
+
+
+<h2>Второй день</h2>
+
+<h3>Damian Conway (damian) - (Re)Developing in Perl 6</h3>
+
+<p>Автор множества модулей http://search.cpan.org/~dconway/ и PhD из Мельбурна о том, как круто будет писать на Perl6 )</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3532">http://yapceurope.lv/ye2011/talk/3532</a></li>
+</ul>
+
+
+<h3>Zefram - bending semantics with 5.14</h3>
+
+<p>Этот доклад я не дослушал, т.к. не понял какую проблему хотел решить автор, да и код на слайдах мне не был хорошо виден, а во круг его объяснения строился рассказ</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3325">http://yapceurope.lv/ye2011/talk/3325</a></li>
+</ul>
+
+
+<h3>Steffen Schwigon (renormalist) - Benchmark::Perl::Formance for the masses</h3>
+
+<p>Немец пообещал веб-сервис для бенчмаркинга на основе tapper ("через 2 недели")</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3467">http://yapceurope.lv/ye2011/talk/3467</a></li>
+</ul>
+
+
+<h3>Andrew Solomon - Dancing into Web Development</h3>
+
+<p>Автор предложил на коленке собрать очень простой сайт на Dancer, мне это не показалось интересным и я сбежал на параллельный доклад</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3591">http://yapceurope.lv/ye2011/talk/3591</a></li>
+</ul>
+
+
+<h3>Maciej Czekay (Bruno) - Perl Jam: processing MIDI events in realtime</h3>
+
+<p> Интересная демонстрация модуля для фильтрации MIDI-событий (только для Линукс). По сути игрушка для экспериментов с синтезируемой компьютером музыкой (for free).
+ А вообще приятно и интересно наблюдать таких увлекающихся людей как автор (в данном случае музыкой и Perl)</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3536">http://yapceurope.lv/ye2011/talk/3536</a></li>
+</ul>
+
+
+<h3>Reini Urban (rurban) - use types</h3>
+
+<p>Мантейнер perl и cygwin о возможных нововведениях в perl 5.16. О реализации оптимизаций по скорости и памяти на основе указания программистом типов переменных в коде (опционально). Также о планах добавления возможности выбора программистом механизма хэширования и поддержки алгоритма "Perfect hash" (O(1) BDZ algorithm)</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3288">http://yapceurope.lv/ye2011/talk/3288</a></li>
+</ul>
+
+
+<h3>The Perl Foundation: Year in Review</h3>
+
+<p>Президент TPF о пожертвованиях, работе и успехах/неудачах фонда. Интересно с точки зрения того как живет и устроен Open Source.</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3650">http://yapceurope.lv/ye2011/talk/3650</a></li>
+</ul>
+
+
+<h3>Plack basics - website best practices</h3>
+
+<p>О том, что такое PSGI и Plack и о инфраструктуре вокруг Plack (Plack::App:: Plack::Middleware).</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3380">http://yapceurope.lv/ye2011/talk/3380</a></li>
+</ul>
+
+
+<h3>Mark Keating (mdk) - Adventures in Marketing</h3>
+
+<p>В основном, автор с говорящим именем (псевдонимом?), говорил о пользе PR Perl и об успехах за последние несколько лет в этом направлении.</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3364">http://yapceurope.lv/ye2011/talk/3364</a></li>
+</ul>
+
+
+<h2>День третий</h2>
+
+<h3>Perl 5.16 and Beyond</h3>
+
+<p>Очень интересный доклад, но застал только концовку, из-за того что тупо проспал. :(
+Основной лидер и координатор разработки perl5 Jesse Vincent о успехах в разработке Perl5 и какие есть планы на будущее.</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3291">http://yapceurope.lv/ye2011/talk/3291</a></li>
+<li><a href="http://www.slideshare.net/obrajesse/perl-516-and-beyond">http://www.slideshare.net/obrajesse/perl-516-and-beyond</a></li>
+</ul>
+
+
+<h3>Modern Perl - getting there from here</h3>
+
+<p>Англичанин рассказал как они распиливали свою легаси систему (что-то B2B-шное, связанное с налогообложением) и постепенно по кусочкам переписывали. В результате получили новую-кленовую с лучшим интерфейсом, оттестированную. документированную и с модерновым-перлом унутре.</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3652">http://yapceurope.lv/ye2011/talk/3652</a></li>
+</ul>
+
+
+<h3>Introduction to the Dancer web application framework</h3>
+
+<p>Yet Another презентация о фреймворке Dancer. Я ничего нового не узнал, но вообще хороший старт для интересующихся, но еще не "пощупавших".</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3543">http://yapceurope.lv/ye2011/talk/3543</a></li>
+</ul>
+
+
+<h3>Running legacy mod_perl with Plack</h3>
+
+<p>Peter Makholm из Копенгагена рассказал, как он не любит разрабатывать под mod_perl.
+Настолько, что написал свою обертку для запуска mod_perl приложений под plack-ом (использует только для девелопмента). Полученный профит – тесты, няшные миддлваре (StackTrace) и удобство в разработке. В продакшене обертку они не используют.</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3432">http://yapceurope.lv/ye2011/talk/3432</a></li>
+</ul>
+
+
+<h3>Yusuke Kawasaki (kawanet) - Hack For Japan</h3>
+
+<p>После недавнего землятресения в Японии, японские хакеры помогали тем, что умеют хорошо, а именно писали код. Рассказ о том, как были организованы хакатоны, какие полезные сервисы и приложения были созданы. Особенно интересно про самодельные счетчики Гейгера (они не продаются в японских магазинах, если что).</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3471">http://yapceurope.lv/ye2011/talk/3471</a></li>
+</ul>
+
+
+<h3>Lars Dɪᴇᴄᴋᴏᴡ (迪拉斯) - Encryption on the Web for everyone</h3>
+
+<p>Это единственный доклад, где мне казалось, что я сейчас клюну носом и уроню ноутбук с колен (может только поэтому и не заснул).
+Не то что бы тема такая не интересная (интересная и важная!), но вот докладчик был как настоящий кот-баюн. )
+В основном Ларс рассказывал о том, как распилили на модули LWP 6-й версии, и какая непростая штука ssl, во многом из-за бардака с сертификатами, как намучались с OpenSSL. Сейчас SSL из LWP выпилен в отдельный модуль LWP::Protocol::https и еще существует модуль Mozilla::CA, в котором храняться копии корневых сертификатов, что типа некрасиво. но зато работает (в curl сделано также).</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3628">http://yapceurope.lv/ye2011/talk/3628</a></li>
+</ul>
+
+
+<p>ссылки по теме:</p>
+
+<ul>
+<li>Firesheep (<a href="http://www.rb.ru/topstory/science/2010/10/26/185603.html">http://www.rb.ru/topstory/science/2010/10/26/185603.html</a>)</li>
+<li>Monkeysphere (<a href="http://web.monkeysphere.info/why/#index1h2">http://web.monkeysphere.info/why/#index1h2</a>)</li>
+<li><a href="http://vttynotes.blogspot.com/2010/12/man-in-middle-fun-with-perl-lwp.html">http://vttynotes.blogspot.com/2010/12/man-in-middle-fun-with-perl-lwp.html</a></li>
+<li>intermediate certificates <a href="http://vttynotes.blogspot.com/2011/03/quick-note-on-lwp-and-perl-security-cve.html">http://vttynotes.blogspot.com/2011/03/quick-note-on-lwp-and-perl-security-cve.html</a></li>
+</ul>
+
+
+<h3>Abigail - The Business Aware Programmer</h3>
+
+<p>Дядька из booking.com нудно рассказывал о интересах бизнеса ($$$$), и раскрыл Секрет Полишинеля, о том, что то, что программисты считают ценностями (рефакторинг, тесты, правильная архитектура), могут не являться таковыми для бизнеса (если в итоге не приносят $$$). Вобщем, непонятно зачем он просил не записывать свой доклад, и чего такого секретного в итоге рассказал.</p>
+
+<p>Мое резюме такое, что доклад годный в плане прочистки некоторых программистских мозгов. Да, думать как бизнесмен разработчику обычно не нужно, но понимать скучных дядек в костюмах надо и полезно, все-таки они в конечном итоге занимаются возгонкой денег из кода :)</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3510">http://yapceurope.lv/ye2011/talk/3510</a></li>
+</ul>
+
+
+<h3>Matt S Trout (mst) - State of the Velociraptor</h3>
+
+<p>Экспрессивная речь (как обычно) известного разработчика и пропагандиста Perl Мэта Траута. Правда матерился он меньше обычного и вообще общий настрой у доклада был позитивный. Мэт рассказал о том, как обратить в свою пользу особенности поведения персонажей в интернете, которых он классифицировал как assholes, idiots, whiners, trolls. При этом из зала в него летели плюшевые ктулху, одним из которых он потом перестреливался с Ларри Уоллом. А я утащил потом одного домой на память. )</p>
+
+<ul>
+<li><a href="http://yapceurope.lv/ye2011/talk/3316">http://yapceurope.lv/ye2011/talk/3316</a></li>
+</ul>
+
+
+<h3>мой хит-парад докладов</h3>
+
+<ol>
+<li>Larry Wall's keynote</li>
+<li>Yusuke Kawasaki (kawanet) - Hack For Japan</li>
+<li>The Perl Foundation: Year in Review</li>
+<li>Damian Conway (damian) - (Re)Developing in Perl 6</li>
+<li>Reini Urban (rurban) - use types</li>
+<li>Perl 5.16 and Beyond</li>
+<li>Matt S Trout (mst) - State of the Velociraptor</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>
