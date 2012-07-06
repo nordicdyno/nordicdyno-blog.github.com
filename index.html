@@ -3,13 +3,12 @@
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
 <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
 <head>
   <meta charset="utf-8">
   <title>YA IT's blog</title>
   <meta name="author" content="nordicdyno@gmail.com">
-
-  
-  <meta name="description" content="В составе исходников Perl (пользователи perlbrew легко могут их найти в ~/perl5/perlbrew/build) есть урезаннная версия интерпретатора, которая &hellip;">
+  <meta name="description" content=" Yet Another IT weblog / ЙЯитцБлог by @nordicdyno">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://nordicdyno.github.com/">
+  <link rel="canonical" href="http://nordicdyno.github.com">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -49,13 +48,15 @@
   <header role="banner"><hgroup>
   <h1><a href="/">YA IT's blog</a></h1>
   
-    <h2>еще один веблог про IT</h2>
+    <h2>ЙЯитцБлог by @nordicdyno</h2>
   
 </hgroup>
 
 </header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  
   <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
   
 </ul>
   
@@ -67,6 +68,7 @@
 </form>
   
 <ul class="main-navigation">
+<!--  <li><a href="/about">About</a></li> -->
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
 </ul>
@@ -82,7 +84,68 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/07/04/miniperl/">Miniperl</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/07/06/todostat/">Todostat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-06T16:49:00+04:00" pubdate data-updated="true">Jul 6<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/07/06/todostat/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Залил на github утилиту, которая помогает не забыть про <code>TODO</code>, <code>FIXME</code>, <code>REMOVE</code> и т.п. заметки в коде (настраиваемо). Вообще, можно (и нужно) написать тест, который будет напоминать о том же, но так нагляднее, да и одно другому не мешает.</p>
+
+<p>Родилась она под впечатлением от этого поста: <a href="http://wynnnetherland.com/journal/contextual-todo-list-counts-in-your-zsh-prompt">Contextual TODO list counts in your zsh prompt</a></p>
+
+<p><em><em> </em>да, в некоторых IDE можно встретить похожий функционал, но я предпочитаю им связку vim + shell, как более легковесную и настраиваемую.</em></p>
+
+<p>Выглядит оно так:
+<img src="/images/my/todolist.png" title="'todolist util screenshot'" ></p>
+
+<p>Здесь результаты скана для собственной codebase (хранятся в кэш-файле, который обновляется &#8220;ручками&#8221;).</p>
+
+<p>Для zsh (<code>oh-my-zsh</code>) я настроил, чтобы еще справа в коммандлайне показывался нужные мне счетчики с заданной подсветкой.</p>
+
+<p>Основные достоинства утилиты, гибкость настройки через конфигурационый файл, что и как сканировать (и что не сканировать), какими цветами подсвечивать найденные строки, вывод статистики, группировка результатов, кэширование результатов поиска. Впрочем, на кэширование можно смотреть как и на недостаток, т.к. чтобы обновить данные, сейчас необходимо вручную запускать <code>todostat -s</code>.</p>
+
+<p>Оно еще довольно сырое, но поэтому и пиарю, если кто-то решит попробует и пришлет мне багрепорт, фичареквест – я буду очень рад. Если патч, то вообще unbelievable! )</p>
+
+<p>P.S.</p>
+
+<p>унутре у ней <s>неонка</s> Perl</p>
+
+<p>P.P.S</p>
+
+<p>  Исходники и документация: <a href="https://github.com/nordicdyno/todostat">https://github.com/nordicdyno/todostat</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/04/miniperl/">Microperl</a></h1>
     
     
       <p class="meta">
@@ -429,15 +492,20 @@ rec  25000!  (63 sec, 15016 kb)
 <aside class="sidebar">
   
     <section>
-  <h1>About Me</h1>
-  <p>A little something about me.</p>
+  <h1>О блоге:</h1>
+  <p>мои заметки о программировании, профессии и всем около-айтишном,
+  собранные в одном месте</p>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2012/07/04/miniperl/">miniperl</a>
+        <a href="/blog/2012/07/06/todostat/">todostat</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/04/miniperl/">microperl</a>
       </li>
     
       <li class="post">
@@ -450,10 +518,6 @@ rec  25000!  (63 sec, 15016 kb)
     
       <li class="post">
         <a href="/blog/2011/12/29/diligent-perl/">Diligent Perl</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/12/23/perl-guts/">Perl guts</a>
       </li>
     
   </ul>
@@ -525,6 +589,20 @@ rec  25000!  (63 sec, 15016 kb)
 
 
 
+<!-- Yandex.Metrika counter -->
+<div style="display:none;"><script type="text/javascript">
+(function(w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter12762430 = new Ya.Metrika({id:12762430, enableAll: true});
+        }
+        catch(e) { }
+    });
+})(window, "yandex_metrika_callbacks");
+</script></div>
+<script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript" defer="defer"></script>
+<noscript><div><img src="//mc.yandex.ru/watch/12762430" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 
 
 </body>

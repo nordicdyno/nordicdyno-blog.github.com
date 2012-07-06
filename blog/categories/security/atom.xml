@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: security | YA IT's blog]]></title>
+  <title><![CDATA[поток: security | YA IT's blog]]></title>
   <link href="http://nordicdyno.github.com/blog/categories/security/atom.xml" rel="self"/>
   <link href="http://nordicdyno.github.com/"/>
-  <updated>2012-07-04T20:59:35+04:00</updated>
+  <updated>2012-07-06T17:25:00+04:00</updated>
   <id>http://nordicdyno.github.com/</id>
   <author>
     <name><![CDATA[nordicdyno@gmail.com]]></name>
@@ -18,9 +18,13 @@
     <link href="http://nordicdyno.github.com/blog/2011/12/29/diligent-perl/"/>
     <updated>2011-12-29T14:25:00+04:00</updated>
     <id>http://nordicdyno.github.com/blog/2011/12/29/diligent-perl</id>
-    <content type="html"><![CDATA[<p><div class='embed tweet'><blockquote class="twitter-tweet" lang="ru"><p>Hah. <a href="https://twitter.com/search/%2523Perl">#Perl</a> not vulnerable to <a href="https://twitter.com/search/%2523hashDoS">#hashDoS</a> because we fixed it the first time around, eight years ago. Other languages not so diligent.</p>&mdash; Simon Cozens (@simoncozens) <a href="https://twitter.com/simoncozens/status/152314409652457472" data-datetime="2011-12-29T09:05:59+00:00">декабря 29, 2011</a></blockquote>
+    
+    
+    <content type="html"><![CDATA[
+    <p><div class='embed tweet'><blockquote class="twitter-tweet" lang="ru"><p>Hah. <a href="https://twitter.com/search/%2523Perl">#Perl</a> not vulnerable to <a href="https://twitter.com/search/%2523hashDoS">#hashDoS</a> because we fixed it the first time around, eight years ago. Other languages not so diligent.</p>&mdash; Simon Cozens (@simoncozens) <a href="https://twitter.com/simoncozens/status/152314409652457472" data-datetime="2011-12-29T09:05:59+00:00">декабря 29, 2011</a></blockquote>
 <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script></div></p>
-]]></content>
+
+    ]]></content>
   </entry>
   
 </feed>
